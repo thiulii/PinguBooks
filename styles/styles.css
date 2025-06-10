@@ -1,0 +1,21 @@
+:root {
+    --color-principal: #005f73;
+    --color-secundario: #fbbb04;
+    --color-fondo: #fffee4;
+    --color-texto: #212529;
+    --color-acento: #ff8800;
+  }
+
+body {
+    background-color: var(--color-fondo);
+    background-image: url(/media/pingufondo.png);
+    background-repeat: repeat;
+    background-size: 10rem;
+}   
+
+.biblioteca{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
