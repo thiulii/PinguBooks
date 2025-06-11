@@ -48,15 +48,44 @@
           </div>
         </div>
       </nav>
+    <div class="row contenido">
+        <!-- Panel que será dropdown en mobile y fijo en desktop -->
+        <div class="col-12 col-lg-2 mb-3">
+          <!-- Botón visible solo en mobile -->
+          <button class="btn btn-secondary w-100 d-lg-none mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mejoresRateados" aria-expanded="false">
+            Mejores rateados
+          </button>
 
-    <h5 class="cajaInteresante ">Nuestro catalogo:</h5>
-    <div class="biblioteca container">
-        <div class="libro">Placeholder!</div>
-        <div class="libro">Placeholder!</div>
-        <div class="libro">Placeholder!</div>
-        <div class="libro">Placeholder!</div>
-        <div class="libro">Placeholder!</div>
+          <!-- Contenido colapsable -->
+          <div class="collapse d-lg-block" id="mejoresRateados">
+            <h5 class="mejoresRateados text-center">Los mejores rateados!!</h5>
+            <div class="d-flex flex-column gap-3">
+              <div class="libro">Top 1</div>
+              <div class="libro">Top 2</div>
+              <div class="libro">Top 3</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-10">
+            <h5 class="cajaInteresante container text-center">Últimas entregas:</h5>
+            <div class="row biblioteca">
+                <!--Bootstrap trabaja con una grid de 12 columas por fila.
+                col-6 seria el default de que las columans ocupan 6 c/u (entran hasta 2)
+                pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
+                que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
+                pegadas-->
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 1</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 2</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 3</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 4</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 5</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 6</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 7</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 8</div>
+                <div class="col-6 col-md-4 col-lg-3 mb-3 libro">Libro 9</div>
 
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

@@ -13,23 +13,22 @@ body {
     background-size: 10rem;
 }  
 
+.contenido{
+    padding-left: 2%;
+    padding-right: 2%;
+}
 .navbar{
     background-color: var(--color-acento) !important;
+    margin-bottom: 10px;
 }
 
 .cajaInteresante{
     background-color: var(--color-principal);
-    margin-top: 10px;
     border-radius: 1rem;
-    margin-right: auto;
+    /*margin-right: auto;
+    margin-top: 10px;
     max-width: 500px;
     margin-left: 5%;
-    text-align: center;
+    text-align: center;*/
     color: var(--color-fondo);
-}
-.biblioteca{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
 }
