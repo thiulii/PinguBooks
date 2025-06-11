@@ -1,9 +1,9 @@
 :root {
-    --color-principal: #005f73;
-    --color-secundario: #fbbb04;
+    --color-principal: #273571; /*originalmente #005f73 Aunque del logo es realmente #273571 en la parte clara y #0b1032 en la oscura*/
+    --color-secundario: #fbbb04; /*aunque en el logo el gorro del pinguino es fdb60b*/
     --color-fondo: #fffee4;
     --color-texto: #212529;
-    --color-acento: #ff8800;
+    --color-acento: #e98f29; /*Originalmente ff8800*/
   }
 
 body {
@@ -14,9 +14,19 @@ body {
 }  
 
 .navbar{
-    background-color: var(--color-secundario) !important;
+    background-color: var(--color-acento) !important;
 }
 
+.cajaInteresante{
+    background-color: var(--color-principal);
+    margin-top: 10px;
+    border-radius: 1rem;
+    margin-right: auto;
+    max-width: 500px;
+    margin-left: 5%;
+    text-align: center;
+    color: var(--color-fondo);
+}
 .biblioteca{
     display: flex;
     flex-direction: row;
