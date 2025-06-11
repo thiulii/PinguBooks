@@ -11,7 +11,11 @@ body {
     background-image: url(/media/pingufondo.png);
     background-repeat: repeat;
     background-size: 10rem;
-}   
+}  
+
+.navbar{
+    background-color: var(--color-secundario) !important;
+}
 
 .biblioteca{
     display: flex;
