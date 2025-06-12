@@ -25,14 +25,30 @@ body {
 .cajaInteresante{
     background-color: var(--color-principal);
     border-radius: 1rem;
-    /*margin-right: auto;
-    margin-top: 10px;
-    max-width: 500px;
-    margin-left: 5%;
-    text-align: center;*/
     color: var(--color-fondo);
 }
 
 #mejoresRateados{
     background-color: white;
+}
+
+.libro{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.portada{
+    width: 80%;
+    height: 90%;
+    background-color: #d8d8cd;
+    border: 3px solid var(--color-principal);
+    border-radius: 10%;
+    transition: ease 500ms;
+}
+
+.portada:hover{
+    border: 3px solid var(--color-acento);
+    filter: blur(3px);
 }
