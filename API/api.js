@@ -84,6 +84,12 @@ app.post("/",(req, res)=>{
 app.post("/",(req, res)=>{
 const
 })
+
+//filtrar libros por sus tag
+app.get("",(req, res)=>{
+
+}
+)
 app.listen(port, () => {
     console.log('Server listen port 3000');
   });
