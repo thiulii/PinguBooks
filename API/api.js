@@ -1,66 +1,30 @@
 const express =require("express");
 const app = express();
-const {getAllPinguBooks, comparisonMail} =require(".../db/PinguBooks");
-const { createdUser } = require("./db/PiguBooks");
+const path =require("path");
+//const {getAllPinguBooks, comparisonMail} =require(".../db/PinguBooks");
+//const { createdUser } = require("./db/PiguBooks");
 const port=3000;
 app.use(express.json());
 
 
 //Organizar de cada uno el de autor, comentario y obra (GET, POST, DELETE y PUT)
-
+app.get("/", (req,res)=>{
+  res.send("QUe onda viejo");
+})
 app.get("/inicio", (req,res)=>{
-    res.send("");
+    res.send("QUe onda viejo");
 })
-
-//GET 
-app.get( "", (req, res)=>{
-    const pingu = getAllPinguBooks();
-    res.json(pingu);
-})
-
-
-app.get( "", (req, res)=>{
-    const pingu =getPingu(req.params.id)
-if(pingu===undefined){
-    return res.sendStatus(400).send("Error al hacer tal cosa");
-    }
-    req.param.;
-    res.json();
-}
-
-)
-//POST
-//409 es para cuando ya existe el id, etc
-app.post( "", (req, res)=>{
-    if(===undefined){
-return res.sendStatus(400).send("Error al hacer tal cosa");
-}
-
-res.status(201).send("Se hizo con exito");
-
-
-//DELETE
-app.delete( "", (req, res)=>{
-    if(===undefined){
-        return res.sendStatus(404).send("Error al hacer tal cosa");
-}
-
-})
-
-//PUT o pacth
-app.put("", (req, res)=>{}
-
-)
-
-//EMPECEMOS POR PERFILES
-//VER PERFIL
-app.get("/perfil/num", (req,res)=>{
-    const response = req.params.num;
-})
-
+/*
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/index', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get('/prueba', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'aceptar_datos_backend.html'));
+});*/
 
 // CREAR PERFIL POST
-app.post("/",(req, res)=>{
+app.post("/log-in",(req, res)=>{
     const name =req.body.name;
     const biography = req.body.biography;
     const mail= req.body.mail;
@@ -76,22 +40,11 @@ app.post("/",(req, res)=>{
     if(validationMail !== 0){
         return res.sendStatus(409).send("El mail otorgado ya esta en uso");
         }
- const userName = await createdUser(name, biography, mail, dateBirthday, password, averageRatingWorks, dateLogIn, country);
+ const userName = createdUser(name, biography, mail, dateBirthday, password, averageRatingWorks, dateLogIn, country);
 
 })
 
-//crear obras
-app.post("/",(req, res)=>{
-const
-})
 
-//filtrar libros por sus tag
-app.get("",(req, res)=>{
-
-}
-)
 app.listen(port, () => {
-    console.log('Server listen port 3000');
+    console.log('No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port} 3000');
   });
-  
-}) 
