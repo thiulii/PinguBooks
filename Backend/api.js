@@ -1,11 +1,61 @@
 const express =require("express");
 const app = express();
-const path =require("path");
-//const {getAllPinguBooks, comparisonMail} =require(".../db/PinguBooks");
-//const { createdUser } = require("./db/PiguBooks");
 const port=3000;
 app.use(express.json());
 
+
+const { getAllAutores,
+  //user
+  createdUser,
+  
+  verifyUser,
+   comparisonMail,
+
+   //obras
+  createWork,
+  changeUser,
+  getAllObras,deleteWork,TagWithWorkAnalysis,
+  getAnObra,
+ 
+ //Comentarios
+  getAllComentarios,} =require("PinguBooks");
+
+//const { createdUser } = require("./db/PiguBooks");
+//const path =require("path");
+
+
+//PARA WRITE.HTML
+app.get("/write.html/:id", async (req,res)=>{
+  const obra = await getAnObra(req.params.id);
+  if(obra===undefined){
+    return res.sendStatus(404).send("La obra que buscas no existe");
+  }
+  res.json(obra);
+})
+
+app.post("/write.html", async (req,res)=>{
+  const titulo = req.params.titulo;
+  const portada = req.params.portada 
+  const descripcion = req.params.descripcion;
+  const idAutor = req.params.idAutor;
+  const fechaPublicacion = req.params.fechaPublicacion;
+  const puntuacion = req.params.puntuacion;
+  const contenido = req.params.contenido;
+  if(idAutor===undefined && titulo===undefined && contenido===undefined ){
+    return res.status().send("Error al crear nueva obra, no se llenaron los datos obligatorios");
+  }
+  const response = await createWork(titulo, portada, descripcion, idAutor, fechaPublicacion, puntuacion, contenido);
+  res.json({status:'ok'});
+})
+
+app.delete("/write.html/:id", (req,res)=>{
+
+  res.json({status:'ok'});
+})
+app.put("/write.html", (req,res)=>{
+
+  res.json({status:'ok'});
+})
 
 //Organizar de cada uno el de autor, comentario y obra (GET, POST, DELETE y PUT)
 app.get("/", (req,res)=>{

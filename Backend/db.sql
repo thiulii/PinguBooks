@@ -26,9 +26,9 @@ titulo VARCHAR(200) not null,
 portada VARCHAR,
 descripcion VARCHAR(1000) not null, 
 id_tag INT unique,
-id_autor INT references autores(id_autor),
+id_autor INT not null references autores(id_autor),
 fecha_de_publicacion DATE default CURRENT_DATE,
-puntuacion INT not null constraint check_puntuacion check (puntuacion >=0 and puntuacion <=5),
+puntuacion INT default 3 check (puntuacion >=0 and puntuacion <=5),
 contenido VARCHAR not null
 );
 
