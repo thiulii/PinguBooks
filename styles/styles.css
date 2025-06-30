@@ -11,15 +11,17 @@ body {
     background-image: url(../media/pingufondo.png);
     background-repeat: repeat;
     background-size: 10rem;
+    font-family: 'Segoe UI', sans-serif;
 }  
 
 .contenido{
     padding-left: 2%;
     padding-right: 2%;
 }
-.navbar{
-    background-color: var(--color-acento) !important;
-    margin-bottom: 10px;
+
+.navbar {
+  background-color: var(--color-acento) !important;
+  margin-bottom: 10px;
 }
 
 .cajaInteresante{
@@ -52,3 +54,152 @@ body {
     border: 3px solid var(--color-acento);
     filter: blur(3px);
 }
+
+
+/* De catalogo*/
+.catalogoCaja{
+    background-color: var(--color-fondo);
+    margin: 5%;
+    padding: 0;
+}
+
+.autorFoto{
+    height: 50%;
+    border-radius: 50%;
+}
+
+.autores{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 5px;
+}
+
+
+.perfil-container {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.foto-perfil {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: url(../media/sinfoto.jpg) no-repeat center;
+  background-size: cover;
+  margin: auto;
+}
+
+.penguin-icon {
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+.penguin-icon:hover {
+  transform: scale(1.05);
+}
+
+.libro-nombre {
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.libro-detalle-container {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.libro-titulo {
+  font-size: 1.2rem;
+}
+
+.contenedor-lectura {
+  position: relative;
+}
+
+.contenido-libro {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  position: relative;
+}
+
+.contenido-libro.expandido {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  max-height: none;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0;
+}
+
+.cerrar-lectura {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1100;
+  background-color: white;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .contenido-libro {
+    max-height: 200px;
+  }
+
+  .contenido-libro.expandido {
+    padding: 15px;
+  }
+}
+
+
+.registro-container {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.registro-container .icono-usuario {
+  background-color: var(--color-principal);
+  color: white;
+  font-size: 40px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.form-control {
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: var(--color-principal);
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-acento);
+}
+
