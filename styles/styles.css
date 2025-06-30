@@ -8,7 +8,7 @@
 
 body {
     background-color: var(--color-fondo);
-    background-image: url(/media/pingufondo.png);
+    background-image: url(../media/pingufondo.png);
     background-repeat: repeat;
     background-size: 10rem;
     font-family: 'Segoe UI', sans-serif;
