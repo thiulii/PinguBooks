@@ -56,6 +56,25 @@ body {
 }
 
 
+/* De catalogo*/
+.catalogoCaja{
+    background-color: var(--color-fondo);
+    margin: 5%;
+    padding: 0;
+}
+
+.autorFoto{
+    height: 50%;
+    border-radius: 50%;
+}
+
+.autores{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 5px;
+}
+
 
 .perfil-container {
   background-color: rgba(255, 255, 255, 0.85);
@@ -183,3 +202,4 @@ body {
 .btn-primary:hover {
   background-color: var(--color-acento);
 }
+

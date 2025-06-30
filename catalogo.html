@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PinguBooks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">
+            <img src="/media/logo.png" alt="" height="40">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="catalogo.html">Catalago</a>
+              </li>
+              <li>
+              <li class="nav.item">
+                <a class="nav-link" href="perfil_autor.html">Perfil</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container catalogoCaja">
+        <h2>Nuestros autores</h2>
+        <div class="autores">
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+            <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
+        </div>
+    </div>
+
+
+      <div class="container catalogoCaja">
+        <h2>Nuestros autores</h2>
+        <div class="row biblioteca">
+            <!--Bootstrap trabaja con una grid de 12 columas por fila.
+            col-6 seria el default de que las columans ocupan 6 c/u (entran hasta 2)
+            pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
+            que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
+            pegadas-->
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 1</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 2</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 3</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 4</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/test.png"><h6>Libro 5</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 6</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 7</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 8</h6></div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 9</h6></div>
+
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+</body>
+</html>
