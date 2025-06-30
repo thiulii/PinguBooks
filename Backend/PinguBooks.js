@@ -112,7 +112,9 @@ module.exports={
      //obras
     createWork,
     changeUser,
-    getAllObras,deleteWork,TagWithWorkAnalysis,
+    getAllObras,
+    deleteWork,
+    TagWithWorkAnalysis,
     getAnObra,
    
    //Comentarios
