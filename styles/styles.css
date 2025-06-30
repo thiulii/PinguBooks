@@ -52,3 +52,14 @@ body {
     border: 3px solid var(--color-acento);
     filter: blur(3px);
 }
+
+/* De catalogo*/
+.catalogoCaja{
+    background-color: var(--color-fondo);
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.autorFoto{
+    height: 20%;
+}
