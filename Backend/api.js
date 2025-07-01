@@ -18,7 +18,7 @@ const { getAllAutores,
   getAnObra,
  
  //Comentarios
-  getAllComentarios,} =require("PinguBooks");
+  getAllComentarios,}=require("PinguBooks");
 
 //const { createdUser } = require("./db/PiguBooks");
 //const path =require("path");
