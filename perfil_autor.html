@@ -82,17 +82,18 @@
     <div class="row text-center">
 
       <div class="col-md-4">
-        <div class="foto-perfil mb-3"></div>
-        <p><strong>Nombre:</strong> Carolina Pizzul</p>
-        <p><strong>Fecha de nacimiento:</strong> 24/02/2024</p>
-        <p><strong>País:</strong> Argentina</p>
-        <p><strong>Fecha de ingreso:</strong> 13/06/2025</p>
+        <div class="foto-perfil mb-3"
+        id="photoUser"></div>
+        <p><strong id="username">Nombre:</strong> Carolina Pizzul</p>
+        <p><strong id="dateBirthday">Fecha de nacimiento:</strong> 24/02/2024</p>
+        <p><strong id="country">País:</strong> Argentina</p>
+        <p><strong id="dateLogin">Fecha de ingreso:</strong> 13/06/2025</p>
         <p><strong>Cantidad de obras:</strong> 3</p>
-        <p><strong>Puntuación promedio:</strong> 4.5</p>
+        <p><strong id="punctuation">Puntuación promedio:</strong> 4.5</p>
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
-        <p>holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!!</p>
+        <p id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!!</p>
 
         <h5 class="mt-4">Historias:</h5>
         <div class="row text-center">
@@ -107,7 +108,35 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js">
+    //Innerhtml solo cuando no sean datos que vienen del servidor
+    
+    //funcion que muestre el usuario
+    fetch('https://perfil_autor.html/${id}')
+    .then(res => res.json())
+    .then(data=>{
+      //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
+      if(data.id_autor === null ){
+        const invite = document.createElement("a");
+       invite.textContent = data.mensaje;
+       invite.href =data.linkLogin;
+      document.body.appendChild(invite);
+      //apendChild agregar al cuerpo del html
+      }
+      else{
+         document.getElementById("username").textContent = data.nombre;
+        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
+        document.getElementById("country").textContent = data.pais;
+        document.getElementById("datelogin").textContent = data.fecha_ingreso;
+        document.getElementById("punctuation").textContent = data.puntuacion_promedio_de_obras;
+        document.getElementById("photoUser").src= data.foto_perfil; //porque es imagen
+        document.getElementById("description").textContent = data.biografia;
+      }
+    })
+    .catch(error => {console.error ('Error:', error)})
+
+    
+  </script>
 </body>
 </html>
 

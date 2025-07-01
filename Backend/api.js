@@ -3,7 +3,6 @@ const app = express();
 const port=3000;
 app.use(express.json());
 
-
 const { getAllAutores,
   //user
   createdUser,
@@ -32,7 +31,9 @@ app.get("/write.html/:id", async (req,res)=>{
   }
   res.json(obra);
 })
+//res.json() envia respuesta en formato json
 
+//Crea obra
 app.post("/write.html", async (req,res)=>{
   const titulo = req.params.titulo;
   const portada = req.params.portada 
@@ -47,11 +48,13 @@ app.post("/write.html", async (req,res)=>{
   const response = await createWork(titulo, portada, descripcion, idAutor, fechaPublicacion, puntuacion, contenido);
   res.json({status:'ok'});
 })
-
+//Elimina obra
 app.delete("/write.html/:id", (req,res)=>{
 
   res.json({status:'ok'});
 })
+
+
 app.put("/write.html", (req,res)=>{
 
   res.json({status:'ok'});
