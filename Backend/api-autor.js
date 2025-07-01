@@ -11,11 +11,11 @@ const { getAllAutores,
   } =require("./PinguBooks.js");
 
   app.get("/perfil-autor/:id",(req, res)=>{
-//funcion que me pase toda la informacion del autor con solo su id
+//funcion que me pase toda la informacion del autor con solo su id y de una sus obras
     if(user===undefined){
         return  res.status(200).json({
             id_autor:null,
-            mensaje:"Usuario no encontrado ¿Quiere registrarse?",
+            mensaje:"Usuario no encontrado ¿Quiere inciar seccion?",
             linkLogin: "../registro.html"
         }) //Envio el link para que vayan a ingresarse
     }
