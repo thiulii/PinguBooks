@@ -7,14 +7,18 @@ const {
     getAnObra,
     getTag,
     getAllObras,
+    createObra,
+    getAutor,
+    deleteObra,
 } = require("./PinguBooks")
 
 app.get("/obras/:id", async(req, res) => {
-  const id_obra = req.params.id;
-  if (!id_obra || /[^0-9]/.test(id_obra)){
+  const id_obra = parseInt(req.params.id);
+  if (isNaN(id_obra)){
     return res.status(400).json({error:"Id ingresado incorrectamente"});
   }
-  const response = await getAnObra(parseInt(id_obra));
+
+  const response = await getAnObra(id_obra);
   if (response === undefined){
     return res.status(404).send({error:"id no encontrado"});
   } 
@@ -22,7 +26,7 @@ app.get("/obras/:id", async(req, res) => {
 })
 
 app.get("/obras", async(req, res) => {
-    //usa query params, al usar fetch se escribira se podra especificar "order, tags (separados por comas), search, limit"
+    //usa query params, al usar fetch se escribira se podra especificar "order, tags (separados por comas), search, by y limit"
     let order = req.query.order; 
     if (!order){
         order = "asc";
@@ -51,8 +55,8 @@ app.get("/obras", async(req, res) => {
         return res.status(400).json({error: "parametros incorrectos"});
     }
     
-    const limit = req.query.limit;
-    if (!id_autor || /[^0-9]/.test(id_autor)){
+    const limit = parseInt(req.query.limit);
+    if (!isNaN(limit) && limit <= 0){
       return res.status(400).json({error:"parametros incorrectos"});
     }
 
@@ -60,6 +64,7 @@ app.get("/obras", async(req, res) => {
     if (response === undefined){
         return res.status(400).json({serverError: "ha ocurrido un error"});
     }
+
     return res.status(200).json(response);
 })
 
@@ -81,19 +86,79 @@ app.post("/obras", async(req, res) => {
         tags = [];
     }
     const id_autor = parseInt(req.body.id_autor);
-    const puntuacion = parseInt(req.body.puntuacion);
+    const puntuacion = parseFloat(req.body.puntuacion);
     const contenido = req.body.contenido;
 
     if (!titulo || isNaN(id_autor) || !descripcion || !contenido){
-        return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"})
+        return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"});
     }
-    if (puntuacion && (puntuacion< 0 && puntuacion>5)){
-        return res.status(400).json({error: "puntuacion invalida"})
+
+    if (getAutor(id_autor) === undefined){
+        return res.status(400).json({error: "autor invalido"});
+    }
+
+    if (puntuacion && (puntuacion< 0 || puntuacion>5)){
+        return res.status(400).json({error: "puntuacion invalida"});
     }
 
     const obra = await createObra(titulo, portada, descripcion, tags, id_autor, puntuacion, contenido)
     if (!obra){
-        return res.status(500).json({error: "error al crear la obra"})
+        return res.status(500).json({error: "error al crear la obra"});
     }
-    return res.status(200).json({status: "OK"})
+
+    return res.status(200).json({status: "OK"});
+})
+
+app.delete("/obras/:id", async(req, res){
+    id = parseInt(req.params.id)
+    if (isNaN(id)){
+        return res.status(400).json({error: "id invalido"});
+    } 
+    const obra = await deleteObra(id)
+    
+    if (obra === undefined){
+        res.status(404).json({error: "id no encontrado"});
+    }
+    return res.status(200).json({status: "ok"})
+})
+
+app.put("obras/:id", async(req, res){
+    const id = parseInt(req.params.id);
+    if (isNaN(id)){
+        return res.status(400).json({error: "id invalido"});
+    } 
+    const titulo = req.body.titulo;
+    const portada = req.body.portada;
+    const descripcion = req.body.descripcion;
+    let tags = req.body.tags;
+    if (tags){
+        tags = tags.split(",");
+        for (const tag of tags){
+            if (!getTag(tag)){
+                return res.status(400).json({error: "tags incorrectos"});
+            }
+        }
+    } else {
+        tags = [];
+    }
+    const fecha = req.body.fecha;
+    const id_autor = parseInt(req.body.id_autor);
+    const puntuacion = parseFloat(req.body.puntuacion);
+    const contenido = req.body.contenido;
+
+    if (id_autor && getAutor(id_autor) === undefined){
+        return res.status(400).json({error: "autor invalido"});
+    }
+
+    if (puntuacion && (puntuacion < 0 || puntuacion > 5)){
+        return res.status(400).json({error: "puntuacion invalida"});
+    }
+
+    const obra = await modifyObra(id, titulo, portada, descripcion, tags, fecha, id_autor, puntuacion, contenido);
+    if (!obra){
+        return res.status(500).json({error: "error al crear la obra"});
+    }
+
+    return res.status(200).json({status: "OK"});
+
 })
