@@ -81,7 +81,7 @@
   <div class="container perfil-container">
     <div class="row text-center">
 
-      <div class="col-md-4">
+      <div class="col-md-4" id="autorContent">
         <div class="foto-perfil mb-3"
         id="photoUser"></div>
         <p><strong id="username">Nombre:</strong> Carolina Pizzul</p>
@@ -110,13 +110,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js">
     //Innerhtml solo cuando no sean datos que vienen del servidor
-
+let idAutor = localStorage.getItem(idAutor);
     //funcion que muestre el usuario
     fetch(`https://perfil_autor.html/${id}`)
     .then(res => res.json())
     .then(data=>{
       //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
-      if(data.id_autor === null ){
+      if( idAutor=== null ){
         const screen = document.createElement("div");
         screen.id = "" // id para el formato que le queremos poner al div
         screen.style.display = "flex";
@@ -124,12 +124,13 @@
         mensaje.textContent = data.mensaje;
         const invite = document.createElement("a");
        invite.href =data.linkLogin;
-       document.body.appendChild(mensaje);
-      document.body.appendChild(invite);
+       screen.appendChild(mensaje);
+      screen.appendChild(invite);
       document.body.appendChild(screen);
       //apendChild agregar al cuerpo del html
       }
       else{
+
          document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
         document.getElementById("country").textContent = data.pais;
@@ -137,12 +138,22 @@
         document.getElementById("punctuation").textContent = data.puntuacion_promedio_de_obras;
         document.getElementById("photoUser").src= data.foto_perfil; //porque es imagen
         document.getElementById("description").textContent = data.biografia;
+        if(idAutor === data.id_autor){
+          //Agregar opciones unicas para cuando el usuario entra a su perfil
+          
+          const spaceEditor = document-createElement("div");
+          const editor = document-createElement("button");
+          const placeEditor = document.getElementById("autorContent");
+          spaceEditor.appendChild(editor);
+          placeEditor.appendChild(spaceEditor)
+        }
+        //El lugar de guardar las obras
         const placeWorks = document.createElement("div");
         placeWorks.id
         placeWorks.style
         data.obras.forEach ( obra=>{
           const work = document.createElement("div");
-          = document.createElement("src");
+        
          const obras = document.createElement("a");
         document.body.appendChild(obras); 
         }
