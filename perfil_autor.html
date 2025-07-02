@@ -118,7 +118,7 @@ let idAutor = localStorage.getItem(idAutor);
       //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
       if( idAutor=== null ){
         const screen = document.createElement("div");
-        screen.id = "" // id para el formato que le queremos poner al div
+        screen.id = "loginScreen" // id para el formato que le queremos poner al div
         screen.style.display = "flex";
         const mensaje = document.createElement("h3");
         mensaje.textContent = data.mensaje;
@@ -130,8 +130,7 @@ let idAutor = localStorage.getItem(idAutor);
       //apendChild agregar al cuerpo del html
       }
       else{
-
-         document.getElementById("username").textContent = data.nombre;
+        document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
         document.getElementById("country").textContent = data.pais;
         document.getElementById("datelogin").textContent = data.fecha_ingreso;
@@ -140,12 +139,23 @@ let idAutor = localStorage.getItem(idAutor);
         document.getElementById("description").textContent = data.biografia;
         if(idAutor === data.id_autor){
           //Agregar opciones unicas para cuando el usuario entra a su perfil
-          
-          const spaceEditor = document-createElement("div");
-          const editor = document-createElement("button");
+          //Mi idea es hacer un div, adentro hacer el boton con el placeholder, darle un id que luego use en una funcion para activar el editar perfil
+          const spaceEditor = document.createElement("div");
+          const editor = document.createElement("button");
+          editor.id ="buttonEdit" //Id para usar luego para activar el boton para editar el perfil
+          editor.textContent= "Editar perfil";
+          editor.addEventListener("click", ()=>{
+
+            //Funcion/fetch que permita editar el usuario
+            console.log("Aqui es donde editarias tu perfil")
+          })//funcion que permite editar os datos del usuario
+
+
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
           placeEditor.appendChild(spaceEditor)
+          document.body.appendChild(placeEditor);
+
         }
         //El lugar de guardar las obras
         const placeWorks = document.createElement("div");
@@ -163,7 +173,6 @@ let idAutor = localStorage.getItem(idAutor);
       }
     })
     .catch(error => {console.error ('Error:', error)})
-
     
   </script>
 </body>
