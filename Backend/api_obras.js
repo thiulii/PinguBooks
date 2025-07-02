@@ -87,7 +87,7 @@ app.post("/obras", async(req, res) => {
     if (!titulo || isNaN(id_autor) || !descripcion || !contenido){
         return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"})
     }
-    if (puntuacion && (puntuacion>= 0 && puntuacion<=5)){
+    if (puntuacion && (puntuacion< 0 && puntuacion>5)){
         return res.status(400).json({error: "puntuacion invalida"})
     }
 
