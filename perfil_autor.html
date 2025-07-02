@@ -114,23 +114,27 @@
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
     //Innerhtml solo cuando no sean datos qu e vienen del servidor
-let idUsuario = localStorage.getItem("idUsuario");
+    let idUsuario = localStorage.getItem("idUsuario");
     //funcion que muestre el usuario
     //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
       if(id===null ){
+        if(!idUsuario){
+          console.log("Error al acceder al perfil de usuario, no existe")
+        }
+        else {
         const screen = document.createElement("div");
         screen.id = "loginScreen" // id para el formato que le queremos poner al div
         screen.style.display = "flex";
         const mensaje = document.createElement("h3");
         mensaje.textContent = data.mensaje;
         const invite = document.createElement("a");
-       invite.href ="iniciar_sesion.html"
-       screen.appendChild(mensaje);
-      screen.appendChild(invite);
-      document.body.appendChild(screen);
-      //apendChild agregar al cuerpo del html
+        invite.href ="iniciar_sesion.html"
+        screen.appendChild(mensaje);
+        screen.appendChild(invite);
+        document.body.appendChild(screen);
+        //apendChild agregar al cuerpo del html
       }
-      else{
+     
 
       fetch(`/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => res.json())
@@ -145,16 +149,15 @@ let idUsuario = localStorage.getItem("idUsuario");
         
         if(idUsuario === data.id_autor){
           //Agregar opciones unicas para cuando el usuario entra a su perfil
-          //Mi idea es hacer un div, adentro hacer el boton con el placeholder, darle un id que luego use en una funcion para activar el editar perfil
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
-          editor.id ="buttonEdit" //Id para usar luego para activar el boton para editar el perfil
+          editor.id ="buttonEditUser" //Id para usar luego para activar el boton para editar el perfil
           editor.textContent= "Editar perfil";
           editor.addEventListener("click", ()=>{
 
             //Funcion/fetch que permita editar el usuario
             console.log("Aqui es donde editarias tu perfil")
-          })//funcion que permite editar os datos del usuario
+          })//funcion que permite editar los datos del usuario
 
 
           const placeEditor = document.getElementById("autorContent");
@@ -167,6 +170,7 @@ let idUsuario = localStorage.getItem("idUsuario");
         
     .catch(error => {console.error ('Error:', error)})
       }
+
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
     let idUsuario = localStorage.getItem("idAutor");
     window.location.href =`perfil_author.html?id=${idUsuario}`;

@@ -119,42 +119,41 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-  
-<script type="text/javascript">
-fetch(`/api/catalogo/autores`)
-//donde muestro los autores
-.then(res => res.json())
-.then(data=>{
-const placeAuthor = document.createElement("div");
-placeAuthor.id ="authorCatalog";
-data.autores.forEach ( autor=>{
-  const spaceAuthor = document.createElement("div");
-  spaceAuthor.id ="watchAuthor";
-  const name = document.createElement("p")
-  name.textContent = data.autor.nombre;
+  <script type="text/javascript">
+  fetch(`/api/catalogo/autores`)
+  //donde muestro los autores
+  .then(res => res.json())
+  .then(data=>{
+  const placeAuthor = document.createElement("div");
+  placeAuthor.id ="authorCatalog";
+  data.autores.forEach ( autor=>{
+    const spaceAuthor = document.createElement("div");
+    spaceAuthor.classList("libro");
+    const name = document.createElement("h6")
+    name.textContent = data.autor.nombre;
 
-  const photoUser =document.createElement("img");
-  photoUser.src= data.autor.foto_perfil; //porque es imagen
+    const photoUser =document.createElement("img");
+    photoUser.src= data.autor.foto_perfil; //porque es imagen
+    photoUser.classList.add("autorFoto");
 
-  const link = document.createElement("a");
-  link.href = `perfil_author.html?id=${data.autor.id}` // ver si de verdad funciona
-  link.textContent ="Ver perfil";
+    const link = document.createElement("a");
+    link.href = `perfil_author.html?id=${data.autor.id}` // ver si de verdad funciona
+    link.textContent ="Ver perfil";
+    spaceAuthor.appendChild(photoUser); 
+    spaceAuthor.appendChild(name); // ver si de verdad funciona
+    spaceAuthor.appendChild(link); 
 
-  spaceAuthor.appendChild(name); // ver si de verdad funciona
-  spaceAuthor.appendChild(photoUser); 
-  spaceAuthor.appendChild(link); 
+    placeAuthor.appendChild(spaceAuthor);
+      
+    })
+  document.body.appendChild(placeAuthor); })
 
-  placeAuthor.appendChild(spaceAuthor);
-    
+  .catch(error => {console.error ('Error:', error)})
+
+  document.getElementById("miPerfil").addEventListener("click", (e)=>{
+    let idUsuario = localStorage.getItem("idAutor");
+    window.location.href =`perfil_author.html?id=${idUsuario}`;
   })
-document.body.appendChild(placeAuthor); })
-
-.catch(error => {console.error ('Error:', error)})
-
-document.getElementById("miPerfil").addEventListener("click", (e)=>{
-  let idUsuario = localStorage.getItem("idAutor");
-  window.location.href =`perfil_author.html?id=${idUsuario}`;
-})
     </script>
 </body>
 </html>

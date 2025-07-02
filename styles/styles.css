@@ -203,3 +203,20 @@ body {
   background-color: var(--color-acento);
 }
 
+/*Como se ve cuando te da el anuncio con el link de si queres hacer login*/
+#loginScreen {
+display: "flex";
+padding: "20px";
+}
+
+#buttonEditUser {
+  display: block;
+  color: var(--color-secundario);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#buttonEditUser:hover {
+  background-color: var(--color-principal);
+}
