@@ -31,14 +31,16 @@ app.get("/obras", async(req, res) => {
         return res.status(400).json({error: "parametros incorrectos"});
     };
 
-    const tags = req.query.tags;
+    let tags = req.query.tags;
     if (tags){
         tags = tags.split(",");
-    }
-    for (const tag of tags){
-        if (!getTag(tag)){
-            return res.status(400).json({error: "parametros incorrectos"});
+        for (const tag of tags){
+            if (!getTag(tag)){
+                return res.status(400).json({error: "tags incorrectos"});
+            }
         }
+    } else {
+        tags = [];
     }
 
     const search = req.query.search;
@@ -50,7 +52,7 @@ app.get("/obras", async(req, res) => {
     }
     
     const limit = req.query.limit;
-    if (!id_obra || /[^0-9]/.test(id_obra)){
+    if (!id_autor || /[^0-9]/.test(id_autor)){
       return res.status(400).json({error:"parametros incorrectos"});
     }
 
@@ -67,25 +69,29 @@ app.post("/obras", async(req, res) => {
     const titulo = req.body.titulo;
     const portada = req.body.portada;
     const descripcion = req.body.descripcion;
-    const tags = req.body.tags;
+    let tags = req.body.tags;
     if (tags){
         tags = tags.split(",");
-    }
-    for (const tag of tags){
-        if (!getTag(tag)){
-            return res.status(400).json({error: "tags incorrectos"});
+        for (const tag of tags){
+            if (!getTag(tag)){
+                return res.status(400).json({error: "tags incorrectos"});
+            }
         }
+    } else {
+        tags = [];
     }
-
-    const id_autor = req.body.id_autor;
-    const fecha = req.body.fecha;
-    const puntuacion = req.body.puntuacion;
+    const id_autor = parseInt(req.body.id_autor);
+    const puntuacion = parseInt(req.body.puntuacion);
     const contenido = req.body.contenido;
 
-    if (!titulo || !id_autor || !descripcion || !contenido){
+    if (!titulo || isNaN(id_autor) || !descripcion || !contenido){
         return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"})
     }
-    const obra = await createObra(titulo, portada, descripcion, tags, parseInt(id_autor), fecha, puntuacion, contenido)
+    if (puntuacion && (puntuacion>= 0 && puntuacion<=5)){
+        return res.status(400).json({error: "puntuacion invalida"})
+    }
+
+    const obra = await createObra(titulo, portada, descripcion, tags, id_autor, puntuacion, contenido)
     if (!obra){
         return res.status(500).json({error: "error al crear la obra"})
     }
