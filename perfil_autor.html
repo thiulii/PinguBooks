@@ -30,7 +30,7 @@
           </li>
           <li>
           <li class="nav.item">
-            <a class="nav-link" href="perfil_autor.html"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <a class="nav-link" id="miPerfil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
               </svg>Perfil </a>
           </li>
@@ -114,13 +114,10 @@
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
     //Innerhtml solo cuando no sean datos qu e vienen del servidor
-let idAutor = localStorage.getItem("idAutor");
+let idUsuario = localStorage.getItem("idUsuario");
     //funcion que muestre el usuario
-    fetch(`/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
-    .then(res => res.json())
-    .then(data=>{
-      //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
-      if( idAutor=== null ){
+    //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
+      if(id===null ){
         const screen = document.createElement("div");
         screen.id = "loginScreen" // id para el formato que le queremos poner al div
         screen.style.display = "flex";
@@ -134,6 +131,10 @@ let idAutor = localStorage.getItem("idAutor");
       //apendChild agregar al cuerpo del html
       }
       else{
+
+      fetch(`/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
+    .then(res => res.json())
+    .then(data=>{
         document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
         document.getElementById("country").textContent = data.pais;
@@ -141,7 +142,8 @@ let idAutor = localStorage.getItem("idAutor");
         document.getElementById("punctuation").textContent = data.puntuacion_promedio_de_obras;
         document.getElementById("photoUser").src= data.foto_perfil; //porque es imagen
         document.getElementById("description").textContent = data.biografia;
-        if(idAutor === data.id_autor){
+        
+        if(idUsuario === data.id_autor){
           //Agregar opciones unicas para cuando el usuario entra a su perfil
           //Mi idea es hacer un div, adentro hacer el boton con el placeholder, darle un id que luego use en una funcion para activar el editar perfil
           const spaceEditor = document.createElement("div");
@@ -161,10 +163,14 @@ let idAutor = localStorage.getItem("idAutor");
 
         }
         //El lugar de guardar las obras
-      }})
+      })
         
     .catch(error => {console.error ('Error:', error)})
-    
+      }
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+    let idUsuario = localStorage.getItem("idAutor");
+    window.location.href =`perfil_author.html?id=${idUsuario}`;
+    })
   </script>
 </body>
 </html>

@@ -72,6 +72,10 @@ app.delete("/perfil/:id", (req, res)=>{
 app.put("",(req, res)=>{
 
 })
+
+app.get("/catalogo/autores", ()=>{
+    //funcion que mande a todos los autores en un array
+})
 app.listen(port, () => {
     console.log('No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port} 3000');
   });
