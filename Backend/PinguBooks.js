@@ -3,11 +3,11 @@
 const {Pool}= require("pg");
 // Pool es para evitar conect y end en cada funcion
 const dbPinguBooks = new Pool({
-user:postgres,
-password: postgres,
-host:localhost,
+user:"postgres",
+password: "postgres",
+host:"localhost",
 port: 5432,
-database:pingubooks,
+database:"pingubooks",
 })
 
 //query("PONGO LO QUE VOY A SELECCIONAR")

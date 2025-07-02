@@ -108,11 +108,15 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js">
-    //Innerhtml solo cuando no sean datos que vienen del servidor
-let idAutor = localStorage.getItem(idAutor);
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"> </script>
+  
+  <script type="text/javascript">
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    //Innerhtml solo cuando no sean datos qu e vienen del servidor
+let idAutor = localStorage.getItem("idAutor");
     //funcion que muestre el usuario
-    fetch(`https://perfil_autor.html/${id}`)
+    fetch(`/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => res.json())
     .then(data=>{
       //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
@@ -123,7 +127,7 @@ let idAutor = localStorage.getItem(idAutor);
         const mensaje = document.createElement("h3");
         mensaje.textContent = data.mensaje;
         const invite = document.createElement("a");
-       invite.href =data.linkLogin;
+       invite.href ="iniciar_sesion.html"
        screen.appendChild(mensaje);
       screen.appendChild(invite);
       document.body.appendChild(screen);
@@ -154,24 +158,11 @@ let idAutor = localStorage.getItem(idAutor);
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
           placeEditor.appendChild(spaceEditor)
-          document.body.appendChild(placeEditor);
 
         }
         //El lugar de guardar las obras
-        const placeWorks = document.createElement("div");
-        placeWorks.id
-        placeWorks.style
-        data.obras.forEach ( obra=>{
-          const work = document.createElement("div");
+      }})
         
-         const obras = document.createElement("a");
-        document.body.appendChild(obras); 
-        }
-
-        )
-        
-      }
-    })
     .catch(error => {console.error ('Error:', error)})
     
   </script>

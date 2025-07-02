@@ -10,7 +10,7 @@ const { getAllAutores,
      comparisonMail,
   } =require("./PinguBooks.js");
 
-  app.get("/perfil-autor/:id",(req, res)=>{
+  app.get("/perfil/:id",(req, res)=>{
 //funcion que me pase toda la informacion del autor con solo su id y de una sus obras
     if(user===undefined){
         return  res.status(200).json({
@@ -61,7 +61,7 @@ const { getAllAutores,
     }
 )
 
-app.delete("/perfil-autor/:id", (req, res)=>{
+app.delete("/perfil/:id", (req, res)=>{
     const idAutor = req.params.id
     //funcion eliminar comentarios del autor
     //funcion eliminar comentarios en las obras del autor
@@ -72,4 +72,6 @@ app.delete("/perfil-autor/:id", (req, res)=>{
 app.put("",(req, res)=>{
 
 })
-
+app.listen(port, () => {
+    console.log('No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port} 3000');
+  });

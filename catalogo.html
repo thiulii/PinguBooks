@@ -80,7 +80,7 @@
 
       <div class="container catalogoCaja">
         <h2>Nuestros autores</h2>
-        <div class="autores">
+        <div class="autores" id ="authorCatalog";>
             <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
             <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
             <div class="libro"><img class="autorFoto" src="/media/test.png"><h6>Autor</h6></div>
@@ -118,6 +118,27 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+fetch(``);
+//El lugar de guardar los autores
+const placeAuthor = document.createElement("div");
+placeAuthor.id ="authorCatalog";
+data.autor.forEach ( autor=>{
+  const spaceAuthor = document.createElement("div");
+  spaceAuthor.id ="watchAuthor";
+
+spaceAuthor.textContent = data.autor.nombre;
+spaceAuthor.textContent = data.autor.fecha_de_nacimiento;
+spaceAuthor.textContent = data.autor.pais;
+spaceAuthor.textContent = data.autor.fecha_ingreso;
+spaceAuthor.textContent = data.autor.puntuacion_promedio_de_obras;
+spaceAuthor.src= data.autorfoto_perfil; //porque es imagen
+spaceAuthor.textContent = data.biografia;
+spaceAuthor.href = "perfil_author.html" // ver si de verdad funciona
+placeAuthor.appendChild(spaceAuthor);
+  
+})
+document.body.appendChild(placeAuthor); 
+    </script>
 </body>
 </html>
