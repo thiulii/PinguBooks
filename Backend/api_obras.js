@@ -123,6 +123,10 @@ app.delete("/obras/:id", async(req, res) => {
     return res.status(200).json({status: "ok"})
 })
 
+app.delete("/obras", (req, res) => {
+    return res.status(403).json({error: "no podes eliminar todas las obras"})
+})
+
 app.put("/obras/:id", async(req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)){
@@ -162,6 +166,10 @@ app.put("/obras/:id", async(req, res) => {
 
     return res.status(200).json({status: "OK"});
 
+})
+
+app.put("/obras", (req, res) => {
+    return res.status(403).json({error: "no podes modificar todas las obras"})
 })
 
 app.listen(port, () => {
