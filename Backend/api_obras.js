@@ -172,6 +172,48 @@ app.put("/obras", (req, res) => {
     return res.status(403).json({error: "no podes modificar todas las obras"})
 })
 
+
+app.get("/tags", async(req, res) => {
+    tags = await getAllTags()
+    if (tags === undefined){
+        return res.status(500).json({error: "algo fallo"});
+    }
+    return res.status(200).json(tags);
+})
+
+app.get("/tags/:tag", async(req, res) =>{
+    const tag = res.params.tag;
+    const response = await getTag(tag);
+
+    if (response === undefined) {
+        return res.status(404).json({error: "no se ha encontrado el tag"});
+    }
+    return res.status(200).json(tag);
+})
+
+app.post("/tags", async(req,res) => {
+    const tag = req.body.tag;
+    const desc = req.body.desc;
+    if (!tag){
+        return res.status(400).json({error: "no se especifico tag"});
+    }
+
+    const response = await createTag(tag, desc);
+    if (response === undefined){
+        return res.status(500).json({error: "no se pudo crear el tag"});
+    }
+})
+
+app.delete("/tags/:tag", async(req, res) => {
+    const tag = req.params.tag;
+
+    const response = await deleteTag(tag);
+    if (!response){
+        return res.status(500).json({error: "no se pudo eliminar el tag"});
+    }
+    return res.status(200).json({status: "ok"})
+})
+
 app.listen(port, () => {
     console.log(`hola estamos en el puerto ${port}`);
   });
