@@ -10,7 +10,8 @@ const {
     createObra,
     getAutor,
     deleteObra,
-} = require("./PinguBooks")
+    modifyObra,
+} = require("./pingubooks")
 
 app.get("/obras/:id", async(req, res) => {
   const id_obra = parseInt(req.params.id);
@@ -39,7 +40,7 @@ app.get("/obras", async(req, res) => {
     if (tags){
         tags = tags.split(",");
         for (const tag of tags){
-            if (!getTag(tag)){
+            if (! (await getTag(tag))){
                 return res.status(400).json({error: "tags incorrectos"});
             }
         }
@@ -78,7 +79,7 @@ app.post("/obras", async(req, res) => {
     if (tags){
         tags = tags.split(",");
         for (const tag of tags){
-            if (!getTag(tag)){
+            if (!(await getTag(tag))){
                 return res.status(400).json({error: "tags incorrectos"});
             }
         }
@@ -93,11 +94,11 @@ app.post("/obras", async(req, res) => {
         return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"});
     }
 
-    if (getAutor(id_autor) === undefined){
+    if ((await getAutor(id_autor)) === undefined){
         return res.status(400).json({error: "autor invalido"});
     }
 
-    if (puntuacion && (puntuacion< 0 || puntuacion>5)){
+    if (!isNaN(puntuacion) && (puntuacion< 0 || puntuacion>5)){
         return res.status(400).json({error: "puntuacion invalida"});
     }
 
@@ -109,7 +110,7 @@ app.post("/obras", async(req, res) => {
     return res.status(200).json({status: "OK"});
 })
 
-app.delete("/obras/:id", async(req, res){
+app.delete("/obras/:id", async(req, res) => {
     id = parseInt(req.params.id)
     if (isNaN(id)){
         return res.status(400).json({error: "id invalido"});
@@ -117,12 +118,12 @@ app.delete("/obras/:id", async(req, res){
     const obra = await deleteObra(id)
     
     if (obra === undefined){
-        res.status(404).json({error: "id no encontrado"});
+        return res.status(404).json({error: "id no encontrado"});
     }
     return res.status(200).json({status: "ok"})
 })
 
-app.put("obras/:id", async(req, res){
+app.put("/obras/:id", async(req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)){
         return res.status(400).json({error: "id invalido"});
@@ -134,7 +135,7 @@ app.put("obras/:id", async(req, res){
     if (tags){
         tags = tags.split(",");
         for (const tag of tags){
-            if (!getTag(tag)){
+            if (!(await getTag(tag))){
                 return res.status(400).json({error: "tags incorrectos"});
             }
         }
@@ -146,11 +147,11 @@ app.put("obras/:id", async(req, res){
     const puntuacion = parseFloat(req.body.puntuacion);
     const contenido = req.body.contenido;
 
-    if (id_autor && getAutor(id_autor) === undefined){
+    if (id_autor && (await getAutor(id_autor)) === undefined){
         return res.status(400).json({error: "autor invalido"});
     }
 
-    if (puntuacion && (puntuacion < 0 || puntuacion > 5)){
+    if (!isNaN(puntuacion) && (puntuacion < 0 || puntuacion > 5)){
         return res.status(400).json({error: "puntuacion invalida"});
     }
 
@@ -162,3 +163,7 @@ app.put("obras/:id", async(req, res){
     return res.status(200).json({status: "OK"});
 
 })
+
+app.listen(port, () => {
+    console.log(`hola estamos en el puerto ${port}`);
+  });
