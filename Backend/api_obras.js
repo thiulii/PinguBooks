@@ -129,7 +129,7 @@ app.delete("/obras", (req, res) => {
 
 app.put("/obras/:id", async(req, res) => {
     const id = parseInt(req.params.id);
-    if (isNaN(id)){
+    if (isNaN(id) || !(await getAnObra(id))){
         return res.status(400).json({error: "id invalido"});
     } 
     const titulo = req.body.titulo;
@@ -210,6 +210,20 @@ app.delete("/tags/:tag", async(req, res) => {
     const response = await deleteTag(tag);
     if (!response){
         return res.status(500).json({error: "no se pudo eliminar el tag"});
+    }
+    return res.status(200).json({status: "ok"})
+})
+
+app.put("/tags/:tag", async(req, res) => {
+    const tag = req.params.tag;
+    const desc = req.body.desc;
+    if (!tag || !(await getTag(tag))){
+        return res.status(400).json({error: "no se especifico tag"});
+    }
+
+    const response = await modifyTag(tag, desc);
+    if (!response){
+        return res.status(500).json({error: "no se pudo modificar el tag"});
     }
     return res.status(200).json({status: "ok"})
 })
