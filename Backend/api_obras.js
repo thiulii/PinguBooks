@@ -11,6 +11,10 @@ const {
     getAutor,
     deleteObra,
     modifyObra,
+    getAllTags,
+    createTag,
+    modifyTag,
+    deleteTag,
 } = require("./pingubooks")
 
 app.get("/obras/:id", async(req, res) => {
