@@ -161,7 +161,7 @@ app.put("/obras/:id", async(req, res) => {
 
     const obra = await modifyObra(id, titulo, portada, descripcion, tags, fecha, id_autor, puntuacion, contenido);
     if (!obra){
-        return res.status(500).json({error: "error al crear la obra"});
+        return res.status(500).json({error: "error al modificar la obra"});
     }
 
     return res.status(200).json({status: "OK"});
@@ -174,7 +174,7 @@ app.put("/obras", (req, res) => {
 
 
 app.get("/tags", async(req, res) => {
-    tags = await getAllTags()
+    const tags = await getAllTags()
     if (tags === undefined){
         return res.status(500).json({error: "algo fallo"});
     }
@@ -182,7 +182,7 @@ app.get("/tags", async(req, res) => {
 })
 
 app.get("/tags/:tag", async(req, res) =>{
-    const tag = res.params.tag;
+    const tag = req.params.tag;
     const response = await getTag(tag);
 
     if (response === undefined) {
@@ -202,6 +202,7 @@ app.post("/tags", async(req,res) => {
     if (response === undefined){
         return res.status(500).json({error: "no se pudo crear el tag"});
     }
+    return res.status(200).json({status: "ok"})
 })
 
 app.delete("/tags/:tag", async(req, res) => {
@@ -217,8 +218,8 @@ app.delete("/tags/:tag", async(req, res) => {
 app.put("/tags/:tag", async(req, res) => {
     const tag = req.params.tag;
     const desc = req.body.desc;
-    if (!tag || !(await getTag(tag))){
-        return res.status(400).json({error: "no se especifico tag"});
+    if (!tag || !desc || !(await getTag(tag))){
+        return res.status(400).json({error: "parametros incorrectos"});
     }
 
     const response = await modifyTag(tag, desc);
@@ -227,6 +228,15 @@ app.put("/tags/:tag", async(req, res) => {
     }
     return res.status(200).json({status: "ok"})
 })
+
+app.delete("/tags", (req, res) => {
+    return res.status(403).json({error: "no podes eliminar todos los tags"})
+})
+
+app.put("/tags", (req, res) => {
+    return res.status(403).json({error: "no podes modificar todos los tags"})
+})
+
 
 app.listen(port, () => {
     console.log(`hola estamos en el puerto ${port}`);
