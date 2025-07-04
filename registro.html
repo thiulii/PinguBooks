@@ -98,47 +98,45 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-  //submit es para enviar un formulario en html
-document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
-  v.preventDefault();
-  const form = v.target; //target para ver lo que enviaron con submit
-  const data= {
-    name: form.name.value,
-  mail: form.mail.value,
-  password: form.password.value,
-  dateBirthday: form.dateBirthday.value,
-  country: form.country.value,
-  biography: form.biography.value
-}
-  try {
-    const answer = await fetch("/registro", {
-    method: "POST",
-    header :{"Content-type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
-    body: JSON.stringify(data)
-  })
-  const mensaje =  await answer.text()
-
-  const placeMensaje = document.createElement("div");
-  placeMensaje.id = "AnuncioDeWeb"
-  const announcement =document.createElement("h3");
-  announcement.textContent = mensaje + " (haz click para eliminar este mensaje)";
-  placeMensaje.appendChild(announcement);
-  document.body.appendChild(placeMensaje);
-
-  placeMensaje.onclick=()=>{
-    placeMensaje.remove();
+  <script type="text/javascript">
+    //submit es para enviar un formulario en html
+  document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
+    v.preventDefault();
+    const form = v.target; //target para ver lo que enviaron con submit
+    const data= {
+      name: form.name.value,
+      mail: form.mail.value,
+      password: form.password.value,
+      dateBirthday: form.dateBirthday.value,
+      country: form.country.value,
+      biography: form.biography.value
   }
-  }
+    try {
+      const answer = await fetch("/registro", {
+      method: "POST",
+      header :{"Content-type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
+      body: JSON.stringify(data)
+    })
+    const mensaje =  await answer.text()
+    const placeMensaje = document.createElement("div");
+    placeMensaje.id = "AnuncioDeWeb"
+    const announcement =document.createElement("h3");
+    announcement.textContent = mensaje + " (haz click para eliminar este mensaje)";
+    placeMensaje.appendChild(announcement);
+    document.body.appendChild(placeMensaje);
 
-  catch(error)  {
-    console.error ('Error:', error)}
-  })
+    placeMensaje.onclick=()=>{
+      placeMensaje.remove();
+    }
+    }
+    catch(error)  {
+      console.error ('Error:', error)}
+    })
 
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-    let idUsuario = localStorage.getItem("idAutor");
-    window.location.href =`perfil_author.html?id=${idUsuario}`;
-  })
-</script>
+        document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        let idUsuario = localStorage.getItem("idAutor");
+        window.location.href =`perfil_author.html?id=${idUsuario}`;
+      })
+    </script>
 </body>
 </html>

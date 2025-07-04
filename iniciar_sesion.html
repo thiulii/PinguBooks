@@ -96,5 +96,29 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+  document.getElementById().addEventListener("", async (v)=>{
+     v.preventDefault()
+    const form = v.target; //target para ver lo que enviaron con submit
+    const data= {
+      mail: form.mail.value,
+      password: form.password.value
+    }
+    
+  })
+  
+  const mensaje =  await answer.text()
+    const placeMensaje = document.createElement("div");
+    placeMensaje.id = "AnuncioDeWeb"
+    const announcement =document.createElement("h3");
+    announcement.textContent = mensaje + " (haz click para eliminar este mensaje)";
+    placeMensaje.appendChild(announcement);
+    document.body.appendChild(placeMensaje);
+
+    placeMensaje.onclick=()=>{
+      placeMensaje.remove();
+    }
+</script>
 </body>
 </html>
