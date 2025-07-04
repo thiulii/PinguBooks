@@ -3,6 +3,7 @@
 const { Pool } = require("pg");         // Pool es para evitar conect y end en cada funcion
                                         // Pool para manejar conexiones de forma eficiente
 const dbPinguBooks = new Pool({
+
   user: "postgres",
   password: "postgres",
   host: "localhost",
@@ -17,6 +18,7 @@ const dbPinguBooks = new Pool({
 async function getAllAutores() {
   const res = await dbPinguBooks.query("SELECT * FROM autores");
   return res.rowCount === 0 ? undefined : res.rows;
+
 }
 
 // Crea un nuevo autor y lo devuelve

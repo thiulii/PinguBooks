@@ -1,4 +1,4 @@
-const express =require("express");
+const express = require("express");
 const app = express();
 const port=3000;
 app.use(express.json());
@@ -18,7 +18,7 @@ const { getAllAutores,
   getAnObra,
  
  //Comentarios
-  getAllComentarios,} =require("PinguBooks");
+  getAllComentarios,}=require("./PinguBooks");
 
 //const { createdUser } = require("./db/PiguBooks");
 //const path =require("path");
@@ -96,5 +96,5 @@ app.post("/log-in",(req, res)=>{
 
 
 app.listen(port, () => {
-    console.log('No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port} 3000');
+    console.log(`No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port}`);
   });
