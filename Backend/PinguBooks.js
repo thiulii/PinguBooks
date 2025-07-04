@@ -190,9 +190,8 @@ async function getAllObras(busqueda, orden, criterio, tags, limite) {
 
     const columnasValidas = ["fecha_de_publicacion", "puntuacion"];
     const criterioValido = columnasValidas.includes(criterio) ? criterio : "fecha_de_publicacion";
-    const ordenValido = orden === "asc" ? "ASC" : "DESC";
 
-    query += ` ORDER BY obras.${criterioValido} ${ordenValido}`;
+    query += ` ORDER BY obras.${criterioValido} ${orden}`;
 
     if (limite) {
       query += ` LIMIT $${idx}`;
