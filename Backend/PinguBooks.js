@@ -171,7 +171,7 @@ async function getAllObras(busqueda, orden, criterio, tags, limite) {
 
     if (busqueda) {
       condiciones.push(`(
-        obras.titulo ILIKE '%' || $${idx} || '%' OR
+        obras.titulo ILIKE '%' || $${idx} || '%' OR    
         CAST(obras.id_obras AS TEXT) = $${idx}
       )`);
       valores.push(busqueda);
@@ -210,6 +210,7 @@ async function getAllObras(busqueda, orden, criterio, tags, limite) {
 // Permite ordenar por fecha o puntuación, de forma ascendente o descendente.
 // Si se especifica un límite, lo aplica a la cantidad de resultados.
 // Si no encuentra nada o hay error, devuelve un array vacío.
+// ILIKE --> no es case-sensitive, es lo mismo ROMANTICO que romantico.
 
 
 // TABLA TAGS
