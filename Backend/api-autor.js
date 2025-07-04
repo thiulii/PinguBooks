@@ -41,7 +41,7 @@ const { getAllAutores,
           return res.sendStatus(409).send("El mail otorgado ya esta en uso");
           }
    const userName = createdUser(name, biography, mail, dateBirthday, password, averageRatingWorks, dateLogIn, country);
-   res.status(201).send("Se creo que usuaario, puedes inicar seccion")
+   res.status(201).send("Se creo que usuario, puedes inicar seccion")
   })
 
   app.put("/log-in:id",(req, res)=>{

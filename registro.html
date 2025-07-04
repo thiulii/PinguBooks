@@ -92,7 +92,7 @@
         <textarea class="form-control" name="biography" rows="3" placeholder="Biografía breve" required></textarea>
         <input type="url" class="form-control" name="foto_perfil" placeholder="URL de foto de perfil" />
         
-        <button id="buttonRegistration" type="submit" class="btn btn-primary mt-3">Crear Cuenta</button>
+        <button type="submit" class="btn btn-primary mt-3">Crear Cuenta</button>
       </form>
     </div>
   </div>
@@ -100,22 +100,35 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
   //submit es para enviar un formulario en html
-document.getElementById("buttonRegistration").addEventListener("submit", async(v)=>{
-
+document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
+  v.preventDefault();
   const form = v.target; //target para ver lo que enviaron con submit
-  const info = FormData(form); //formData organiza los datos en un formato facil de manejar jsj
-  await fetch("", {
-    method: "Post",
-    body: info
+  const data= {
+    name: form.name.value,
+  mail: form.mail.value,
+  password: form.password.value,
+  dateBirthday: form.dateBirthday.value,
+  country: form.country.value,
+  biography: form.biography.value
+}
+  try {
+    const answer = await fetch("/registro", {
+    method: "POST",
+    header :{"Content-type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
+    body: JSON.stringify(data)
   })
-.then()
-.then(data=>{
+  const mensaje = answer.text()
 
-})
+  const placeMensaje = document.createElement("div");
+  placeMensaje.id = "AnuncioDeWeb"
+  const announcement =document.createElement("h3");
+  announcement.textContent = mensaje;
 
-  .catch(error => {console.error ('Error:', error)})
+  }
 
-});
+  catch(error)  {
+    console.error ('Error:', error)}
+  })
 
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
     let idUsuario = localStorage.getItem("idAutor");
