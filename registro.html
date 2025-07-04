@@ -117,13 +117,18 @@ document.getElementById("registrationForm").addEventListener("submit", async(v)=
     header :{"Content-type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
     body: JSON.stringify(data)
   })
-  const mensaje = answer.text()
+  const mensaje =  await answer.text()
 
   const placeMensaje = document.createElement("div");
   placeMensaje.id = "AnuncioDeWeb"
   const announcement =document.createElement("h3");
-  announcement.textContent = mensaje;
+  announcement.textContent = mensaje + " (haz click para eliminar este mensaje)";
+  placeMensaje.appendChild(announcement);
+  document.body.appendChild(placeMensaje);
 
+  placeMensaje.onclick=()=>{
+    placeMensaje.remove();
+  }
   }
 
   catch(error)  {
