@@ -127,7 +127,7 @@ app.get("/api/inciar_sesion", async (req, res)=>{
 }
 )
 
-app.get("/catalogo/autores", async (req, res)=>{
+app.get("/api/catalogo/autores", async (req, res)=>{
     const autores= await getAllAutores()//funcion que mande a todos los autores con una obra en un array
     try{
         if(autores===undefined){
