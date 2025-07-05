@@ -1,2 +1,3 @@
 practica/
 node_modules/
+.volumes/postgres/data/

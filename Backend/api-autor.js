@@ -2,16 +2,26 @@ const express =require("express");
 const app = express();
 const port=3000;
 app.use(express.json());
-const { getAllAutores,
-
+const {  getAllAutores,
     createdUser,
-    
+    comparisonMail,
+    changeUser,
     verifyUser,
-     comparisonMail,
+    getAutor,
+    deleteAutor,
+    modifyAutor
   } =require("./PinguBooks.js");
 
-  app.get("/perfil/:id",(req, res)=>{
-//funcion que me pase toda la informacion del autor con solo su id y de una sus obras
+  app.get("/perfil/:id", async (req, res)=>{
+    const id = Number(req.params.id);
+    if(!id || isNaN(id)){
+        return res.status(400).json({error: "error de id"}); 
+    }
+    console.log(id);
+    try{
+        
+        console.log(id)
+        const user = await getAutor(id);
     if(user===undefined){
         return  res.status(200).json({
             id_autor:null,
@@ -20,7 +30,11 @@ const { getAllAutores,
         }) //Envio el link para que vayan a ingresarse
     }
     return res.status(200).json(user); //envio el usuario para que se muestre por frontend
-
+    }
+    catch (error){
+        console.error(id)
+        return res.status(500).json({error: "error de servidor"});
+    }
 })
 
   // CREAR PERFIL POST
