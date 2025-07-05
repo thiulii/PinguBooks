@@ -112,7 +112,7 @@ app.put("/api/inciar_sesion/:id", async (req, res)=>{
 })
 
   
-app.get("/api/inciar_sesion", async (req, res)=>{
+app.post("/api/inciar_sesion", async (req, res)=>{
     const mail= req.body.mail;
     const password= req.body.password; 
 
