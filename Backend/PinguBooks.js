@@ -139,7 +139,7 @@ async function modifyObra(id_obra, titulo, portada, descripcion, tags, fecha_pub
           fecha_de_publicacion = COALESCE($4, fecha_de_publicacion),
           id_autor = COALESCE($5, id_autor),
           contenido = COALESCE($6, contenido),
-          puntuacion =  COALESCE($8, puntuacion),
+          puntuacion =  COALESCE($8, puntuacion)
       WHERE id_obras = $7
     `, [titulo, portada, descripcion, fecha_publicacion, id_autor, contenido, id_obra, puntuacion]);
 
@@ -275,7 +275,7 @@ async function deleteTag(nombre) {
 // Devuelve todos los comentarios de una obra
 async function getAllComentarios(idObra) {
   try {
-    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1;", [idObra]);
+    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1 ORDER BY fecha_de_publicacion desc", [idObra]);
     return res.rows;
   } catch(err){
     console.error("Error al conseguir comentarios: ", err);
@@ -327,7 +327,7 @@ async function createComentario(usuario, obra, estrellas, contenido){
       INSERT INTO comentarios (id_usuario, id_obra, estrellas, contenido_comentario)
       VALUES ($1, $2, $3, $4)
       RETURNING *;`, [usuario, obra, estrellas, contenido]);
-    const modificacion = await modifyObraRating(id);
+    const modificacion = await modifyObraRating(obra);
     if (! modificacion){
       return undefined;
     }  
@@ -344,10 +344,10 @@ async function modifyComentario(id, contenido, estrellas){
     const res = await dbPinguBooks.query(`
       UPDATE comentarios
       SET contenido_comentario = COALESCE($2, contenido_comentario),
-      estrellas = COALESCE($3, estrellas),
+      estrellas = COALESCE($3, estrellas)
       WHERE id_comentarios = $1
-      RETURNING *;`, [id, contenido, estrellas]);
-    const modificacion = await modifyObraRating(id);
+      RETURNING *`, [id, contenido, estrellas]);
+    const modificacion = await modifyObraRating(res.rows[0].id_obra);
     if (! modificacion){
       return undefined;
     }
@@ -363,9 +363,9 @@ async function deleteComentario(id){
   try{
     const res = await dbPinguBooks.query(`
     DELETE FROM comentarios WHERE id_comentarios = $1
-    RETURNING *`, [nombre]);
+    RETURNING *`, [id]);
 
-    const modificacion = await modifyObraRating(id);
+    const modificacion = await modifyObraRating(res.rows[0].id_obra);
     if (! modificacion){
       return undefined;
     }  
@@ -378,7 +378,7 @@ async function deleteComentario(id){
 
 async function getOwner(id){
   try{
-    const res = await getAllComentarios(id);
+    const res = await getComentario(id);
     if (res === undefined){
       return undefined;
     }
