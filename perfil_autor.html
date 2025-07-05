@@ -111,27 +111,27 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"> </script>
   
   <script type="text/javascript">
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+   const id = window.location.pathname.split("/").pop();
     //Innerhtml solo cuando no sean datos qu e vienen del servidor
     let idUsuario = localStorage.getItem("idUsuario");
     //funcion que muestre el usuario
     //document es tipo lo  que representa todo el html, getElementById es el id que busca/usamos. textContent es tipo para ver que 
       if(id===null ){
         if(!idUsuario){
-          console.log("Error al acceder al perfil de usuario, no existe")
-        }
-        else {
-        const screen = document.createElement("div");
+          const screen = document.createElement("div");
         screen.id = "loginScreen" // id para el formato que le queremos poner al div
         const mensaje = document.createElement("h3");
-        mensaje.textContent = data.mensaje;
+        mensaje.textContent = "Debes iniciar sesión para ver tu perfil";
         const invite = document.createElement("a");
         invite.href ="iniciar_sesion.html"
         screen.appendChild(mensaje);
         screen.appendChild(invite);
         document.body.appendChild(screen);
+        }
+        else {
+        
         //apendChild agregar al cuerpo del html
+        console.log("Error al acceder al perfil de usuario, no existe")
       }
      
 
@@ -172,7 +172,7 @@
 
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
     let idUsuario = localStorage.getItem("idAutor");
-    window.location.href =`perfil_author.html?id=${idUsuario}`;
+    window.location.href =`perfil_autor/${idUsuario}`;
     })
   </script>
 </body>
