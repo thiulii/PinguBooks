@@ -376,6 +376,17 @@ async function deleteComentario(id){
   }
 }
 
+async function getOwner(id){
+  try{
+    const res = await getAllComentarios(id);
+    if (res === undefined){
+      return undefined;
+    }
+    return res.id_usuario;
+  } catch(err){
+    return undefined;
+  }
+}
 
 // EXPORTACION DE FUNCIONES
 module.exports = {
@@ -403,6 +414,7 @@ module.exports = {
   getAllComentarios,
   getComentario,
   createComentario,
-  modifyComentario
+  modifyComentario,
   deleteComentario,
+  getOwner
 };
