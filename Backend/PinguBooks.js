@@ -277,7 +277,7 @@ async function getAllComentarios(idObra) {
     const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1", [idObra]);
     return res.rows;
   } catch(err){
-    console.error("Error al conseguir comentarios", err);
+    console.error("Error al conseguir comentarios: ", err);
     return undefined
   }
 }
@@ -287,17 +287,35 @@ async function getComentario(idComentario){
     const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_comentarios = $1", [idComentario]);
     return res.rows;
   } catch(err){
-    console.error("Error al conseguir el comentario", err);
+    console.error("Error al conseguir el comentario: ", err);
     return undefined;
   }
 }
 
 async function createComentario(usuario, obra, estrellas, contenido){
   try{
-    const res = await dbPinguBooks.query("INSERT INTO comentarios (id_usuario, id_obra, estrellas, contenido_comentario) VALUES ($1, $2, $3, $4) RETURNING *;", [usuario, obra, estrellas, contenido]);
+    const res = await dbPinguBooks.query(`
+      INSERT INTO comentarios (id_usuario, id_obra, estrellas, contenido_comentario)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`, [usuario, obra, estrellas, contenido]);
     return res.rows;
   } catch(err){
+    console.error("Error al crear el comentario: ", err)
     return undefined;
+  }
+}
+
+async function modifyComentario(id, contenido, estrellas){
+  try{
+    const res = await dbPinguBooks.query(`
+      UPDATE comentarios
+      SET contenido_comentario = COALESCE($2, contenido_comentario),
+      estrellas = COALESCE($3, estrellas),
+      WHERE id_comentarios = $1
+      RETURNING *;`, [id, contenido, estrellas]);
+  } catch(err){
+    console.error("Error al modificar comentario", err);
+    return undefined
   }
 }
 
@@ -328,4 +346,5 @@ module.exports = {
   getAllComentarios,
   getComentario,
   createComentario,
+  modifyComentario
 };
