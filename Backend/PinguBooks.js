@@ -273,9 +273,25 @@ async function deleteTag(nombre) {
 
 // Devuelve todos los comentarios de una obra
 async function getAllComentarios(idObra) {
-  const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1", [idObra]);
-  return res.rows;
+  try {
+    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1", [idObra]);
+    return res.rows;
+  } catch(err){
+    console.error("Error al conseguir comentarios", err);
+    return undefined
+  }
 }
+
+async function getComentario(idComentario){
+  try{
+    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_comentarios = $1", [idComentario]);
+    return res.rows
+  } catch(err){
+    console.error("Error al conseguir el comentario", err);
+    return undefined
+  }
+}
+
 
 // EXPORTACION DE FUNCIONES
 module.exports = {
@@ -300,5 +316,6 @@ module.exports = {
   modifyTag,
   deleteTag,
 
-  getAllComentarios
+  getAllComentarios,
+  getComentario,
 };
