@@ -285,10 +285,19 @@ async function getAllComentarios(idObra) {
 async function getComentario(idComentario){
   try{
     const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_comentarios = $1", [idComentario]);
-    return res.rows
+    return res.rows;
   } catch(err){
     console.error("Error al conseguir el comentario", err);
-    return undefined
+    return undefined;
+  }
+}
+
+async function createComentario(usuario, obra, estrellas, contenido){
+  try{
+    const res = await dbPinguBooks.query("INSERT INTO comentarios (id_usuario, id_obra, estrellas, contenido_comentario) VALUES ($1, $2, $3, $4) RETURNING *;", [usuario, obra, estrellas, contenido]);
+    return res.rows;
+  } catch(err){
+    return undefined;
   }
 }
 
@@ -299,7 +308,7 @@ module.exports = {
   createdUser,
   comparisonMail,
   changeUser,
-  verifyUser,
+  verifyUser, 
   getAutor,
   deleteAutor,
   modifyAutor,
@@ -318,4 +327,5 @@ module.exports = {
 
   getAllComentarios,
   getComentario,
+  createComentario,
 };
