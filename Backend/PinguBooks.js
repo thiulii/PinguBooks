@@ -286,7 +286,7 @@ async function getAllComentarios(idObra) {
 async function getComentario(idComentario){
   try{
     const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_comentarios = $1;", [idComentario]);
-    return res.rows;
+    return res.rows[0];
   } catch(err){
     console.error("Error al conseguir el comentario: ", err);
     return undefined;
@@ -296,11 +296,21 @@ async function getComentario(idComentario){
 async function modifyObraRating(id_obra){
   try{
     const total = await dbPinguBooks.query(`
-      SELECT count(*), sum(c.estrellas)
+      SELECT count(*) AS cantidad, sum(c.estrellas) AS suma_estrellas
       FROM comentarios c
       WHERE id_obra = $1`, [id_obra]);
-    const nuevo_tot_est = total[0][1]/total[0][0];
-    const res = await modifyObra(id_obra, null, null, null, null, fecha_publicacion, id_autor, nuevo_tot_est,null);
+    const nuevo_tot_est = total.rows[0];
+    const cantidad = parseInt(nuevo_tot_est.cantidad);
+    const suma = parseInt(nuevo_tot_est.suma_estrellas);
+    
+    let promedio;
+    if (cantidad == 0){
+      promedio = 0
+    } else{
+      promedio = suma / cantidad
+    }
+
+    const res = await modifyObra(id_obra, null, null, null, null, null, null, promedio, null);
     if (res === undefined){
       return undefined;
     }
@@ -321,7 +331,7 @@ async function createComentario(usuario, obra, estrellas, contenido){
     if (! modificacion){
       return undefined;
     }  
-    return res.rows;
+    return res.rows[0];
   } catch(err){
     console.error("Error al crear el comentario: ", err)
     return undefined;
@@ -345,7 +355,24 @@ async function modifyComentario(id, contenido, estrellas){
 
   } catch(err){
     console.error("Error al modificar comentario", err);
-    return undefined
+    return undefined;
+  }
+}
+
+async function deleteComentario(id){
+  try{
+    const res = await dbPinguBooks.query(`
+    DELETE FROM comentarios WHERE id_comentarios = $1
+    RETURNING *`, [nombre]);
+
+    const modificacion = await modifyObraRating(id);
+    if (! modificacion){
+      return undefined;
+    }  
+    return res.rows[0];
+  } catch(err) {
+    console.error("Error al eliminar comentario:", err);
+    return undefined;
   }
 }
 
@@ -377,4 +404,5 @@ module.exports = {
   getComentario,
   createComentario,
   modifyComentario
+  deleteComentario,
 };
