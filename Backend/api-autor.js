@@ -1,10 +1,10 @@
 const express =require("express");
 const app = express();
-//const cors = require("cors");
+const cors = require("cors");
 const port=3000;
 const path = require("path")
 app.use(express.json());
-//app.use(cors());
+app.use(cors());
 const {  getAllAutores,
     createdUser,
     comparisonMail,
@@ -18,7 +18,7 @@ app.get("/",(req, res)=>{
     console.log("Hola");
 })
 
-app.get("/api/perfil/:id", async (req, res)=>{
+app.get("/api/perfil/id", async (req, res)=>{
     const id = Number(req.params.id);
     if(!id || isNaN(id)){
         return res.status(400).json({error: "error de id"}); 
@@ -27,7 +27,7 @@ app.get("/api/perfil/:id", async (req, res)=>{
         console.log(id)
         const user = await getAutor(id);
     if(user===undefined){
-        return  res.status(200).json({
+        return  res.status(404).json({
             id_autor:null,
             mensaje:"Usuario no encontrado ¿Quiere iniciar seccion?",
             linkLogin: "../iniciar_sesion.html"
@@ -110,13 +110,13 @@ app.post("/api/inciar_sesion", async (req, res)=>{
     const password= req.body.password; 
 
     if((mail===undefined) || (password===undefined)){
-        return res.sendStatus(404).send("Error al crear usuario. Todos los campos deben estar llenos");
+        return res.sendStatus(404).send("Error al crear ingresar en usuario. Todos los campos deben estar llenos");
     }
     const verify = await changeUser(mail, password)
     if(verify===undefined){
-        return res.status(200).send("contraseña incorrecta")
+        return res.status(401).send("contraseña incorrecta")
     }
-    return res.status(200).send("contraseña correcta")
+    return res.status(200).json({usuario:verify, mensaje:"contraseña correcta"})
 }
 )
 

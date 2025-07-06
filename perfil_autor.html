@@ -131,15 +131,15 @@
       placeMensaje.remove();
     }
   }
-   const urlParams= URLSearchParams(window.location.search);
-   const id = urlParams.get("id");
+ 
+   const urlParams= new URLSearchParams(window.location.search);
+   const id = parseInt(urlParams.get("id"));
+  let idUsuario = localStorage.getItem("idUsuario");
 
-    let idUsuario = localStorage.getItem("idUsuario");
-      if(!id ||isNaN(id)){
+      if(isNaN(id)){
         if(!idUsuario){
           const screen = document.createElement("div");
-         
-          mensaje = "Debes iniciar sesión para ver tu perfil";
+          const mensaje = "Debes iniciar sesión para ver tu perfil";
           mensajePorPantalla(mensaje);
           const invite = document.createElement("a");
           invite.textContent="Inicio de sesion"
@@ -148,11 +148,15 @@
 
           screen.appendChild(invite);
           document.body.appendChild(screen);
-        }}
+        }
+      else{
+        mensajePorPantalla("Error con la ruta para acceder al perfil");
+      }}
 
       fetch(`${UrlApi}/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => {
         if(!res.ok){
+          mensajePorPantalla("Error con el perfil que se quiere ver");
           throw new Error("Error con el servidor");
         }
         res.json()})
@@ -272,7 +276,7 @@ form.addEventListener("submit", (v)=>{
   <script>
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
       let idUsuario = localStorage.getItem("idAutor");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    window.location.href =`perfil_autor.html?id=${idUsuario}`;
     })
   </script>
 </body>

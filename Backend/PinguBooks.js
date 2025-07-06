@@ -7,7 +7,7 @@ user:"postgres",
 password: "postgres",
 host:"localhost",
 port: 5432,
-database:"pingubooks",
+database:"PinguBooks",
 })
 
 // TABLA AUTORES
@@ -35,9 +35,9 @@ async function comparisonMail(mail) {
 
 // Verifica si la contraseña coincide con el mail dado
 async function changeUser(mail, password) {
-  const res = await dbPinguBooks.query("SELECT contraseña FROM autores WHERE mail = $1", [mail]);
+  const res = await dbPinguBooks.query("SELECT id_autor, contraseña FROM autores WHERE mail = $1", [mail]);
   if (res.rowCount === 0 || res.rows[0].contraseña !== password) return undefined;
-  return res.rows[0];
+  return res.rows[0].id_autor;
 }
 
 // Verifica si el autor de una obra coincide con el usuario dado
