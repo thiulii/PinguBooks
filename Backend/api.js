@@ -38,7 +38,7 @@ const {  getAllAutores,
 //const path =require("path");
 
 // SECCION AUTORES ------------------------------------------------------------
-app.get("/perfil/:id", async (req, res)=>{
+app.get("/autores/:id", async (req, res)=>{
   const id = Number(req.params.id);
   if(!id || isNaN(id)){
       return res.status(400).json({error: "error de id"}); 
@@ -61,7 +61,7 @@ app.get("/perfil/:id", async (req, res)=>{
       return res.status(500).json({error: "error de servidor aqui"});
   }
 })
-app.delete("/perfil/:id", (req, res)=>{
+app.delete("/autores/:id", (req, res)=>{
   const idAutor = req.params.id
   const user =deleteAutor(idAutor);
   if(user===true){
@@ -69,7 +69,7 @@ app.delete("/perfil/:id", (req, res)=>{
   }
   return  res.status(404).send("Problema al eliminar usuario")
 })
-app.put("/iniciar_sesion/:id", async (req, res)=>{
+app.put("/autores/:id", async (req, res)=>{
   const id = req.params.id;
   const name =req.body.name;
   const biography = req.body.biography;
@@ -94,7 +94,7 @@ app.put("/iniciar_sesion/:id", async (req, res)=>{
 })
 
 // CREAR PERFIL POST
-app.post("/registro",async (req, res)=>{
+app.post("/autores",async (req, res)=>{
   const name =req.body.name;
   const biography = req.body.biography;
   const mail= req.body.mail;
@@ -146,7 +146,7 @@ catch(error){
 }
 )
 
-app.get("/catalogo/autores", async (req, res)=>{
+app.get("/autores", async (req, res)=>{
   const autores= await getAllAutores()//funcion que mande a todos los autores con una obra en un array
   try{
       if(autores===undefined){

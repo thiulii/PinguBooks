@@ -154,7 +154,9 @@
         mensajePorPantalla("Error con la ruta para acceder al perfil");
       }}
 
-      fetch(`${UrlApi}/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
+      fetch(`${UrlApi}/perfil/${id}`
+        
+      ) //me falta poner como aparece el perfil del usuario
     .then(res => {
         if(!res.ok){
           mensajePorPantalla("Error con el perfil que se quiere ver");
