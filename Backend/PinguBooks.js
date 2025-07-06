@@ -386,7 +386,7 @@ async function deleteComentario(id){
   }
 }
 
-async function getOwner(id){
+async function getComentarioOwner(id){
   try{
     const res = await getComentario(id);
     if (res === undefined){
@@ -426,5 +426,5 @@ module.exports = {
   createComentario,
   modifyComentario,
   deleteComentario,
-  getOwner
+  getComentarioOwner
 };
