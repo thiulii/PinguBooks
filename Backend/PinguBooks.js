@@ -29,9 +29,14 @@ async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña
 
 // Compara si el mail ya existe en la base de datos
 async function comparisonMail(mail) {
+  try{
   const res = await dbPinguBooks.query("SELECT * FROM autores WHERE mail = $1", [mail]);
   return res.rowCount === 0 ? undefined : res.rows[0];
 }
+catch(err){
+  console.error("Error al comparar mails:", err);
+  return undefined;
+}}
 
 // Verifica si la contraseña coincide con el mail dado
 async function changeUser(mail, password) {

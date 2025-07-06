@@ -99,25 +99,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript">
-    //submit es para enviar un formulario en html
-  document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
-    v.preventDefault();
-    const form = v.target; //target para ver lo que enviaron con submit
-    const data= {
-      name: form.name.value,
-      mail: form.mail.value,
-      password: form.password.value,
-      dateBirthday: form.dateBirthday.value,
-      country: form.country.value,
-      biography: form.biography.value
-  }
-    try {
-      const answer = await fetch("/api/registro", {
-      method: "POST",
-      headers :{"Content-Type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
-      body: JSON.stringify(data)
-    })
-    const mensaje =  await answer.text()
+    const UrlApi ="http://localhost:3000";
+    function mensajePorPantalla(mensaje){
     const oldPlaceMensaje = document.getElementById("AnuncioDeWeb");
     if (oldPlaceMensaje) {
       oldPlaceMensaje.remove();
@@ -135,6 +118,31 @@
     placeMensaje.onclick=()=>{
       placeMensaje.remove();
     }
+  }
+    //submit es para enviar un formulario en html
+  document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
+    v.preventDefault();
+    const form = v.target; //target para ver lo que enviaron con submit
+    const data= {
+      name: form.name.value,
+      mail: form.mail.value,
+      password: form.password.value,
+      dateBirthday: form.dateBirthday.value,
+      country: form.country.value,
+      biography: form.biography.value
+  }
+    try {
+      const answer = await fetch(`${UrlApi}/api/registro`, {
+      method: "POST",
+      headers :{"Content-Type":"application/json"},// tipo etiquetas para explicar que tipo de dato se manda
+      body: JSON.stringify(data)
+    })
+    const mensaje =  await answer.text();
+    if(answer.ok){
+      mensajePorPantalla("Se creo")
+      window.location.href =`iniciar_sesion.html`;
+    }
+    mensajePorPantalla("No se creo");
     }
     catch(error)  {
       console.error ('Error:', error)}

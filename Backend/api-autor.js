@@ -83,11 +83,11 @@ app.put("/api/inciar_sesion/id", async (req, res)=>{
     const dateLogIn=req.body.dateLogIn;
     const country=req.body.country;
     if(!name || !dateBirthday || !mail || !password ){
-          return res.sendStatus(404).send("Error al crear usuario. Todos los campos deben estar llenos");
+          return res.status(404).send("Error al crear usuario. Todos los campos deben estar llenos");
     }
     const validationMail = await comparisonMail(mail);
     try{
-        if(validationMail !== 0){
+        if(validationMail !== undefined){
         return res.status(409).send("El mail otorgado ya esta en uso"); 
         }
         const userName = await createdUser(name, biography, dateBirthday, mail, password, averageRatingWorks, dateLogIn, country);

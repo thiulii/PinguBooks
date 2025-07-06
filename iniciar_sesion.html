@@ -144,12 +144,12 @@
       console.error ('Error:', error)
     mensajePorPantalla("Error con el servidor");}
   })
-</script>
-<script>
+  
   document.getElementById("miPerfil").addEventListener("click", (e)=>{
     let idUsuario = localStorage.getItem("idAutor");
   window.location.href =`perfil_autor.html?id=${idUsuario}`;
   })
 </script>
+
 </body>
 </html>
