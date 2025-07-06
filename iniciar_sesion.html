@@ -127,7 +127,7 @@
       password: form.password.value
     };
   try{
-    const answer = await fetch(`${UrlApi}/api/inciar_sesion`, {
+    const answer = await fetch(`${UrlApi}/api/iniciar_sesion`, {
       method: "POST",
       headers :{"Content-Type":"application/json"},
       body: JSON.stringify(data)

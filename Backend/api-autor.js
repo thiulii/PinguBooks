@@ -18,7 +18,7 @@ app.get("/",(req, res)=>{
     console.log("Hola");
 })
 
-app.get("/api/perfil/id", async (req, res)=>{
+app.get("/api/perfil/:id", async (req, res)=>{
     const id = Number(req.params.id);
     if(!id || isNaN(id)){
         return res.status(400).json({error: "error de id"}); 
@@ -41,7 +41,7 @@ app.get("/api/perfil/id", async (req, res)=>{
         return res.status(500).json({error: "error de servidor aqui"});
     }
 })
-app.delete("/perfil/id", (req, res)=>{
+app.delete("/perfil/:id", (req, res)=>{
     const idAutor = req.params.id
     const user =deleteAutor(idAutor);
     if(user===true){
@@ -49,7 +49,7 @@ app.delete("/perfil/id", (req, res)=>{
     }
     return  res.status(404).send("Problema al eliminar usuario")
 })
-app.put("/api/inciar_sesion/id", async (req, res)=>{
+app.put("/api/inciar_sesion/:id", async (req, res)=>{
     const id = req.params.id;
     const name =req.body.name;
     const biography = req.body.biography;
@@ -105,7 +105,7 @@ app.put("/api/inciar_sesion/id", async (req, res)=>{
 })
 
   
-app.post("/api/inciar_sesion", async (req, res)=>{
+app.post("/api/iniciar_sesion", async (req, res)=>{
     try{
     const mail= req.body.mail;
     const password= req.body.password; 

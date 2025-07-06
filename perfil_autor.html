@@ -133,7 +133,7 @@
   }
  
    const urlParams= new URLSearchParams(window.location.search);
-   const id = parseInt(urlParams.get("id"));
+   const id = urlParams.get("id");
   let idUsuario = localStorage.getItem("idUsuario");
 
       if(isNaN(id)){
@@ -159,7 +159,7 @@
           mensajePorPantalla("Error con el perfil que se quiere ver");
           throw new Error("Error con el servidor");
         }
-        res.json()})
+        return res.json()})
     .then(data=>{
         document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
@@ -175,6 +175,7 @@
           const editor = document.createElement("button");
           editor.id ="buttonEditUser" //Id para usar luego para activar el boton para editar el perfil
           editor.textContent= "Editar perfil";
+
           editor.addEventListener("click", async(v)=>{
             v.preventDefault()
             
@@ -242,36 +243,45 @@ form.appendChild(buttonSave);
 place.appendChild(form);
 document.body.appendChild(place);
 
-form.addEventListener("submit", (v)=>{
+form.addEventListener("submit", async (v)=>{
   v.preventDefault();
-  const changeForm= v.target;
-})
-            fetch(`${UrlApi}/api/inciar_sesion/${idUsuario}`,{
-              method: "PUT"
-            })
-            .then(res => {
-        if(!res.ok){
-          throw new Error("Error con el servidor");
-        }
-        res.json()})
-            .then(data=>{
-              const mensaje =  answer.text()
-              mensajePorPantalla(mensaje);
+  const changeForm = new formData(form);
 
-            })
-            .catch()
-          })//funcion que permite editar los datos del usuario
+  const newData ={
+    name: changeForm.get("nombre"),
+    biography: changeForm.get("desccription"),
+    mail: changeForm.get("mail"),
+    dateBirthday:changeForm.get("dateBirthday"),
+    password:changeForm.get("contraseña"),
+    country:changeForm.get("country")
+  };
+  try{
+   const response = await fetch(`${UrlApi}/api/inciar_sesion/${idUsuario}`,{
+              method: "PUT",
+              headers:{"Content-Type":"aplication/json"},
+              body: JSON.stringify(newData)
+            });
+            const result = await response.text();
+            mensajePorPantalla(result);
+          }
+        catch(error){
+          mensajePorPantalla("Error al actualizar perfil");
+          console.error("Error al actualizar perfil", error);
+        }
+      })
+        
+        //funcion que permite editar los datos del usuario
 
 
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
           placeEditor.appendChild(spaceEditor)
 
-        }
-        //El lugar de guardar las obras
-      })
+        })
         
-    .catch(error => {console.error ('Error:', error)})
+         
+      
+    .catch(error => {console.error ('Error:', error)})}})
   </script>
   <script>
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
@@ -281,4 +291,3 @@ form.addEventListener("submit", (v)=>{
   </script>
 </body>
 </html>
-
