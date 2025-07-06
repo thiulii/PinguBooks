@@ -30,7 +30,7 @@
           </li>
           <li>
           <li class="nav.item">
-            <a class="nav-link" href="perfil_autor.html"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <a class="nav-link" href="perfil_autor.html" id="miPerfil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
               </svg>Perfil </a>
           </li>
@@ -81,18 +81,19 @@
   <div class="container perfil-container">
     <div class="row text-center">
 
-      <div class="col-md-4">
-        <div class="foto-perfil mb-3"></div>
-        <p><strong>Nombre:</strong> Carolina Pizzul</p>
-        <p><strong>Fecha de nacimiento:</strong> 24/02/2024</p>
-        <p><strong>País:</strong> Argentina</p>
-        <p><strong>Fecha de ingreso:</strong> 13/06/2025</p>
+      <div class="col-md-4" id="autorContent">
+        <div class="foto-perfil mb-3"
+        id="photoUser"></div>
+        <p><strong id="username">Nombre:</strong> Carolina Pizzul</p>
+        <p><strong id="dateBirthday">Fecha de nacimiento:</strong> 24/02/2024</p>
+        <p><strong id="country">País:</strong> Argentina</p>
+        <p><strong id="dateLogin">Fecha de ingreso:</strong> 13/06/2025</p>
         <p><strong>Cantidad de obras:</strong> 3</p>
-        <p><strong>Puntuación promedio:</strong> 4.5</p>
+        <p><strong id="punctuation">Puntuación promedio:</strong> 4.5</p>
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
-        <p>holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!!</p>
+        <p id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!!</p>
 
         <h5 class="mt-4">Historias:</h5>
         <div class="row text-center">
@@ -107,7 +108,186 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"> </script>
+  
+  <script type="text/javascript">
+    const UrlApi ="http://localhost:3000"
+    function mensajePorPantalla(mensaje){
+    const oldPlaceMensaje = document.getElementById("AnuncioDeWeb");
+    if (oldPlaceMensaje) {
+      oldPlaceMensaje.remove();
+    }
+    const placeMensaje = document.createElement("div");
+    placeMensaje.id = "anuncioDeWeb"
+    const announcement =document.createElement("h3");
+    const howdelete =document.createElement("p")
+    announcement.textContent = mensaje 
+    howdelete.textContent="(haz click para eliminar este mensaje)";
+    placeMensaje.appendChild(announcement);
+    placeMensaje.appendChild(howdelete);
+    document.body.appendChild(placeMensaje);
+
+    placeMensaje.onclick=()=>{
+      placeMensaje.remove();
+    }
+  }
+ 
+   const urlParams= new URLSearchParams(window.location.search);
+   const id = urlParams.get("id");
+  let idUsuario = localStorage.getItem("idUsuario");
+
+      if(isNaN(id)){
+        if(!idUsuario){
+          const screen = document.createElement("div");
+          const mensaje = "Debes iniciar sesión para ver tu perfil";
+          mensajePorPantalla(mensaje);
+          const invite = document.createElement("a");
+          invite.textContent="Inicio de sesion"
+          invite.href ="iniciar_sesion.html";
+          screen.id = "linkDeWeb";
+
+          screen.appendChild(invite);
+          document.body.appendChild(screen);
+        }
+      else{
+        mensajePorPantalla("Error con la ruta para acceder al perfil");
+      }}
+
+      fetch(`${UrlApi}/api/perfil/${id}`) //me falta poner como aparece el perfil del usuario
+    .then(res => {
+        if(!res.ok){
+          mensajePorPantalla("Error con el perfil que se quiere ver");
+          throw new Error("Error con el servidor");
+        }
+        return res.json()})
+    .then(data=>{
+        document.getElementById("username").textContent = data.nombre;
+        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
+        document.getElementById("country").textContent = data.pais;
+        document.getElementById("datelogin").textContent = data.fecha_ingreso;
+        document.getElementById("punctuation").textContent = data.puntuacion_promedio_de_obras;
+        document.getElementById("photoUser").src= data.foto_perfil; //porque es imagen
+        document.getElementById("description").textContent = data.biografia;
+        
+        if(idUsuario === data.id_autor){
+          //Agregar opciones unicas para cuando el usuario entra a su perfil
+          const spaceEditor = document.createElement("div");
+          const editor = document.createElement("button");
+          editor.id ="buttonEditUser" //Id para usar luego para activar el boton para editar el perfil
+          editor.textContent= "Editar perfil";
+
+          editor.addEventListener("click", async(v)=>{
+            v.preventDefault()
+            
+            const place = document.createElement("div");
+            place.id= "registro-container";
+
+            const form = document.createElement("form");
+            form.id ="ChangeUser";
+
+            const inputName=document.createElement("input");
+            inputName.type="text";
+            inputName.name="nombre";
+            inputName.classList.add("form-control");
+            inputName.placeholder="Nuevo nombre de usuario";
+            inputName.value= data.nombre;
+
+            const inputMail=document.createElement("input");
+            inputMail.type="email";
+            inputMail.name="mail";
+            inputMail.classList.add("form-control");
+            inputMail.placeholder="Nuevo correo";
+            inputMail.value= data.mail;
+
+            const inputPassword=document.createElement("input");
+            inputPassword.type="password";
+            inputPassword.name="contraseña";
+            inputPassword.placeholder="Nueva contraseña";
+            inputPassword.classList.add("form-control");
+          
+
+            const inputDateBirthday = document.createElement("input");
+            inputDateBirthday.type= "date";
+            inputDateBirthday.name="dateBirthday";
+            inputDateBirthday.classList.add("form-control");
+            inputDateBirthday.placeholder="Fecha de nacimiento";
+            inputDateBirthday.value = data.fecha_de_nacimiento;
+
+            const inputCountry =document.createElement("input");
+inputCountry.type="text";
+inputCountry.classList.add("form-control");
+inputCountry.name="country";
+inputCountry.placeholder="Pais";
+inputCountry.value= data.pais;
+
+const textDescrip = document.createElement("textarea");
+textDescrip.name="description";
+textDescrip.placeholder ="Nueva biografia"
+textDescrip.value=data.biografia
+textDescrip.classList.add("form-control");
+
+form.appendChild(inputName);
+form.appendChild(inputMail);
+form.appendChild(inputPassword);
+form.appendChild(inputDateBirthday);
+form.appendChild(inputCountry);
+form.appendChild(textDescrip);
+
+const buttonSave = document.createElement("button")
+buttonSave.textContent="Guardar cambios";
+buttonSave.type="submit";
+buttonSave.classList.add("form-control");
+
+
+form.appendChild(buttonSave);
+place.appendChild(form);
+document.body.appendChild(place);
+
+form.addEventListener("submit", async (v)=>{
+  v.preventDefault();
+  const changeForm = new formData(form);
+
+  const newData ={
+    name: changeForm.get("nombre"),
+    biography: changeForm.get("desccription"),
+    mail: changeForm.get("mail"),
+    dateBirthday:changeForm.get("dateBirthday"),
+    password:changeForm.get("contraseña"),
+    country:changeForm.get("country")
+  };
+  try{
+   const response = await fetch(`${UrlApi}/api/inciar_sesion/${idUsuario}`,{
+              method: "PUT",
+              headers:{"Content-Type":"aplication/json"},
+              body: JSON.stringify(newData)
+            });
+            const result = await response.text();
+            mensajePorPantalla(result);
+          }
+        catch(error){
+          mensajePorPantalla("Error al actualizar perfil");
+          console.error("Error al actualizar perfil", error);
+        }
+      })
+        
+        //funcion que permite editar los datos del usuario
+
+
+          const placeEditor = document.getElementById("autorContent");
+          spaceEditor.appendChild(editor);
+          placeEditor.appendChild(spaceEditor)
+
+        })
+        
+         
+      
+    .catch(error => {console.error ('Error:', error)})}})
+  </script>
+  <script>
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+      let idUsuario = localStorage.getItem("idAutor");
+    window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    })
+  </script>
 </body>
 </html>
-

@@ -9,7 +9,7 @@ CREATE TABLE autores (
     puntuacion_promedio_de_obras INT DEFAULT 0, 
     fecha_ingreso DATE DEFAULT CURRENT_DATE, 
     pais VARCHAR(50), 
-    foto_perfil VARCHA
+    foto_perfil VARCHAR
 );
 
 DROP TABLE IF EXISTS obras CASCADE;

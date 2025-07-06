@@ -4,12 +4,12 @@ const { Pool } = require("pg");         // Pool es para evitar conect y end en c
                                         // Pool para manejar conexiones de forma eficiente
 const dbPinguBooks = new Pool({
 
-  user: "postgres",
-  password: "postgres",
-  host: "localhost",
-  port: 5432,
-  database: "pingubooks",
-});
+user:"postgres",
+password: "postgres",
+host:"localhost",
+port: 5432,
+database:"PinguBooks",
+})
 
 
 // TABLA AUTORES
@@ -32,15 +32,25 @@ async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña
 
 // Compara si el mail ya existe en la base de datos
 async function comparisonMail(mail) {
+  try{
   const res = await dbPinguBooks.query("SELECT * FROM autores WHERE mail = $1", [mail]);
   return res.rowCount === 0 ? undefined : res.rows[0];
 }
+catch(err){
+  console.error("Error al comparar mails:", err);
+  return undefined;
+}}
 
 // Verifica si la contraseña coincide con el mail dado
 async function changeUser(mail, password) {
-  const res = await dbPinguBooks.query("SELECT contraseña FROM autores WHERE mail = $1", [mail]);
+  try{
+  const res = await dbPinguBooks.query("SELECT id_autor, contraseña FROM autores WHERE mail = $1", [mail]);
   if (res.rowCount === 0 || res.rows[0].contraseña !== password) return undefined;
-  return res.rows[0];
+  return res.rows[0].id_autor;
+}
+catch(err){
+  console.error("Error:", err);
+  return undefined;}
 }
 
 // Verifica si el autor de una obra coincide con el usuario dado
