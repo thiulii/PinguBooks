@@ -40,9 +40,14 @@ catch(err){
 
 // Verifica si la contraseña coincide con el mail dado
 async function changeUser(mail, password) {
+  try{
   const res = await dbPinguBooks.query("SELECT id_autor, contraseña FROM autores WHERE mail = $1", [mail]);
   if (res.rowCount === 0 || res.rows[0].contraseña !== password) return undefined;
   return res.rows[0].id_autor;
+}
+catch(err){
+  console.error("Error:", err);
+  return undefined;}
 }
 
 // Verifica si el autor de una obra coincide con el usuario dado

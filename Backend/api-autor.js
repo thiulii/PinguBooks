@@ -106,17 +106,22 @@ app.put("/api/inciar_sesion/id", async (req, res)=>{
 
   
 app.post("/api/inciar_sesion", async (req, res)=>{
+    try{
     const mail= req.body.mail;
     const password= req.body.password; 
 
     if((mail===undefined) || (password===undefined)){
-        return res.sendStatus(404).send("Error al crear ingresar en usuario. Todos los campos deben estar llenos");
+        return res.sendStatus(404).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
     }
     const verify = await changeUser(mail, password)
     if(verify===undefined){
-        return res.status(401).send("contraseña incorrecta")
+        return res.status(401).json({mensaje:"Error al iniciar sesion"})
     }
     return res.status(200).json({usuario:verify, mensaje:"contraseña correcta"})
+}
+catch(error){
+    return res.status(500).json({error: `error de servidor`});
+}
 }
 )
 

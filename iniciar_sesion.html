@@ -137,14 +137,14 @@
       localStorage.setItem("idAutor",response.usuario);
       window.location.href = `perfil_autor.html?id=${response.usuario}`;
     }
-    const mensaje = await response.mensaje;
+    const mensaje = response.mensaje;
      mensajePorPantalla(mensaje);
   }
   catch(error)  {
-      console.error ('Error:', error)
+    console.error ('Error:', error);
     mensajePorPantalla("Error con el servidor");}
   })
-  
+
   document.getElementById("miPerfil").addEventListener("click", (e)=>{
     let idUsuario = localStorage.getItem("idAutor");
   window.location.href =`perfil_autor.html?id=${idUsuario}`;
