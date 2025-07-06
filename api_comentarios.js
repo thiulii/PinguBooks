@@ -82,3 +82,16 @@ app.delete("/comentarios/:id_comentario", async (req, res) => {
   return res.status(200).json({ status: "OK" });
 });
 
+// Evita borrar todos
+app.delete("/comentarios", (req, res) => {
+  return res.status(403).json({ error: "No podés eliminar todos los comentarios" });
+});
+
+// Evita modificar todos
+app.put("/comentarios", (req, res) => {
+  return res.status(403).json({ error: "No podés modificar todos los comentarios" });
+});
+
+app.listen(port, () => {
+  console.log(`hola estamos en el puerto ${port}`);
+});
