@@ -223,7 +223,7 @@ padding: "20px";
 
 #anuncioDeWeb {
   position: fixed;
-  bottom: 30px;
+  bottom: 50px;
   background-color: var(--color-secundario);
   transition: transform 0.5s ease, background-color 0.4s ease;
   border-radius: 5px ;
@@ -240,4 +240,13 @@ padding: "20px";
 }
 #anuncioDeWeb h3 {
  color: white;
+}
+#linkDeWeb{
+  position: fixed;
+  bottom: 10px;
+  background-color: var(--color-secundario);
+  border-radius: 5px ;
+  cursor: pointer;
+  padding: 10px 10px;
+  right:30px ;
 }

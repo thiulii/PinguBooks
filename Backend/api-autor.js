@@ -1,8 +1,10 @@
 const express =require("express");
 const app = express();
+//const cors = require("cors");
 const port=3000;
 const path = require("path")
 app.use(express.json());
+//app.use(cors());
 const {  getAllAutores,
     createdUser,
     comparisonMail,
@@ -21,15 +23,6 @@ app.get("/api/perfil/:id", async (req, res)=>{
     if(!id || isNaN(id)){
         return res.status(400).json({error: "error de id"}); 
     }
-    console.log(id);
-    try {
-        const user = await getAutor(id);
-        console.log("Resultado de getAutor:", user);
-      } catch (err) {
-        console.error("Error dentro de getAutor:", err);
-      }
-
-
     try{
         console.log(id)
         const user = await getAutor(id);
@@ -48,7 +41,7 @@ app.get("/api/perfil/:id", async (req, res)=>{
         return res.status(500).json({error: "error de servidor aqui"});
     }
 })
-app.delete("/perfil/:id", (req, res)=>{
+app.delete("/perfil/id", (req, res)=>{
     const idAutor = req.params.id
     const user =deleteAutor(idAutor);
     if(user===true){
@@ -56,7 +49,7 @@ app.delete("/perfil/:id", (req, res)=>{
     }
     return  res.status(404).send("Problema al eliminar usuario")
 })
-app.put("/api/inciar_sesion/:id", async (req, res)=>{
+app.put("/api/inciar_sesion/id", async (req, res)=>{
     const id = req.params.id;
     const name =req.body.name;
     const biography = req.body.biography;
