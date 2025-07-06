@@ -401,7 +401,7 @@ app.post("/comentarios", async (req, res) => {
   const { id_usuario, id_obra, estrellas, contenido } = req.body;
 
   if (!id_usuario) {
-    return res.redirect("/inicio_sesion.html");
+    return res.redirect("/iniciar_sesion.html");
   }
 
   if (!contenido || isNaN(id_obra) || isNaN(estrellas) || estrellas < 0 || estrellas > 5) {
@@ -422,7 +422,7 @@ app.put("/comentarios/:id_comentario", async (req, res) => {
   const id_comentario = parseInt(req.params.id_comentario);
   const { id_usuario, contenido, estrellas } = req.body;
 
-  if (!id_usuario) return res.redirect("/inicio_sesion.html");
+  if (!id_usuario) return res.redirect("/iniciar_sesion.html");
   if (!contenido || isNaN(estrellas) || estrellas < 0 || estrellas > 5) {
     return res.status(400).json({ error: "Datos inválidos" });
   }
@@ -443,7 +443,7 @@ app.delete("/comentarios/:id_comentario", async (req, res) => {
   const id_comentario = parseInt(req.params.id_comentario);
   const { id_usuario } = req.body;
 
-  if (!id_usuario) return res.redirect("/inicio_sesion.html");
+  if (!id_usuario) return res.redirect("/iniciar_sesion.html");
 
   const autorComentario = await getComentarioOwner(id_comentario);
   if (!autorComentario || autorComentario.id_usuario !== id_usuario) {
