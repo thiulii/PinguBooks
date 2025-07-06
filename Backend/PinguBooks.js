@@ -129,7 +129,7 @@ async function deleteObra(id_obra) {
 }
 
 // Modifica una obra por su ID (mantiene puntuación intacta)
-async function modifyObra(id_obra, titulo, portada, descripcion, tags, fecha_publicacion, id_autor, contenido) {
+async function modifyObra(id_obra, titulo, portada, descripcion, tags, fecha_publicacion, id_autor, puntuacion, contenido) {
   try {
     await dbPinguBooks.query(`
       UPDATE obras
@@ -138,9 +138,10 @@ async function modifyObra(id_obra, titulo, portada, descripcion, tags, fecha_pub
           descripcion = COALESCE($3, descripcion),
           fecha_de_publicacion = COALESCE($4, fecha_de_publicacion),
           id_autor = COALESCE($5, id_autor),
-          contenido = COALESCE($6, contenido)
+          contenido = COALESCE($6, contenido),
+          puntuacion =  COALESCE($8, puntuacion)
       WHERE id_obras = $7
-    `, [titulo, portada, descripcion, fecha_publicacion, id_autor, contenido, id_obra]);
+    `, [titulo, portada, descripcion, fecha_publicacion, id_autor, contenido, id_obra, puntuacion]);
 
     if (tags) {
       await dbPinguBooks.query("DELETE FROM obra_tag WHERE id_obra = $1", [id_obra]);
@@ -250,7 +251,7 @@ async function createTag(nombre, descripcion) {
 async function modifyTag(nombre, descripcion) {
   try {
     const res = await dbPinguBooks.query(
-      "UPDATE tags SET descripcion = $1 WHERE nombre = $2 RETURNING *",
+      "UPDATE tags SET descripcion = $1 WHERE nombre = $2 RETURNING *;",
       [descripcion, nombre]
     );
     return res.rowCount === 0 ? undefined : res.rows[0];
@@ -263,7 +264,7 @@ async function modifyTag(nombre, descripcion) {
 // Elimina un tag por su nombre
 async function deleteTag(nombre) {
   try {
-    const res = await dbPinguBooks.query("DELETE FROM tags WHERE nombre = $1 RETURNING *", [nombre]);
+    const res = await dbPinguBooks.query("DELETE FROM tags WHERE nombre = $1 RETURNING *;", [nombre]);
     return res.rowCount === 0 ? undefined : res.rows[0];
   } catch (err) {
     console.error("Error al eliminar tag:", err);
@@ -273,8 +274,118 @@ async function deleteTag(nombre) {
 
 // Devuelve todos los comentarios de una obra
 async function getAllComentarios(idObra) {
-  const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1", [idObra]);
-  return res.rows;
+  try {
+    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_obra = $1 ORDER BY fecha_de_publicacion desc", [idObra]);
+    return res.rows;
+  } catch(err){
+    console.error("Error al conseguir comentarios: ", err);
+    return undefined
+  }
+}
+
+async function getComentario(idComentario){
+  try{
+    const res = await dbPinguBooks.query("SELECT * FROM comentarios WHERE id_comentarios = $1;", [idComentario]);
+    return res.rows[0];
+  } catch(err){
+    console.error("Error al conseguir el comentario: ", err);
+    return undefined;
+  }
+}
+
+async function modifyObraRating(id_obra){
+  try{
+    const total = await dbPinguBooks.query(`
+      SELECT count(*) AS cantidad, sum(c.estrellas) AS suma_estrellas
+      FROM comentarios c
+      WHERE id_obra = $1`, [id_obra]);
+    const nuevo_tot_est = total.rows[0];
+    const cantidad = parseInt(nuevo_tot_est.cantidad);
+    const suma = parseInt(nuevo_tot_est.suma_estrellas);
+    
+    let promedio;
+    if (cantidad == 0){
+      promedio = 0
+    } else{
+      promedio = suma / cantidad
+    }
+
+    const res = await modifyObra(id_obra, null, null, null, null, null, null, promedio, null);
+    if (res === undefined){
+      return undefined;
+    }
+    return true;
+  } catch {
+    return undefined;
+  }
+}
+
+
+async function createComentario(usuario, obra, estrellas, contenido){
+  try{
+    const res = await dbPinguBooks.query(`
+      INSERT INTO comentarios (id_usuario, id_obra, estrellas, contenido_comentario)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;`, [usuario, obra, estrellas, contenido]);
+    const modificacion = await modifyObraRating(obra);
+    if (! modificacion){
+      return undefined;
+    }  
+    return res.rows[0];
+  } catch(err){
+    console.error("Error al crear el comentario: ", err)
+    return undefined;
+  }
+}
+
+
+async function modifyComentario(id, contenido, estrellas){
+  try{
+    const res = await dbPinguBooks.query(`
+      UPDATE comentarios
+      SET contenido_comentario = COALESCE($2, contenido_comentario),
+      estrellas = COALESCE($3, estrellas)
+      WHERE id_comentarios = $1
+      RETURNING *`, [id, contenido, estrellas]);
+    const modificacion = await modifyObraRating(res.rows[0].id_obra);
+    if (! modificacion){
+      return undefined;
+    }
+    return res.rows[0];
+
+  } catch(err){
+    console.error("Error al modificar comentario", err);
+    return undefined;
+  }
+}
+
+async function deleteComentario(id){
+  try{
+    const res = await dbPinguBooks.query(`
+    DELETE FROM comentarios WHERE id_comentarios = $1
+    RETURNING *`, [id]);
+
+    const modificacion = await modifyObraRating(res.rows[0].id_obra);
+    if (! modificacion){
+      return undefined;
+    }  
+    return res.rows[0];
+  } catch(err) {
+    console.error("Error al eliminar comentario:", err);
+    return undefined;
+  }
+}
+
+async function getOwner(id){
+  try{
+    const res = await getComentario(id);
+    if (res === undefined){
+      return undefined;
+    }
+    return res.id_usuario;
+  } catch(err){
+    return undefined;
+  }
 }
 
 // EXPORTACION DE FUNCIONES
@@ -283,7 +394,7 @@ module.exports = {
   createdUser,
   comparisonMail,
   changeUser,
-  verifyUser,
+  verifyUser, 
   getAutor,
   deleteAutor,
   modifyAutor,
@@ -300,5 +411,10 @@ module.exports = {
   modifyTag,
   deleteTag,
 
-  getAllComentarios
+  getAllComentarios,
+  getComentario,
+  createComentario,
+  modifyComentario,
+  deleteComentario,
+  getOwner
 };
