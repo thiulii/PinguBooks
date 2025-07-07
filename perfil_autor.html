@@ -149,8 +149,8 @@
       window.location.href =`perfil_autor.html?id=${idUsuario}`;
     })
 
-//.trim() para ver que no sea cadena vacia
-      if(isNaN(id) || !idString?.trim()){
+
+      if(isNaN(id) || !idString){
         if(!idUsuario){
           window.location.href=`iniciar_sesion.html`;
         }
@@ -162,7 +162,14 @@
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => {
         if(!res.ok){
+          document.getElementById("username").textContent = "(SIn nombre)";
+        document.getElementById("dateBirthday").textContent ="18/12/2022";
+        document.getElementById("country").textContent = "(Sin país)";
+        document.getElementById("dateLogin").textContent = "18/12/2022";
+        document.getElementById("photoUser").src ="./media/pinguperfil.jpg";
+        document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
           mensajePorPantalla("Error con el id del perfil que se quiere ver");
+
           throw new Error("Error con el servidor");
         }
         return res.json()})
@@ -175,9 +182,7 @@
         document.getElementById("description").textContent = data.biografia;
 
         idUsuarioNumber= parseInt(idUsuario);
-        document.getElementById("sesion").addEventListener("click", (e)=>{
-      e.preventDefault();
-      window.location.href =`iniciar_sesion.html`;})
+        
        
 
         if(idUsuarioNumber === id){
