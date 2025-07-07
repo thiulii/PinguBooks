@@ -89,11 +89,20 @@
         <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday">24/02/2024</span></p>
         <p><strong >País:</strong> <span id="country">Argentina</span></p>
         <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
+        <div class="foto-perfil mb-3"> <img 
+        id="photoUser" alt="Foto de perfil del usuario"></div>
+        
+        <p><strong>Nombre:</strong> <span id="username"> Carolina Pizzul </span></p>
+        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday">24/02/2024</span></p>
+        <p><strong >País:</strong> <span id="country">Argentina</span></p>
+        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
         <p><strong>Cantidad de obras:</strong> 3</p>
+        <p><strong >Puntuación promedio:</strong> 4.5</p>
         <p><strong >Puntuación promedio:</strong> 4.5</p>
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
+        <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
         <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
 
         <h5 class="mt-4">Historias:</h5>
@@ -114,6 +123,7 @@
   <script type="text/javascript">
     const UrlApi ="http://localhost:3000"
     function mensajePorPantalla(mensaje){
+    const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
       oldPlaceMensaje.remove();
@@ -168,11 +178,14 @@
         document.getElementById("country").textContent = data.pais;
         document.getElementById("dateLogin").textContent = data.fecha_ingreso;
         document.getElementById("photoUser").src =data.foto_perfil;
+        document.getElementById("dateLogin").textContent = data.fecha_ingreso;
+        document.getElementById("photoUser").src =data.foto_perfil;
         document.getElementById("description").textContent = data.biografia;
         
         if(idUsuario === data.id_autor){
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
+          editor.id ="buttonEditUser" 
           editor.id ="buttonEditUser" 
           editor.textContent= "Editar perfil";
 
@@ -282,6 +295,7 @@ form.addEventListener("submit", async (v)=>{
       let idUsuario = localStorage.getItem("idAutor");
     window.location.href =`perfil_autor.html?id=${idUsuario}`;
     })
+
 
   </script>
 </body>
