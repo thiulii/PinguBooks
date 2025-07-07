@@ -44,7 +44,6 @@ app.get("/autores/:id", async (req, res)=>{
       return res.status(400).json({error: "error de id"}); 
   }
   try{
-      console.log(id)
       const user = await getAutor(id);
   if(user===undefined){
       return  res.status(404).json({
@@ -53,7 +52,6 @@ app.get("/autores/:id", async (req, res)=>{
           linkLogin: "../iniciar_sesion.html"
       }) //Envio el link para que vayan a ingresarse
   }
-  console.log(user);
   return res.status(200).json(user); //envio el usuario para que se muestre por frontend
   }
   catch (error){
@@ -62,13 +60,16 @@ app.get("/autores/:id", async (req, res)=>{
       return res.status(500).json({error: "error de servidor aqui"});
   }
 })
-app.delete("/autores/:id", (req, res)=>{
+app.delete("/autores/:id", async (req, res)=>{
   const idAutor = req.params.id
-  const user =deleteAutor(idAutor);
-  if(user===true){
+  const user = await deleteAutor(idAutor);
+  try{if(user===true){
       res.status(200).send("Se borro el usuario")
   }
-  return  res.status(404).send("Problema al eliminar usuario")
+  return  res.status(404).send("Problema al eliminar usuario")}
+  catch (error){
+    return res.status(500).json({error: "error de servidor /autores/:id delete"});
+}
 })
 app.put("/autores/:id", async (req, res)=>{
   const id = req.params.id;
@@ -85,8 +86,9 @@ app.put("/autores/:id", async (req, res)=>{
   const user = await modifyAutor(id, name, biography, dateBirthday, mail, password, country, photo );
   try{
     if(user===true){
+        
       return res.status(200).send("Se cambio el usuario")
-  }
+  }  
       return  res.status(404).send("Problema al cambiar datos del usuario")
   }  
   catch (error){
@@ -105,7 +107,7 @@ app.post("/autores",async (req, res)=>{
   const fechaNacimiento = req.body.dateBirthday;
   const contraseña= req.body.password; 
   const pais=req.body.country;
-  const foto = req.body.foto_perfil;
+  let foto = req.body.foto_perfil;
   if(!nombre || !fechaNacimiento || !mail || !contraseña ){
         return res.status(404).send("Error al crear usuario. Todos los campos deben estar llenos");
   }
@@ -114,12 +116,15 @@ app.post("/autores",async (req, res)=>{
       if(validationMail !== undefined){
       return res.status(409).send("El mail otorgado ya esta en uso"); 
       }
+      if(!foto){
+        foto="./media/pinguperfil.jpg";
+      }
     const userName = await createdUser(nombre,  biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais, foto);
     return res.status(201).send("Se creo usuario, puedes inicar seccion")
          
   }
   catch (error){
-      return res.status(500).json({error: "error de servidor /api/registro en comparisonMail"});
+      return res.status(500).json({error: "error de servidor /autores post"});
   }
 
 })
@@ -129,7 +134,7 @@ app.post("/iniciar_sesion", async (req, res)=>{
   const password= req.body.password; 
 
   if((mail===undefined) || (password===undefined)){
-      return res.sendStatus(404).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
+      return res.tatus(404).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
   }
   const verify = await changeUser(mail, password)
   if(verify===undefined){

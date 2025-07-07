@@ -24,8 +24,8 @@ async function getAllAutores() {
 // Crea un nuevo autor y lo devuelve
 async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion = 0, fechaIngreso = new Date(), pais, foto) {
  try{ const res = await dbPinguBooks.query(
-    "INSERT INTO autores (nombre, biografia, fecha_de_nacimiento, mail, contraseña, puntuacion_promedio_de_obras, fecha_ingreso, pais, foto_perfil) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
-    [nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais,]
+    "INSERT INTO autores (nombre, biografia, fecha_de_nacimiento, mail, contraseña, puntuacion_promedio_de_obras, fecha_ingreso, pais, foto_perfil) VALUES ($1,$2,$3,$4,$5,$6,$7,$8, $9) RETURNING *",
+    [nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais,foto]
   );
   return res.rows[0];
 }

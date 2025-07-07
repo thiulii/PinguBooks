@@ -30,7 +30,7 @@
           </li>
           <li>
           <li class="nav.item">
-            <a class="nav-link" href="perfil_autor.html" id="miPerfil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <a class="nav-link" id="miPerfil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
               </svg>Perfil </a>
           </li>
@@ -74,22 +74,16 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <div><a class="btn btn-outline-success" href="iniciar_sesion.html"><span id="sesion">Iniciar sesion</span> </a></div>
       </div>
     </div>
   </nav>
 
-  <div class="container perfil-container">
+  <div  id="autorContent" class="container perfil-container">
     <div class="row text-center">
 
-      <div class="col-md-4" id="autorContent">
-        <div class="foto-perfil mb-3"> <img 
-        id="photoUser" alt="Foto de perfil del usuario"></div>
-        
-        <p><strong>Nombre:</strong> <span id="username"> Carolina Pizzul </span></p>
-        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday">24/02/2024</span></p>
-        <p><strong >País:</strong> <span id="country">Argentina</span></p>
-        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
-        <div class="foto-perfil mb-3"> <img 
+      <div class="col-md-4">
+        <div class="foto-perfil mb-3"> <img class="img-fluid rounded"
         id="photoUser" alt="Foto de perfil del usuario"></div>
         
         <p><strong>Nombre:</strong> <span id="username"> Carolina Pizzul </span></p>
@@ -98,15 +92,15 @@
         <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
         <p><strong>Cantidad de obras:</strong> 3</p>
         <p><strong >Puntuación promedio:</strong> 4.5</p>
-        <p><strong >Puntuación promedio:</strong> 4.5</p>
+        
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
         <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
-        <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
+        
 
         <h5 class="mt-4">Historias:</h5>
-        <div class="row text-center">
+        <div class="row text-center" id="obrasContainer">
           <div class="col-4 mb-4"><a href="libro1.html"><img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" /></a><div class="libro-nombre">Libro 1</div></div>
           <div class="col-4 mb-4"><a href="libro2.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 2" /></a><div class="libro-nombre">Libro 2</div></div>
           <div class="col-4 mb-4"><a href="libro3.html"></a><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 3" /></a><div class="libro-nombre">Libro 3</div></div>
@@ -123,7 +117,6 @@
   <script type="text/javascript">
     const UrlApi ="http://localhost:3000"
     function mensajePorPantalla(mensaje){
-    const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
       oldPlaceMensaje.remove();
@@ -144,21 +137,22 @@
     }
  
     const urlParams= new URLSearchParams(window.location.search);
-    const id = parseInt(urlParams.get("id"));
-    console.log(id);
+    const idString= urlParams.get("id");
+    const id = Number(urlParams.get("id")); //Number version mejorada de parseInt
+    
     let idUsuario = localStorage.getItem("idUsuario");
+    
+   
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+      e.preventDefault();
+      let idUsuario = localStorage.getItem("idUsuario");
+      window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    })
 
-      if(isNaN(id) || !urlParams){
+//.trim() para ver que no sea cadena vacia
+      if(isNaN(id) || !idString?.trim()){
         if(!idUsuario){
-          const screen = document.createElement("div");
-          const mensaje = "Debes iniciar sesión para ver tu perfil";
-          mensajePorPantalla(mensaje);
-          const invite = document.createElement("a");
-          invite.textContent="Inicio de sesion"
-          invite.href ="iniciar_sesion.html";
-          screen.id = "linkDeWeb";
-          screen.appendChild(invite);
-          document.body.appendChild(screen);
+          window.location.href=`iniciar_sesion.html`;
         }
       else{
         mensajePorPantalla("Error con la ruta para acceder al perfil");
@@ -168,26 +162,56 @@
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => {
         if(!res.ok){
-          mensajePorPantalla("Error con el perfil que se quiere ver");
+          mensajePorPantalla("Error con el id del perfil que se quiere ver");
           throw new Error("Error con el servidor");
         }
         return res.json()})
     .then(data=>{
-        document.getElementById("username").textContent = data.nombre ||"(No hay nombre)";
-        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento;
+        document.getElementById("username").textContent = data.nombre;
+        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento?.split("T")[0];
         document.getElementById("country").textContent = data.pais;
-        document.getElementById("dateLogin").textContent = data.fecha_ingreso;
-        document.getElementById("photoUser").src =data.foto_perfil;
-        document.getElementById("dateLogin").textContent = data.fecha_ingreso;
+        document.getElementById("dateLogin").textContent = data.fecha_ingreso?.split("T")[0];
         document.getElementById("photoUser").src =data.foto_perfil;
         document.getElementById("description").textContent = data.biografia;
-        
-        if(idUsuario === data.id_autor){
+
+        idUsuarioNumber= parseInt(idUsuario);
+        document.getElementById("sesion").addEventListener("click", (e)=>{
+      e.preventDefault();
+      window.location.href =`iniciar_sesion.html`;})
+       
+
+        if(idUsuarioNumber === id){
+
+          document.getElementById("sesion").textContent="Cerrar sesion";
+          document.getElementById("sesion").addEventListener("click", (e)=>{
+            e.preventDefault();
+            let idUsuario = localStorage.removeItem("idUsuario");
+            mensajePorPantalla("Se cerro sesion");
+            window.location.href =`iniciar_sesion.html`;
+          })
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
-          editor.id ="buttonEditUser" 
-          editor.id ="buttonEditUser" 
+          spaceEditor.id ="buttonEditUser" 
           editor.textContent= "Editar perfil";
+
+          const deleteUser= document.createElement("button");
+          deleteUser.textContent="Eliminar Usuario";
+          deleteUser.addEventListener("click", (v)=>{
+            v.preventDefault();
+            try{
+              const userDelete= fetch(`${UrlApi}/autores/${id}`,{
+                method: "DELETE"
+              });
+              mensajePorPantalla(userDelete);
+              if(userDelete.ok){
+                window.location.href =`iniciar_sesion.html`;
+              }
+            }
+            catch(error){
+                      mensajePorPantalla("Error al borrar el perfil");
+                      console.error("Error al borrar el perfil", error);
+                    }
+          })
 
           editor.addEventListener("click", async(v)=>{
             v.preventDefault()
@@ -204,6 +228,13 @@
             inputName.classList.add("form-control");
             inputName.placeholder="Nuevo nombre de usuario";
             inputName.value= data.nombre;
+
+            const inputPhoto=document.createElement("input");
+            inputPhoto.type="text";
+            inputPhoto.name="foto";
+            inputPhoto.classList.add("form-control");
+            inputPhoto.placeholder="Nueva foto";
+            inputPhoto.value= data.foto_perfil;
 
             const inputMail=document.createElement("input");
             inputMail.type="email";
@@ -238,63 +269,112 @@
             textDescrip.value=data.biografia
             textDescrip.classList.add("form-control");
 
-form.appendChild(inputName);
-form.appendChild(inputMail);
-form.appendChild(inputPassword);
-form.appendChild(inputDateBirthday);
-form.appendChild(inputCountry);
-form.appendChild(textDescrip);
+            form.appendChild(inputName);
+            form.appendChild(inputMail);
+            form.appendChild(inputPassword);
+            form.appendChild(inputDateBirthday);
+            form.appendChild(inputCountry);
+            form.appendChild(textDescrip);
+            form.appendChild(inputPhoto);
 
-const buttonSave = document.createElement("button")
-buttonSave.textContent="Guardar cambios";
-buttonSave.type="submit";
-buttonSave.classList.add("form-control");
+            const buttonSave = document.createElement("button")
+            buttonSave.textContent="Guardar cambios";
+            buttonSave.type="submit";
+            buttonSave.classList.add("form-control");
+
+            const buttonExit= document.createElement("button");
+            buttonExit.textContent="No cambiar nada";
+            buttonExit.type="button";
+            buttonExit.classList.add("form-control");
+
+            buttonExit.addEventListener("click", (v)=>{
+              v.preventDefault();
+              place.remove();
+            })
 
 
-form.appendChild(buttonSave);
-place.appendChild(form);
-document.body.appendChild(place);
+            form.appendChild(buttonSave);
+            place.appendChild(buttonExit);
+            place.appendChild(form);
+            document.body.appendChild(place);
 
-form.addEventListener("submit", async (v)=>{
-  v.preventDefault();
-  const changeForm = new FormData(form);
+            form.addEventListener("submit", async (v)=>{
+              v.preventDefault();
+              const changeForm = new FormData(form);
 
-  const newData ={
-    name: changeForm.get("nombre"),
-    biography: changeForm.get("description"),
-    mail: changeForm.get("mail"),
-    dateBirthday:changeForm.get("dateBirthday"),
-    password:changeForm.get("contraseña"),
-    country:changeForm.get("country")
-  };
-  try{
-   const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
-              method: "PUT",
-              headers:{"Content-Type":"application/json"},
-              body: JSON.stringify(newData)
-            });
-            const result = await response.text();
-            mensajePorPantalla(result);
-          }
-        catch(error){
-          mensajePorPantalla("Error al actualizar perfil");
-          console.error("Error al actualizar perfil", error);
-        }
-      })
+              const newData ={
+                name: changeForm.get("nombre"),
+                biography: changeForm.get("description"),
+                mail: changeForm.get("mail"),
+                dateBirthday:changeForm.get("dateBirthday"),
+                password:changeForm.get("contraseña"),
+                country:changeForm.get("country"),
+                photo:changeForm.get("foto")
+              };
+              try{
+                if(!name ||!dateBirthday || !mail || !password ){
+                  mensajePorPantalla("No se puede mandar campos vacios");
+                }
+              const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
+                          method: "PUT",
+                          headers:{"Content-Type":"application/json"},
+                          body: JSON.stringify(newData)
+                        });
+                        const result = await response.text();
+                        mensajePorPantalla(result);
+                        window.location.href = `perfil_autor.html?id=${idUsuario}`
+                      }
+              catch(error){
+                      mensajePorPantalla("Error al actualizar perfil");
+                      console.error("Error al actualizar perfil", error);
+                    }
+                  });
+                });
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
-          placeEditor.appendChild(spaceEditor)
-
+          spaceEditor.appendChild(deleteUser);
+          placeEditor.appendChild(spaceEditor);
+          document.body.appendChild(placeEditor);}
         })
-      }})
          
       
     .catch(error => {console.error ('Error:', error)})
+   
+    fetch()
+    .then(res => {
+        if(!res.ok){
+          throw new Error("Error con el servidor");
+        }
+        return res.json()})
+    .then(data=>{
+      
+      const placeObra = document.createElement("div");
+         placeAuthor.id ="obrasContainer"
+      data.obras.forEach ( obra=>{
+         const spaceObras = document.createElement("div");
+         spaceObras.classList.add("libro");
 
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      let idUsuario = localStorage.getItem("idAutor");
-    window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    })
+         const name = document.createElement("h6");
+         name.textContent = obra.nombre;  
+
+         const photoObra =document.createElement("img");
+         photoObra.src= obra.foto_perfil; //porque es imagen
+         photoObra.classList.add("autorFoto");
+         photoObra.alt= `Foto de la obra${obra.nombre}`;
+
+         const link = document.createElement("a");
+         link.href = `perfil_author.html?id=${obra.id}`; // ver si de verdad funciona
+         link.textContent ="Ver perfil";
+
+         spaceObras.appendChild(photoObra); 
+         spaceObras.appendChild(name); // ver si de verdad funciona
+         spaceObras.appendChild(link); 
+         placeObra.appendChild(spaceObras);
+  
+        })
+        document.body.appendChild(placeObra); 
+    }    )
+    .catch(error => {console.error ('Error:', error)})
 
 
   </script>
