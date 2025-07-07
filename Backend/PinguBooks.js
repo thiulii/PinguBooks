@@ -5,7 +5,7 @@ const { Pool } = require("pg");         // Pool es para evitar conect y end en c
 const dbPinguBooks = new Pool({
 
 user:"postgres",
-password: "postgres",
+password:'postgres',
 host:"localhost",
 port: 5432,
 database:"PinguBooks",
@@ -22,13 +22,17 @@ async function getAllAutores() {
 }
 
 // Crea un nuevo autor y lo devuelve
-async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion = 0, fechaIngreso = new Date(), pais) {
-  const res = await dbPinguBooks.query(
-    "INSERT INTO autores (nombre, biografia, fecha_de_nacimiento, mail, contraseña, puntuacion_promedio_de_obras, fecha_ingreso, pais) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
-    [nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais]
+async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion = 0, fechaIngreso = new Date(), pais, foto) {
+ try{ const res = await dbPinguBooks.query(
+    "INSERT INTO autores (nombre, biografia, fecha_de_nacimiento, mail, contraseña, puntuacion_promedio_de_obras, fecha_ingreso, pais, foto_perfil) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
+    [nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais,]
   );
   return res.rows[0];
 }
+catch(err){
+  console.error("Error al crear perfil:", err);
+  return undefined;
+}}
 
 // Compara si el mail ya existe en la base de datos
 async function comparisonMail(mail) {
@@ -62,8 +66,14 @@ async function verifyUser(idObra, idUsuario) {
 
 // Devuelve los datos de un autor según su ID
 async function getAutor(id_autor) {
+  try{
   const res = await dbPinguBooks.query("SELECT * FROM autores WHERE id_autor = $1", [id_autor]);
   return res.rowCount === 0 ? undefined : res.rows[0];
+}
+catch(err){
+  console.error("Error al buscar autor:", err);
+    return undefined;
+  }
 }
 
 // Elimina un autor por ID (sus obras se borran en cascada)

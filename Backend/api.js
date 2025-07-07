@@ -53,6 +53,7 @@ app.get("/autores/:id", async (req, res)=>{
           linkLogin: "../iniciar_sesion.html"
       }) //Envio el link para que vayan a ingresarse
   }
+  console.log(user);
   return res.status(200).json(user); //envio el usuario para que se muestre por frontend
   }
   catch (error){
@@ -95,15 +96,17 @@ app.put("/autores/:id", async (req, res)=>{
 
 // CREAR PERFIL POST
 app.post("/autores",async (req, res)=>{
-  const name =req.body.name;
-  const biography = req.body.biography;
+    console.log(req.body);
+    const puntuacion=0;
+    const fechaIngreso=new Date();
+  const nombre =req.body.name;
+  const biografia= req.body.biography;
   const mail= req.body.mail;
-  const dateBirthday = req.body.dateBirthday;
-  const password= req.body.password; 
-  const averageRatingWorks=req.body.averageRatingWorks;
-  const dateLogIn=req.body.dateLogIn;
-  const country=req.body.country;
-  if(!name || !dateBirthday || !mail || !password ){
+  const fechaNacimiento = req.body.dateBirthday;
+  const contraseña= req.body.password; 
+  const pais=req.body.country;
+  const foto = req.body.foto_perfil;
+  if(!nombre || !fechaNacimiento || !mail || !contraseña ){
         return res.status(404).send("Error al crear usuario. Todos los campos deben estar llenos");
   }
   const validationMail = await comparisonMail(mail);
@@ -111,21 +114,15 @@ app.post("/autores",async (req, res)=>{
       if(validationMail !== undefined){
       return res.status(409).send("El mail otorgado ya esta en uso"); 
       }
-      const userName = await createdUser(name, biography, dateBirthday, mail, password, averageRatingWorks, dateLogIn, country);
-      try{
-          return res.status(201).send("Se creo que usuario, puedes inicar seccion")
-          }
-      catch (error){
-          return res.status(500).json({error: "error de servidor /api/registro en createdUser"});
-      }
+    const userName = await createdUser(nombre,  biografia, fechaNacimiento, mail, contraseña, puntuacion, fechaIngreso, pais, foto);
+    return res.status(201).send("Se creo usuario, puedes inicar seccion")
+         
   }
   catch (error){
       return res.status(500).json({error: "error de servidor /api/registro en comparisonMail"});
   }
 
 })
-
-
 app.post("/iniciar_sesion", async (req, res)=>{
   try{
   const mail= req.body.mail;
@@ -145,7 +142,6 @@ catch(error){
 }
 }
 )
-
 app.get("/autores", async (req, res)=>{
   const autores= await getAllAutores()//funcion que mande a todos los autores con una obra en un array
   try{

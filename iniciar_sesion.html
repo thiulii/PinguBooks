@@ -127,14 +127,14 @@
       password: form.password.value
     };
   try{
-    const answer = await fetch(`${UrlApi}/api/iniciar_sesion`, {
+    const answer = await fetch(`${UrlApi}/iniciar_sesion`, {
       method: "POST",
       headers :{"Content-Type":"application/json"},
       body: JSON.stringify(data)
     });
     const response = await answer.json();
     if(answer.ok){
-      localStorage.setItem("idAutor",response.usuario);
+      localStorage.setItem("idAutor", response.usuario);
       window.location.href = `perfil_autor.html?id=${response.usuario}`;
     }
     const mensaje = response.mensaje;
