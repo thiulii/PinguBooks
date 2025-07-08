@@ -74,6 +74,7 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <div><a class="btn btn-outline-success" href="iniciar_sesion.html"><span id="sesion">Iniciar sesion</span> </a></div>
       </div>
     </div>
   </nav>
@@ -100,7 +101,7 @@
 <script type="text/javascript">
   const UrlApi ="http://localhost:3000";
   function mensajePorPantalla(mensaje){
-    const oldPlaceMensaje = document.getElementById("AnuncioDeWeb");
+    const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
       oldPlaceMensaje.remove();
     }
@@ -127,14 +128,14 @@
       password: form.password.value
     };
   try{
-    const answer = await fetch(`${UrlApi}/api/iniciar_sesion`, {
+    const answer = await fetch(`${UrlApi}/iniciar_sesion`, {
       method: "POST",
       headers :{"Content-Type":"application/json"},
       body: JSON.stringify(data)
     });
     const response = await answer.json();
     if(answer.ok){
-      localStorage.setItem("idAutor",response.usuario);
+      localStorage.setItem("idUsuario", response.usuario);
       window.location.href = `perfil_autor.html?id=${response.usuario}`;
     }
     const mensaje = response.mensaje;
@@ -144,11 +145,12 @@
     console.error ('Error:', error);
     mensajePorPantalla("Error con el servidor");}
   })
-
   document.getElementById("miPerfil").addEventListener("click", (e)=>{
-    let idUsuario = localStorage.getItem("idAutor");
-  window.location.href =`perfil_autor.html?id=${idUsuario}`;
-  })
+      e.preventDefault();
+      let idUsuario = localStorage.getItem("idUsuario");
+    window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    })
+  
 </script>
 
 </body>

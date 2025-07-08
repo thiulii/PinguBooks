@@ -211,14 +211,21 @@ padding: "20px";
 
 #buttonEditUser {
   display: block;
-  color: var(--color-secundario);
+  bottom: 50px;
+  background-color: blue;
+  transition: transform 0.5s ease, background-color 0.4s ease;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  padding: 10px 10px;
 }
 
 #buttonEditUser:hover {
   background-color: var(--color-principal);
+}
+#buttonEditUser button{
+  color: var(--color-texto);
+  transition: background-color 0.3s ease;
+
 }
 
 #anuncioDeWeb {
