@@ -33,13 +33,9 @@ const {  getAllAutores,
   getComentarioOwner
 } =require("./PinguBooks.js");
 
-
-//const { createdUser } = require("./db/PiguBooks");
-//const path =require("path");
-
 // SECCION AUTORES ------------------------------------------------------------
 app.get("/autores/:id", async (req, res)=>{
-  const id = Number(req.params.id);
+ const id = req.params.id;
   if(!id || isNaN(id)){
       return res.status(400).json({error: "error de id"}); 
   }
@@ -64,9 +60,9 @@ app.delete("/autores/:id", async (req, res)=>{
   const idAutor = req.params.id
   const user = await deleteAutor(idAutor);
   try{if(user===true){
-      res.status(200).send("Se borro el usuario")
+      return res.status(200).json("Se borro el usuario")
   }
-  return  res.status(404).send("Problema al eliminar usuario")}
+  return  res.status(404).json("Problema al eliminar usuario")}
   catch (error){
     return res.status(500).json({error: "error de servidor /autores/:id delete"});
 }
@@ -129,12 +125,14 @@ app.post("/autores",async (req, res)=>{
 
 })
 app.post("/iniciar_sesion", async (req, res)=>{
+
+
   try{
   const mail= req.body.mail;
   const password= req.body.password; 
 
-  if((mail===undefined) || (password===undefined)){
-      return res.tatus(404).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
+  if((!mail) || (!password)){
+      return res.status(400).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
   }
   const verify = await changeUser(mail, password)
   if(verify===undefined){

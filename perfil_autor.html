@@ -149,15 +149,12 @@
       window.location.href =`perfil_autor.html?id=${idUsuario}`;
     })
 
-
-      if(isNaN(id) || !idString){
-        if(!idUsuario){
-          window.location.href=`iniciar_sesion.html`;
-        }
-      else{
-        mensajePorPantalla("Error con la ruta para acceder al perfil");
-      }}
-
+ async function mostrarPerfil() {
+      if(isNaN(id) || idString === null || idString.trim() === ""){
+        mensajePorPantalla("Error con la ruta para acceder al perfil");}
+      if(!idUsuario){
+              window.location.href=`iniciar_sesion.html`;
+              return; }
    
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
     .then(res => {
@@ -193,6 +190,7 @@
             let idUsuario = localStorage.removeItem("idUsuario");
             mensajePorPantalla("Se cerro sesion");
             window.location.href =`iniciar_sesion.html`;
+            return;
           })
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
@@ -209,6 +207,7 @@
               });
               mensajePorPantalla(userDelete);
               if(userDelete.ok){
+                let idUsuario = localStorage.removeItem("idUsuario");
                 window.location.href =`iniciar_sesion.html`;
               }
             }
@@ -380,8 +379,8 @@
         document.body.appendChild(placeObra); 
     }    )
     .catch(error => {console.error ('Error:', error)})
-
-
+  }
+  mostrarPerfil();
   </script>
 </body>
 </html>
