@@ -352,7 +352,7 @@ app.get("/tags/:tag", async(req, res) =>{
     if (response === undefined) {
         return res.status(404).json({error: "no se ha encontrado el tag"});
     }
-    return res.status(200).json(tag);
+    return res.status(200).json(response);
 })
 
 app.post("/tags", async(req,res) => {
@@ -484,6 +484,18 @@ app.put("/comentarios", (req, res) => {
 
 
 app.get("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
+
+app.post("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+});
+
+app.delete("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
+
+app.put("/", (req, res) => {
     return res.status(400).json({ error: "No especificaste endpoint" });
   });
 
