@@ -1,4 +1,9 @@
 DROP TABLE IF EXISTS autores CASCADE;          -- este cascade es para que se pueda eliminar por cascada, lo que seria que borrando un autor tambien se borren sus obras...
+DROP TABLE IF EXISTS obras CASCADE;
+DROP TABLE IF EXISTS comentarios CASCADE;
+DROP TABLE IF EXISTS tags CASCADE;
+DROP TABLE IF EXISTS obra_tag CASCADE;
+
 CREATE TABLE autores (
     id_autor SERIAL PRIMARY KEY, 
     nombre VARCHAR(100), 
@@ -12,7 +17,7 @@ CREATE TABLE autores (
     foto_perfil VARCHAR
 );
 
-DROP TABLE IF EXISTS obras CASCADE;
+
 CREATE TABLE obras (
     id_obras SERIAL PRIMARY KEY, 
     titulo VARCHAR(200) NOT NULL, 
@@ -24,7 +29,7 @@ CREATE TABLE obras (
     contenido TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS comentarios CASCADE;
+
 CREATE TABLE comentarios (
     id_comentarios SERIAL PRIMARY KEY, 
     id_usuario INT REFERENCES autores(id_autor) ON DELETE CASCADE, 
@@ -34,14 +39,13 @@ CREATE TABLE comentarios (
     contenido_comentario VARCHAR(500)
 );
 
-DROP TABLE IF EXISTS tags CASCADE;
 CREATE TABLE tags (
     nombre VARCHAR PRIMARY KEY,
     descripcion VARCHAR
 );
 
 -- NO ES UNA TABLA, SOLO ES PARA PODER RELACIONAR LAS OBRAS CON SUS TAGS
-DROP TABLE IF EXISTS obra_tag CASCADE;
+
 CREATE TABLE obra_tag (
     id_obra INT REFERENCES obras(id_obras) ON DELETE CASCADE,
     nombre_tag VARCHAR REFERENCES tags(nombre) ON DELETE CASCADE,

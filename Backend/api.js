@@ -483,6 +483,9 @@ app.put("/comentarios", (req, res) => {
 });
 
 
+app.get("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
 
 app.listen(port, () => {
     console.log(`No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port}`);
