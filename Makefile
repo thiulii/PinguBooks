@@ -1,9 +1,12 @@
 .PHONY:
 start-bdd:
-	- ./Backend && docker compose up -d
+	- cd Backend && docker-compose up -d
 stop-bdd:
-	- /Backend && docker compose down
+	- cd Backend && docker compose down
 start-backend:
-	- ./Backend && npm run dev
+	- cd Backend && npm run dev
 run-backend:
-	- bdd backend
+	- make start-bdd
+	- make start-backend
+run-frontend:
+	-cd Backend && npm start
