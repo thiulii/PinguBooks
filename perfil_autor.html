@@ -86,12 +86,12 @@
         <div class="foto-perfil mb-3"> <img class="img-fluid rounded"
         id="photoUser" alt="Foto de perfil del usuario"></div>
         
-        <p><strong>Nombre:</strong> <span id="username"> Carolina Pizzul </span></p>
-        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday">24/02/2024</span></p>
-        <p><strong >País:</strong> <span id="country">Argentina</span></p>
-        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
-        <p><strong>Cantidad de obras:</strong> 3</p>
-        <p><strong >Puntuación promedio:</strong> 4.5</p>
+        <p><strong>Nombre:</strong> <span id="username"> </span></p>
+        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday"></span></p>
+        <p><strong >País:</strong> <span id="country"></span></p>
+        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> </span></p>
+        <p><strong>Cantidad de obras:</strong><span id="cantidadObras"> </span></p>
+        <p><strong >Puntuación promedio:</strong> <span id="promedioObras"></span></p>
         
       </div>
       <div class="col-md-8">
@@ -101,11 +101,14 @@
 
         <h5 class="mt-4">Historias:</h5>
         <div class="row text-center" id="obrasContainer">
-          <div class="col-4 mb-4"><a href="libro1.html"><img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" /></a><div class="libro-nombre">Libro 1</div></div>
-          <div class="col-4 mb-4"><a href="libro2.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 2" /></a><div class="libro-nombre">Libro 2</div></div>
-          <div class="col-4 mb-4"><a href="libro3.html"></a><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 3" /></a><div class="libro-nombre">Libro 3</div></div>
-          <div class="col-4 mb-4"><a href="libro4.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 4" /></a><div class="libro-nombre">Libro 4</div></div>
-          <div class="col-4 mb-4"><a href="libro15.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 15" /></a><div class="libro-nombre">Libro 1</div></div>
+
+          <div class="col-4 mb-4">
+            <a href="libro.html">
+              <img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" />
+            </a>
+            <div class="libro-nombre">Libro 1</div></div>
+
+
           </div>
         </div>
       </div>
@@ -142,74 +145,63 @@
     
     let idUsuario = localStorage.getItem("idUsuario");
     
-   
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    })
-
-
-      if(isNaN(id) || !idString){
-        if(!idUsuario){
-          window.location.href=`iniciar_sesion.html`;
-        }
-      else{
-        mensajePorPantalla("Error con la ruta para acceder al perfil");
-      }}
-
-   
-      fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
-    .then(res => {
-        if(!res.ok){
-          document.getElementById("username").textContent = "(SIn nombre)";
-        document.getElementById("dateBirthday").textContent ="18/12/2022";
-        document.getElementById("country").textContent = "(Sin país)";
-        document.getElementById("dateLogin").textContent = "18/12/2022";
-        document.getElementById("photoUser").src ="./media/pinguperfil.jpg";
-        document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
-          mensajePorPantalla("Error con el id del perfil que se quiere ver");
-
-          throw new Error("Error con el servidor");
-        }
-        return res.json()})
-    .then(data=>{
-        document.getElementById("username").textContent = data.nombre;
-        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento?.split("T")[0];
-        document.getElementById("country").textContent = data.pais;
-        document.getElementById("dateLogin").textContent = data.fecha_ingreso?.split("T")[0];
-        document.getElementById("photoUser").src =data.foto_perfil;
-        document.getElementById("description").textContent = data.biografia;
-
-        idUsuarioNumber= parseInt(idUsuario);
-        
-       
-
-        if(idUsuarioNumber === id){
-
-          document.getElementById("sesion").textContent="Cerrar sesion";
+   async function sesion() {
+    document.getElementById("sesion").textContent="Cerrar sesion";
           document.getElementById("sesion").addEventListener("click", (e)=>{
             e.preventDefault();
             let idUsuario = localStorage.removeItem("idUsuario");
             mensajePorPantalla("Se cerro sesion");
             window.location.href =`iniciar_sesion.html`;
+            return;
           })
-          const spaceEditor = document.createElement("div");
-          const editor = document.createElement("button");
-          spaceEditor.id ="buttonEditUser" 
-          editor.textContent= "Editar perfil";
+   }
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+      e.preventDefault();
+      let idUsuario = localStorage.getItem("idUsuario");
+      window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    })
+async function cantYPromObras() {
+   try{
+          const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
+          const informacion =  cantObras.json();
+          if(cantObras.ok){
+            document.getElementById("cantidadObras").textContent=informacion.cant_obras;
+            document.getElementById("promedioObras").textContent= informacion.prom_puntuacion;
+          }
+          else{
+            document.getElementById("cantidadObras").textContent="0";
+            document.getElementById("promedioObras").textContent="0";
+          }
+        }
+        catch(err){}
+        
+}
 
-          const deleteUser= document.createElement("button");
-          deleteUser.textContent="Eliminar Usuario";
-          deleteUser.addEventListener("click", (v)=>{
+
+
+function botonEliminarUsuario(deleteUser, id){
+deleteUser.addEventListener("click", async (v)=>{
             v.preventDefault();
             try{
-              const userDelete= fetch(`${UrlApi}/autores/${id}`,{
+              const userDelete= await fetch(`${UrlApi}/autores/${id}`,{
                 method: "DELETE"
               });
-              mensajePorPantalla(userDelete);
+              try{
+                const respuesta= await userDelete.json;
+              }
+              catch(error){
+                      mensajePorPantalla("Error al leer json");
+                      console.error("Error al borrar el perfil", error);
+                      return;
+                    }
+              
               if(userDelete.ok){
+                mensajePorPantalla("Se borro el usuario");
+                let idUsuario = localStorage.removeItem("idUsuario");
                 window.location.href =`iniciar_sesion.html`;
+              }
+              else{
+                mensajePorPantalla("Problema al eliminar usuario");
               }
             }
             catch(error){
@@ -218,6 +210,9 @@
                     }
           })
 
+        }
+async function botonCambiosUsuario(editor, data, idUsuario) {
+  
           editor.addEventListener("click", async(v)=>{
             v.preventDefault()
             
@@ -260,7 +255,7 @@
             inputDateBirthday.name="dateBirthday";
             inputDateBirthday.classList.add("form-control");
             inputDateBirthday.placeholder="Fecha de nacimiento";
-            inputDateBirthday.value = data.fecha_de_nacimiento;
+            inputDateBirthday.value = data.fecha_de_nacimiento?.split("T")[0];
 
             const inputCountry =document.createElement("input");
             inputCountry.type="text";
@@ -268,6 +263,7 @@
             inputCountry.name="country";
             inputCountry.placeholder="Pais";
             inputCountry.value= data.pais;
+
             const textDescrip = document.createElement("textarea");
             textDescrip.name="description";
             textDescrip.placeholder ="Nueva biografia"
@@ -306,7 +302,7 @@
             form.addEventListener("submit", async (v)=>{
               v.preventDefault();
               const changeForm = new FormData(form);
-
+              
               const newData ={
                 name: changeForm.get("nombre"),
                 biography: changeForm.get("description"),
@@ -317,7 +313,11 @@
                 photo:changeForm.get("foto")
               };
               try{
-                if(!name ||!dateBirthday || !mail || !password ){
+               if(!changeForm.get("contraseña")){
+                newData.password= data.contraseña;
+                                
+                              }
+                if(!name ||!dateBirthday || !mail  ){
                   mensajePorPantalla("No se puede mandar campos vacios");
                 }
               const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
@@ -327,14 +327,62 @@
                         });
                         const result = await response.text();
                         mensajePorPantalla(result);
-                        window.location.href = `perfil_autor.html?id=${idUsuario}`
-                      }
+                        if(response.ok){
+                          window.location.href = `perfil_autor.html?id=${idUsuario}`}}
+                        
               catch(error){
                       mensajePorPantalla("Error al actualizar perfil");
                       console.error("Error al actualizar perfil", error);
                     }
                   });
                 });
+}
+
+        async function mostrarPerfil() {
+      if(isNaN(id) || idString === null || idString.trim() === ""){
+        mensajePorPantalla("Error con la ruta para acceder al perfil");}
+      if(!idUsuario){
+              window.location.href=`iniciar_sesion.html`;
+              return; }
+   
+      fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
+    .then(res => {
+        if(!res.ok){
+          document.getElementById("username").textContent = "(SIn nombre)";
+        document.getElementById("dateBirthday").textContent ="18/12/2022";
+        document.getElementById("country").textContent = "(Sin país)";
+        document.getElementById("dateLogin").textContent = "18/12/2022";
+        document.getElementById("photoUser").src ="./media/pinguperfil.jpg";
+        document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
+          mensajePorPantalla("Error con el id del perfil que se quiere ver");
+
+          throw new Error("Error con el servidor");
+        }
+        return res.json()})
+    .then(data=>{
+        document.getElementById("username").textContent = data.nombre;
+        document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento?.split("T")[0];
+        document.getElementById("country").textContent = data.pais;
+        document.getElementById("dateLogin").textContent = data.fecha_ingreso?.split("T")[0];
+        document.getElementById("photoUser").src =data.foto_perfil;
+        document.getElementById("description").textContent = data.biografia;
+        
+       cantYPromObras();
+
+        idUsuarioNumber= parseInt(idUsuario);
+ 
+        if(idUsuarioNumber === id){
+          sesion();
+          
+          const spaceEditor = document.createElement("div");
+          const editor = document.createElement("button");
+          spaceEditor.id ="buttonEditUser" 
+          editor.textContent= "Editar perfil";
+
+          const deleteUser= document.createElement("button");
+          deleteUser.textContent="Eliminar Usuario";
+          botonEliminarUsuario(deleteUser, id);
+          botonCambiosUsuario(editor, data, idUsuario);
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
           spaceEditor.appendChild(deleteUser);
@@ -345,43 +393,44 @@
       
     .catch(error => {console.error ('Error:', error)})
    
-    fetch()
+    fetch(`${UrlApi}/autores/${id}/obras`)
     .then(res => {
         if(!res.ok){
-          throw new Error("Error con el servidor");
+          throw new Error("Error ");
         }
         return res.json()})
     .then(data=>{
       
-      const placeObra = document.createElement("div");
-         placeAuthor.id ="obrasContainer"
-      data.obras.forEach ( obra=>{
+        const placeObra = document.createElement("div");
+        placeObra.id ="obrasContainer";
+        data.obras.forEach ( obra=>{
          const spaceObras = document.createElement("div");
-         spaceObras.classList.add("libro");
+         spaceObras.classList.add("col-4 mb-4");
 
-         const name = document.createElement("h6");
-         name.textContent = obra.nombre;  
+          const link = document.createElement("a");
+         link.href = `perfil_author.html?id=${obra.id_obras}`; // ver si de verdad funciona
+         link.textContent =`${obra.titulo}`;
 
          const photoObra =document.createElement("img");
-         photoObra.src= obra.foto_perfil; //porque es imagen
-         photoObra.classList.add("autorFoto");
-         photoObra.alt= `Foto de la obra${obra.nombre}`;
+         photoObra.src= obra.portada; //porque es imagen
+         photoObra.classList.add("penguin-icon");
+         photoObra.alt= `Foto de la obra${obra.titulo}`;
+        link.appendChild(photoObra);
 
-         const link = document.createElement("a");
-         link.href = `perfil_author.html?id=${obra.id}`; // ver si de verdad funciona
-         link.textContent ="Ver perfil";
+         const spaceTitulo = document.createElement("div");
+         spaceTitulo.classList.add("libro-nombre");
+         spaceTitulo.textContent=obra.titulo;
 
-         spaceObras.appendChild(photoObra); 
-         spaceObras.appendChild(name); // ver si de verdad funciona
-         spaceObras.appendChild(link); 
+        spaceObras.appendChild(link);
+        spaceObras.appendChild(spaceTitulo);
          placeObra.appendChild(spaceObras);
   
         })
         document.body.appendChild(placeObra); 
     }    )
     .catch(error => {console.error ('Error:', error)})
-
-
+  }
+  mostrarPerfil();
   </script>
 </body>
 </html>

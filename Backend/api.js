@@ -5,7 +5,8 @@ const port=3000;
 app.use(express.json());
 app.use(cors());
 
-const {  getAllAutores,
+const { sumAndAverage,
+     getAllAutores,
   createdUser,
   comparisonMail,
   changeUser,
@@ -35,12 +36,23 @@ const {  getAllAutores,
   getAllObrasByAutor
 } =require("./PinguBooks.js");
 
-
-//const { createdUser } = require("./db/PiguBooks");
-//const path =require("path");
-
 // SECCION AUTORES ------------------------------------------------------------
 
+app.get("/autor/obras/:id",async(req, res)=>{
+    try{
+        const id= req.params.id
+        const resultado = await sumAndAverage(id);
+        if(resultado!== undefined ){
+            return res.status(200).json(resultado);
+        }
+        return res.status(500).json("No se pudieron obtener los datos")
+    }
+    catch (error){
+        console.error("Error en buscar promedios de obras y xantidad por autor", error);
+        console.error(id)
+        return res.status(500).json({error: "error de servidor aqui"});
+    }
+})
 app.get("/autores/:autor/obras", async(req, res) => {
   const autor_id = parseInt(req.params.autor);
   if (isNaN(autor_id) || !(await getAutor(autor_id))){
@@ -54,7 +66,7 @@ app.get("/autores/:autor/obras", async(req, res) => {
 })
 
 app.get("/autores/:id", async (req, res)=>{
-  const id = Number(req.params.id);
+ const id = req.params.id;
   if(!id || isNaN(id)){
       return res.status(400).json({error: "error de id"}); 
   }
@@ -77,11 +89,12 @@ app.get("/autores/:id", async (req, res)=>{
 })
 app.delete("/autores/:id", async (req, res)=>{
   const idAutor = req.params.id
-  const user = await deleteAutor(idAutor);
-  try{if(user===true){
-      res.status(200).send("Se borro el usuario")
+  
+  try{const user = await deleteAutor(idAutor);
+    if(user===true){
+      return res.status(200).json({mensaje:"Se borro el usuario"})
   }
-  return  res.status(404).send("Problema al eliminar usuario")}
+  return  res.status(404).json({mensaje:"Problema al eliminar usuario"})}
   catch (error){
     return res.status(500).json({error: "error de servidor /autores/:id delete"});
 }
@@ -101,7 +114,6 @@ app.put("/autores/:id", async (req, res)=>{
   const user = await modifyAutor(id, name, biography, dateBirthday, mail, password, country, photo );
   try{
     if(user===true){
-        
       return res.status(200).send("Se cambio el usuario")
   }  
       return  res.status(404).send("Problema al cambiar datos del usuario")
@@ -113,7 +125,6 @@ app.put("/autores/:id", async (req, res)=>{
 
 // CREAR PERFIL POST
 app.post("/autores",async (req, res)=>{
-    console.log(req.body);
     const puntuacion=0;
     const fechaIngreso=new Date();
   const nombre =req.body.name;
@@ -148,8 +159,8 @@ app.post("/iniciar_sesion", async (req, res)=>{
   const mail= req.body.mail;
   const password= req.body.password; 
 
-  if((mail===undefined) || (password===undefined)){
-      return res.tatus(404).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
+  if((!mail) || (!password)){
+      return res.status(400).json({mensaje:"Error al crear ingresar en usuario. Todos los campos deben estar llenos"});
   }
   const verify = await changeUser(mail, password)
   if(verify===undefined){
