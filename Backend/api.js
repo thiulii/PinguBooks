@@ -246,6 +246,7 @@ app.get("/obras", async(req, res) => {
 
 app.post("/obras", async(req, res) => {
     // usa body de json
+    try{
     const titulo = req.body.titulo;
     let portada = req.body.portada;
     const descripcion = req.body.descripcion;
@@ -284,7 +285,12 @@ app.post("/obras", async(req, res) => {
         return res.status(500).json({error: "error al crear la obra"});
     }
 
-    return res.status(201).json({status: "OK"});
+    return res.status(200).json({status: "OK"});}
+    catch (error){
+        console.error("Error en crear obra:", error);
+        console.error(id)
+        return res.status(500).json({error: "error de servidor aqui"});
+    }
 })
 
 app.delete("/obras/:id", async(req, res) => {
