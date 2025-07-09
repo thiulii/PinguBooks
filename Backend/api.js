@@ -141,7 +141,6 @@ app.post("/autores",async (req, res)=>{
   catch (error){
       return res.status(500).json({error: "error de servidor /autores post"});
   }
-
 })
 app.post("/iniciar_sesion", async (req, res)=>{
   try{
@@ -266,7 +265,7 @@ app.post("/obras", async(req, res) => {
         return res.status(400).json({error: "puntuacion invalida"});
     }
 
-    const obra = await createObra(titulo, portada, descripcion, tags, id_autor, puntuacion, contenido)
+    const obra = await createObra(titulo, portada, descripcion, tags, id_autor, contenido)
     if (!obra){
         return res.status(500).json({error: "error al crear la obra"});
     }
