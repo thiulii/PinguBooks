@@ -45,7 +45,18 @@ body {
     color: black;
     margin: 50px ;
 }
-.libro:hover {
+.librito{
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  color: black;
+  margin: 50px ;
+}
+.librito:hover {
   transform: scale(1.03);
 }
 .libro h6 {
@@ -233,6 +244,7 @@ padding: "20px";
   border-radius: 10px;
   cursor: pointer;
   padding: 10px 10px;
+  gap: 50px;
 }
 
 #buttonEditUser:hover {
@@ -241,6 +253,7 @@ padding: "20px";
 #buttonEditUser button{
   color: var(--color-texto);
   transition: background-color 0.3s ease;
+  gap: 50px;
 
 }
 
