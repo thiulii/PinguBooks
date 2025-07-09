@@ -158,6 +158,25 @@
       window.location.href = "iniciar_sesion.html";
     }
 
+    // tags seleccionados (agregar y sacar)
+    const botonesTags = document.querySelectorAll(".btn-warning");
+    const tagsSeleccionados = new Set();
+
+    botonesTags.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const tag = boton.textContent.trim();
+        if (tagsSeleccionados.has(tag)) {
+          tagsSeleccionados.delete(tag);
+          boton.classList.remove("btn-success");
+          boton.classList.add("btn-warning");
+        } else {
+          tagsSeleccionados.add(tag);
+          boton.classList.remove("btn-warning");
+          boton.classList.add("btn-success");
+        }
+      });
+    });
+
     // validacion
     document.getElementById("publicarBtn").addEventListener("click", async function (event) {
       event.preventDefault();
@@ -190,6 +209,33 @@
         mensajeError.classList.add("d-none");
       }
 
+      // datos ingresados
+      const datos = {
+        titulo,
+        portada: portada || null,
+        descripcion: descripcion || null,
+        contenido,
+        tags: Array.from(tagsSeleccionados),
+        id_autor: Number(idAutor),
+      };
+
+      try {
+        const response = await fetch("/api/obras", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos),
+        });
+
+        if (!response.ok) throw new Error("No se pudo publicar la historia.");
+
+        // mensajes al usuario
+        mensajeError.classList.remove("alert-danger");
+        mensajeError.classList.add("alert-success");
+        mensajeError.classList.remove("d-none");
+        mensajeError.innerHTML = "¡La historia fue publicada con éxito!";
+
+    
+    });
   </script>
 
 </body>
