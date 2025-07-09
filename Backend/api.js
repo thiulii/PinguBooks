@@ -30,10 +30,25 @@ const {  getAllAutores,
   createComentario,
   deleteComentario,
   modifyComentario,
-  getComentarioOwner
+  getComentarioOwner,
+
+  getAllObrasByAutor
 } =require("./PinguBooks.js");
 
 // SECCION AUTORES ------------------------------------------------------------
+
+app.get("/autores/:autor/obras", async(req, res) => {
+  const autor_id = parseInt(req.params.autor);
+  if (isNaN(autor_id) || !(await getAutor(autor_id))){
+    return res.status(400).json({error: "parametro de autor invalido"});
+  }
+  const response = await getAllObrasByAutor(autor_id);
+  if (response === undefined){
+    return res.status(500).json({error: "No se pudo conseguir las obras"});
+  }
+  return res.status(200).json(response);
+})
+
 app.get("/autores/:id", async (req, res)=>{
  const id = req.params.id;
   if(!id || isNaN(id)){

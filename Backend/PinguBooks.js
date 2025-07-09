@@ -404,6 +404,17 @@ async function getComentarioOwner(id){
     }
     return res.id_usuario;
   } catch(err){
+    console.error("error:", err);
+    return undefined;
+  }
+}
+
+async function getAllObrasByAutor(id_autor){
+  try{
+    const res = await dbPinguBooks.query("SELECT * FROM obras WHERE id_autor = $1 ORDER BY fecha_de_publicacion desc;", [id_autor]);
+    return res.rows;
+  }catch(err){
+    console.error("Error al conseguir obras de autor:", err);
     return undefined;
   }
 }
@@ -436,5 +447,7 @@ module.exports = {
   createComentario,
   modifyComentario,
   deleteComentario,
-  getComentarioOwner
+  getComentarioOwner,
+
+  getAllObrasByAutor
 };
