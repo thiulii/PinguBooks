@@ -89,7 +89,7 @@
 
         <label class="form-label fw-bold mt-3">Seleccione sus tags:</label>
         <div class="mb-2">
-          <!-- Tags populares -->
+          <!-- tags -->
           <button type="button" class="btn btn-warning me-2 mb-2">Romance</button>
           <button type="button" class="btn btn-warning me-2 mb-2">Ficción</button>
           <button type="button" class="btn btn-warning me-2 mb-2">Fantasía</button>
@@ -152,6 +152,25 @@
   <script>
 
     const idAutor = localStorage.getItem("id_autor");
+
+    // si el usuario no esta logueado, lo mando a que inicie sesion
+    if (!idAutor) {
+      window.location.href = "iniciar_sesion.html";
+    }
+
+    // cambio el boton de iniciar/cerrar sesion
+    const botonSesion = document.getElementById("sesion");
+
+    if (idAutor) {
+      botonSesion.textContent = "Cerrar sesión";
+      botonSesion.parentElement.href = "#";
+      botonSesion.parentElement.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("id_autor");
+        alert("Sesión cerrada correctamente.");
+        window.location.href = "iniciar_sesion.html";
+      });
+    }
 
     // si el usuario no esta logueado, lo mando a que inicie sesion
     if (!idAutor) {
