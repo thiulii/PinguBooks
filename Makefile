@@ -1,6 +1,6 @@
 .PHONY:
 start-bdd:
-	- cd Backend && docker-compose up -d
+	- cd Backend && docker compose up -d
 stop-bdd:
 	- cd Backend && docker compose down
 start-backend:
