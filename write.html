@@ -76,7 +76,8 @@
 
     <!-- FORMULARIO -->
   <div class="container my-5">
-    <div class="registro-container text-start">
+    <!-- Bloque formulario -->
+    <div class="p-4 bg-white rounded-4 shadow-sm mb-4 w-100">
       <form>
         <label for="titulo" class="form-label fw-bold">Nombre del libro:</label>
         <input type="text" id="titulo" name="titulo" class="form-control" required />
@@ -96,7 +97,8 @@
       </form>
     </div>
 
-    <div class="mt-4 p-4 bg-white rounded-4 shadow-sm">
+    <!-- Bloque contenido -->
+    <div class="p-4 bg-white rounded-4 shadow-sm w-100">
       <textarea id="contenido" name="contenido" class="form-control border-0" rows="10" placeholder="Contenido de la obra..." required></textarea>
       <div class="d-flex justify-content-end mt-3">
         <button type="submit" class="btn btn-primary">Publicar historia</button>
