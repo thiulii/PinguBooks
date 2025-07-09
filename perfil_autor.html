@@ -90,7 +90,7 @@
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
-        <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
+        <p><span id="description"> </span></p>
         
 
         <h5 class="mt-4">Historias:</h5>
@@ -127,7 +127,6 @@
     placeMensaje.appendChild(announcement);
     placeMensaje.appendChild(howdelete);
     document.body.appendChild(placeMensaje);
-
     placeMensaje.onclick=()=>{
       placeMensaje.remove();
     }
@@ -139,7 +138,7 @@
     
     let idUsuario = localStorage.getItem("idUsuario");
     
-   async function sesion() {
+    async function sesion() {
     document.getElementById("sesion").textContent="Cerrar sesion";
           document.getElementById("sesion").addEventListener("click", (e)=>{
             e.preventDefault();
@@ -149,187 +148,168 @@
             return;
           })
    }
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    })
-async function cantYPromObras() {
-   try{
-          const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
-          const informacion =  cantObras.json();
-          if(cantObras.ok){
-            document.getElementById("cantidadObras").textContent=informacion.cant_obras;
-            document.getElementById("promedioObras").textContent= informacion.prom_puntuacion;
-          }
-          else{
-            document.getElementById("cantidadObras").textContent="0";
-            document.getElementById("promedioObras").textContent="0";
-          }
-        }
-        catch(err){}
-        
-}
+      document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        window.location.href =`perfil_autor.html?id=${idUsuario}`;
+      })
+    async function cantYPromObras() {
+      try{
+              const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
+              const informacion =  cantObras.json();
+              if(cantObras.ok){
+                document.getElementById("cantidadObras").textContent=informacion.cant_obras;
+                document.getElementById("promedioObras").textContent= informacion.prom_puntuacion;
+              }
+              else{
+                document.getElementById("cantidadObras").textContent="0";
+                document.getElementById("promedioObras").textContent="0";
+              }
+            }
+            catch(err){
+              mensajePorPantalla("Error en sesion");
+              console.error("Error en sesion", error);
+            }}
 
 
 
 function botonEliminarUsuario(deleteUser, id){
-deleteUser.addEventListener("click", async (v)=>{
-            v.preventDefault();
-            try{
-              const userDelete= await fetch(`${UrlApi}/autores/${id}`,{
-                method: "DELETE"
-              });
-              try{
-                const respuesta= await userDelete.json;
-              }
-              catch(error){
-                      mensajePorPantalla("Error al leer json");
-                      console.error("Error al borrar el perfil", error);
-                      return;
-                    }
-              
-              if(userDelete.ok){
-                mensajePorPantalla("Se borro el usuario");
-                let idUsuario = localStorage.removeItem("idUsuario");
-                window.location.href =`iniciar_sesion.html`;
-              }
-              else{
-                mensajePorPantalla("Problema al eliminar usuario");
-              }
-            }
-            catch(error){
-                      mensajePorPantalla("Error al borrar el perfil");
-                      console.error("Error al borrar el perfil", error);
-                    }
-          })
-
-        }
+  deleteUser.addEventListener("click", async (v)=>{
+    v.preventDefault();
+    try{
+      const userDelete= await fetch(`${UrlApi}/autores/${id}`,{
+        method: "DELETE"
+      });
+      if(userDelete.ok){
+        mensajePorPantalla("Se borro el usuario");
+        let idUsuario = localStorage.removeItem("idUsuario");
+        window.location.href =`iniciar_sesion.html`;
+      }
+      else{
+        mensajePorPantalla("Problema al eliminar usuario");
+      }
+    }
+    catch(error){
+      mensajePorPantalla("Error al borrar el perfil");
+      console.error("Error al borrar el perfil", error);
+    }})}
 async function botonCambiosUsuario(editor, data, idUsuario) {
-  
-          editor.addEventListener("click", async(v)=>{
-            v.preventDefault()
+  editor.addEventListener("click", async(v)=>{
+    v.preventDefault()
             
-            const place = document.createElement("div");
-            place.id= "registro-container";
+    const place = document.createElement("div");
+    place.id= "registro-container";
 
-            const form = document.createElement("form");
-            form.id ="ChangeUser";
+    const form = document.createElement("form");
+    form.id ="ChangeUser";
 
-            const inputName=document.createElement("input");
-            inputName.type="text";
-            inputName.name="nombre";
-            inputName.classList.add("form-control");
-            inputName.placeholder="Nuevo nombre de usuario";
-            inputName.value= data.nombre;
+    const inputName=document.createElement("input");
+    inputName.type="text";
+    inputName.name="nombre";
+    inputName.classList.add("form-control");
+    inputName.placeholder="Nuevo nombre de usuario";
+    inputName.value= data.nombre;
 
-            const inputPhoto=document.createElement("input");
-            inputPhoto.type="text";
-            inputPhoto.name="foto";
-            inputPhoto.classList.add("form-control");
-            inputPhoto.placeholder="Nueva foto";
-            inputPhoto.value= data.foto_perfil;
+    const inputPhoto=document.createElement("input");
+    inputPhoto.type="text";
+    inputPhoto.name="foto";
+    inputPhoto.classList.add("form-control");
+    inputPhoto.placeholder="Nueva foto";
+    inputPhoto.value= data.foto_perfil;
 
-            const inputMail=document.createElement("input");
-            inputMail.type="email";
-            inputMail.name="mail";
-            inputMail.classList.add("form-control");
-            inputMail.placeholder="Nuevo correo";
-            inputMail.value= data.mail;
+    const inputMail=document.createElement("input");
+    inputMail.type="email";
+    inputMail.name="mail";
+    inputMail.classList.add("form-control");
+    inputMail.placeholder="Nuevo correo";
+    inputMail.value= data.mail;
 
-            const inputPassword=document.createElement("input");
-            inputPassword.type="password";
-            inputPassword.name="contraseña";
-            inputPassword.placeholder="Nueva contraseña";
-            inputPassword.classList.add("form-control");
+    const inputPassword=document.createElement("input");
+    inputPassword.type="password";
+    inputPassword.name="contraseña";
+    inputPassword.placeholder="Nueva contraseña";
+    inputPassword.classList.add("form-control");
           
 
-            const inputDateBirthday = document.createElement("input");
-            inputDateBirthday.type= "date";
-            inputDateBirthday.name="dateBirthday";
-            inputDateBirthday.classList.add("form-control");
-            inputDateBirthday.placeholder="Fecha de nacimiento";
-            inputDateBirthday.value = data.fecha_de_nacimiento?.split("T")[0];
+    const inputDateBirthday = document.createElement("input");
+    inputDateBirthday.type= "date";
+    inputDateBirthday.name="dateBirthday";
+    inputDateBirthday.classList.add("form-control");
+    inputDateBirthday.placeholder="Fecha de nacimiento";
+    inputDateBirthday.value = data.fecha_de_nacimiento?.split("T")[0];
 
-            const inputCountry =document.createElement("input");
-            inputCountry.type="text";
-            inputCountry.classList.add("form-control");
-            inputCountry.name="country";
-            inputCountry.placeholder="Pais";
-            inputCountry.value= data.pais;
+    const inputCountry =document.createElement("input");
+    inputCountry.type="text";
+    inputCountry.classList.add("form-control");
+    inputCountry.name="country";
+    inputCountry.placeholder="Pais";
+    inputCountry.value= data.pais;
 
-            const textDescrip = document.createElement("textarea");
-            textDescrip.name="description";
-            textDescrip.placeholder ="Nueva biografia"
-            textDescrip.value=data.biografia
-            textDescrip.classList.add("form-control");
+    const textDescrip = document.createElement("textarea");
+    textDescrip.name="description";
+    textDescrip.placeholder ="Nueva biografia"
+    textDescrip.value=data.biografia
+    textDescrip.classList.add("form-control");
 
-            form.appendChild(inputName);
-            form.appendChild(inputMail);
-            form.appendChild(inputPassword);
-            form.appendChild(inputDateBirthday);
-            form.appendChild(inputCountry);
-            form.appendChild(textDescrip);
-            form.appendChild(inputPhoto);
+    form.appendChild(inputName);
+    form.appendChild(inputMail);
+    form.appendChild(inputPassword);
+    form.appendChild(inputDateBirthday);
+    form.appendChild(inputCountry);
+    form.appendChild(textDescrip);
+    form.appendChild(inputPhoto);
 
-            const buttonSave = document.createElement("button")
-            buttonSave.textContent="Guardar cambios";
-            buttonSave.type="submit";
-            buttonSave.classList.add("form-control");
+    const buttonSave = document.createElement("button")
+    buttonSave.textContent="Guardar cambios";
+    buttonSave.type="submit";
+    buttonSave.classList.add("form-control");
 
-            const buttonExit= document.createElement("button");
-            buttonExit.textContent="No cambiar nada";
-            buttonExit.type="button";
-            buttonExit.classList.add("form-control");
+    const buttonExit= document.createElement("button");
+    buttonExit.textContent="No cambiar nada";
+    buttonExit.type="button";
+    buttonExit.classList.add("form-control");
+    
+    buttonExit.addEventListener("click", (v)=>{
+      v.preventDefault();
+      place.remove();
+    })
 
-            buttonExit.addEventListener("click", (v)=>{
-              v.preventDefault();
-              place.remove();
-            })
+    form.appendChild(buttonSave);
+    place.appendChild(buttonExit);
+    place.appendChild(form);
+    document.body.appendChild(place);
 
-
-            form.appendChild(buttonSave);
-            place.appendChild(buttonExit);
-            place.appendChild(form);
-            document.body.appendChild(place);
-
-            form.addEventListener("submit", async (v)=>{
-              v.preventDefault();
-              const changeForm = new FormData(form);
+    form.addEventListener("submit", async (v)=>{
+      v.preventDefault();
+      const changeForm = new FormData(form);
               
-              const newData ={
-                name: changeForm.get("nombre"),
-                biography: changeForm.get("description"),
-                mail: changeForm.get("mail"),
-                dateBirthday:changeForm.get("dateBirthday"),
-                password:changeForm.get("contraseña"),
-                country:changeForm.get("country"),
-                photo:changeForm.get("foto")
-              };
-              try{
-               if(!changeForm.get("contraseña")){
-                newData.password= data.contraseña;
-                                
-                              }
-                if(!name ||!dateBirthday || !mail  ){
-                  mensajePorPantalla("No se puede mandar campos vacios");
-                }
-              const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
-                          method: "PUT",
-                          headers:{"Content-Type":"application/json"},
-                          body: JSON.stringify(newData)
-                        });
-                        const result = await response.text();
-                        mensajePorPantalla(result);
-                        if(response.ok){
-                          window.location.href = `perfil_autor.html?id=${idUsuario}`}}
-                        
-              catch(error){
-                      mensajePorPantalla("Error al actualizar perfil");
-                      console.error("Error al actualizar perfil", error);
-                    }
-                  });
-                });
+      const newData ={
+        name: changeForm.get("nombre"),
+        biography: changeForm.get("description"),
+        mail: changeForm.get("mail"),
+        dateBirthday:changeForm.get("dateBirthday"),
+        password:changeForm.get("contraseña"),
+        country:changeForm.get("country"),
+        photo:changeForm.get("foto")
+      };
+      try{
+        if(!changeForm.get("contraseña")){
+        newData.password= data.contraseña;}
+        if(!name ||!dateBirthday || !mail  ){
+          mensajePorPantalla("No se puede mandar campos vacios"); }
+        const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
+            method: "PUT",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(newData)
+          });
+          const result = await response.text();
+          mensajePorPantalla(result);
+          if(response.ok){
+            window.location.href = `perfil_autor.html?id=${idUsuario}`}}
+                  
+        catch(error){
+                mensajePorPantalla("Error al actualizar perfil");
+                console.error("Error al actualizar perfil", error); } });});
 }
 
         async function mostrarPerfil() {
@@ -340,19 +320,17 @@ async function botonCambiosUsuario(editor, data, idUsuario) {
               return; }
    
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
-    .then(res => {
+      .then(res => {
         if(!res.ok){
           document.getElementById("username").textContent = "(SIn nombre)";
-        document.getElementById("dateBirthday").textContent ="18/12/2022";
-        document.getElementById("country").textContent = "(Sin país)";
-        document.getElementById("dateLogin").textContent = "18/12/2022";
-        document.getElementById("photoUser").src ="./media/pinguperfil.jpg";
-        document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
+          document.getElementById("dateBirthday").textContent ="18/12/2022";
+          document.getElementById("country").textContent = "(Sin país)";
+          document.getElementById("dateLogin").textContent = "18/12/2022";
+          document.getElementById("photoUser").src ="";
+          document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
           mensajePorPantalla("Error con el id del perfil que se quiere ver");
-
-          throw new Error("Error con el servidor");
-        }
-        return res.json()})
+          throw new Error("Error con el servidor");}
+          return res.json()})
     .then(data=>{
         document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento?.split("T")[0];

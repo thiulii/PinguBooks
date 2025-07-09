@@ -151,7 +151,7 @@
 
   <script>
 
-    const idAutor = localStorage.getItem("id_autor");
+    const idAutor = localStorage.getItem("idUsuario");
 
     // si el usuario no esta logueado, lo mando a que inicie sesion
     if (!idAutor) {
@@ -166,7 +166,7 @@
       botonSesion.parentElement.href = "#";
       botonSesion.parentElement.addEventListener("click", (e) => {
         e.preventDefault();
-        localStorage.removeItem("id_autor");
+        localStorage.removeItem("idUsuario");
         alert("Sesión cerrada correctamente.");
         window.location.href = "iniciar_sesion.html";
       });
