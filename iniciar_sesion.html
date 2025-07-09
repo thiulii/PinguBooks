@@ -87,13 +87,24 @@
       <div class="mt-3">
         <small>¿Aún no tiene su cuenta? <a href="registro.html">Regístrese</a></small>
       </div>
+
+      <div class="mt-2">
+        <small>¿Ha olvidado su contraseña? <a href="#" id="recuperarContrasenia">Recuperar contraseña</a></small>
+      </div>
+
+      <div id="mensajeRecuperacionContra" class="mt-2" style="display:none;">
+        <small>Para recuperar su contraseña contáctese con pingubooks@gmail.com</small>
+      </div>      
+
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
+
   const UrlApi ="http://localhost:3000";
+  
   function mensajePorPantalla(mensaje){
     const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
@@ -152,7 +163,12 @@
     window.location.href =`perfil_autor.html?id=${idUsuario}`;
     })
   
-</script>
+  // recuperar contra
+  document.getElementById('recuperarContrasenia').addEventListener('click', function(event) {
+    event.preventDefault(); // evito recargar y volver al inicio
+    document.getElementById('mensajeRecuperacionContra').style.display = 'block';
+  });
 
+</script>
 </body>
 </html>

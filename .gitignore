@@ -2,3 +2,7 @@ practica/
 node_modules/
 Backend/.volumes/postgres/data/
 Backend/pgdata
+
+Backend/node_modules/
+Backend/pgdata/
+
