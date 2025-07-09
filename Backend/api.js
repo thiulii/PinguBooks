@@ -5,7 +5,8 @@ const port=3000;
 app.use(express.json());
 app.use(cors());
 
-const {  getAllAutores,
+const { sumAndAverage,
+     getAllAutores,
   createdUser,
   comparisonMail,
   changeUser,
@@ -37,6 +38,21 @@ const {  getAllAutores,
 
 // SECCION AUTORES ------------------------------------------------------------
 
+app.get("/autor/obras/:id",async(req, res)=>{
+    try{
+        const id= req.params.id
+        const resultado = await sumAndAverage(id);
+        if(resultado!== undefined ){
+            return res.status(200).json(resultado);
+        }
+        return res.status(500).json("No se pudieron obtener los datos")
+    }
+    catch (error){
+        console.error("Error en buscar promedios de obras y xantidad por autor", error);
+        console.error(id)
+        return res.status(500).json({error: "error de servidor aqui"});
+    }
+})
 app.get("/autores/:autor/obras", async(req, res) => {
   const autor_id = parseInt(req.params.autor);
   if (isNaN(autor_id) || !(await getAutor(autor_id))){
@@ -98,7 +114,6 @@ app.put("/autores/:id", async (req, res)=>{
   const user = await modifyAutor(id, name, biography, dateBirthday, mail, password, country, photo );
   try{
     if(user===true){
-        
       return res.status(200).send("Se cambio el usuario")
   }  
       return  res.status(404).send("Problema al cambiar datos del usuario")

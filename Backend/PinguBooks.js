@@ -16,10 +16,26 @@ database:"PinguBooks",
 
 // Devuelve todos los autores
 async function getAllAutores() {
-  const res = await dbPinguBooks.query("SELECT * FROM autores");
-  return res.rowCount === 0 ? undefined : res.rows;
+  try{ 
+    const res = await dbPinguBooks.query("SELECT * FROM autores");
+    return res.rowCount === 0 ? undefined : res.rows;}
+  catch(err){
+    console.error(":", err);
+    return undefined;
+  }
+ 
 
 }
+async function sumAndAverage(id_autor) {
+  try{
+    const resultado = await dbPinguBooks.query("SELECT COUNT(*) AS cant_obras, ROUND(AVG(puntuacion)) AS prom_puntuacion FROM obras WHERE id_autor= $1; ", id_autor);
+    return resultado.row[0];}
+  catch(err){
+    console.error(":", err);
+    return undefined;
+  }
+}
+
 
 // Crea un nuevo autor y lo devuelve
 async function createdUser(nombre, biografia, fechaNacimiento, mail, contraseña, puntuacion = 0, fechaIngreso = new Date(), pais, foto) {
@@ -421,6 +437,7 @@ async function getAllObrasByAutor(id_autor){
 
 // EXPORTACION DE FUNCIONES
 module.exports = {
+  sumAndAverage,
   getAllAutores,
   createdUser,
   comparisonMail,

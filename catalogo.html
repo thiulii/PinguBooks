@@ -133,7 +133,6 @@
     let idUsuario = localStorage.getItem("idUsuario");
     // Buscar como verificar que no sea vacio idUsuario
     if( (idUsuario.length === 0)|| idUsuario!==null){
-
         document.getElementById("sesion").textContent="Cerrar sesion";
         document.getElementById("sesion").addEventListener("click", (e)=>{
         e.preventDefault();
@@ -141,6 +140,8 @@
         mensajePorPantalla("Se cerro sesion");
         window.location.href =`iniciar_sesion.html`;
       })}
+
+
       fetch(`${UrlApi}/autores`)
       .then(res => {
         if(!res.ok){
