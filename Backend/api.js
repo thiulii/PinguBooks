@@ -152,7 +152,6 @@ app.post("/autores",async (req, res)=>{
   catch (error){
       return res.status(500).json({error: "error de servidor /autores post"});
   }
-
 })
 app.post("/iniciar_sesion", async (req, res)=>{
   try{
@@ -248,7 +247,7 @@ app.get("/obras", async(req, res) => {
 app.post("/obras", async(req, res) => {
     // usa body de json
     const titulo = req.body.titulo;
-    const portada = req.body.portada;
+    let portada = req.body.portada;
     const descripcion = req.body.descripcion;
     let tags = req.body.tags;
     if (tags){
@@ -265,6 +264,9 @@ app.post("/obras", async(req, res) => {
     const puntuacion = parseFloat(req.body.puntuacion);
     const contenido = req.body.contenido;
 
+    if(!portada){
+        portada="./media/imagen_default.png";
+      }
     if (!titulo || isNaN(id_autor) || !descripcion || !contenido){
         return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"});
     }
@@ -277,12 +279,12 @@ app.post("/obras", async(req, res) => {
         return res.status(400).json({error: "puntuacion invalida"});
     }
 
-    const obra = await createObra(titulo, portada, descripcion, tags, id_autor, puntuacion, contenido)
+    const obra = await createObra(titulo, portada, descripcion, tags, id_autor, contenido)
     if (!obra){
         return res.status(500).json({error: "error al crear la obra"});
     }
 
-    return res.status(200).json({status: "OK"});
+    return res.status(201).json({status: "OK"});
 })
 
 app.delete("/obras/:id", async(req, res) => {
@@ -363,7 +365,7 @@ app.get("/tags/:tag", async(req, res) =>{
     if (response === undefined) {
         return res.status(404).json({error: "no se ha encontrado el tag"});
     }
-    return res.status(200).json(tag);
+    return res.status(200).json(response);
 })
 
 app.post("/tags", async(req,res) => {
@@ -377,7 +379,7 @@ app.post("/tags", async(req,res) => {
     if (response === undefined){
         return res.status(500).json({error: "no se pudo crear el tag"});
     }
-    return res.status(200).json({status: "ok"})
+    return res.status(201).json({status: "ok"})
 })
 
 app.delete("/tags/:tag", async(req, res) => {
@@ -441,7 +443,7 @@ app.post("/comentarios", async (req, res) => {
   const comentario = await createComentario(id_usuario, id_obra, estrellas, contenido);
   if (!comentario) return res.status(500).json({ error: "Error al crear comentario" });
 
-  return res.status(200).json({ status: "OK", comentario });
+  return res.status(201).json({ status: "OK", comentario });
 });
 
 // Editar un comentario
@@ -494,6 +496,21 @@ app.put("/comentarios", (req, res) => {
 });
 
 
+app.get("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
+
+app.post("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+});
+
+app.delete("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
+
+app.put("/", (req, res) => {
+    return res.status(400).json({ error: "No especificaste endpoint" });
+  });
 
 app.listen(port, () => {
     console.log(`No Los escuchooooo\n estamos listosss\n uhhhhhhh vive en el puerto ${port}`);
