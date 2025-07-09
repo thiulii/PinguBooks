@@ -149,7 +149,8 @@
       document.getElementById("miPerfil").addEventListener("click", (e)=>{
         e.preventDefault();
         let idUsuario = localStorage.getItem("idUsuario");
-        window.location.href =`perfil_autor.html?id=${idUsuario}`;
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
       })
     async function cantYPromObras() {
       try{
@@ -310,13 +311,8 @@ async function botonCambiosUsuario(editor, data, idUsuario) {
                 console.error("Error al actualizar perfil", error); } });});
 }
 
-        async function mostrarPerfil() {
-      if(isNaN(id) || idString === null || idString.trim() === ""){
-        mensajePorPantalla("Error con la ruta para acceder al perfil");}
-      if(!idUsuario){
-              window.location.href=`iniciar_sesion.html`;
-              return; }
-   
+async function mostrarPerfil() {
+      
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
       .then(res => {
         if(!res.ok){
@@ -397,6 +393,7 @@ async function botonCambiosUsuario(editor, data, idUsuario) {
         })
         document.body.appendChild(placeObra); 
     }    )
+    
     .catch(error => {console.error ('Error:', error)})
   }
   mostrarPerfil();

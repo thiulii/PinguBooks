@@ -126,6 +126,16 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
+
     const botonExpandir = document.getElementById('expandir');
     const contenedor = document.getElementById('contenido');
     const botonCerrar = document.getElementById('cerrarLectura');

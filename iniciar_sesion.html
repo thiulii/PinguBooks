@@ -94,6 +94,15 @@
 
 <script type="text/javascript">
   const UrlApi ="http://localhost:3000";
+  document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
   function mensajePorPantalla(mensaje){
     const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
@@ -121,7 +130,7 @@
       mail: form.mail.value,
       password: form.password.value
     };
-    await new Promise(resolve => setTimeout(resolve, 10));// borrar luego 
+   
     if(!data.mail  || !data.password){
       mensajePorPantalla("Error en los campos de mail y/o contraseña");
       return;
@@ -146,11 +155,7 @@
     console.error ('Error:', error);
     mensajePorPantalla("Error con el servidor");}
   })
-  document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-    window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    })
+  
   
 </script>
 

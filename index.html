@@ -115,10 +115,14 @@
     <script>
       const UrlApi ="http://localhost:3000"
       document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    })
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
 
     let idUsuario = localStorage.getItem("idUsuario");
     // Buscar como verificar que no sea vacio idUsuario
