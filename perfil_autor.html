@@ -9,72 +9,66 @@
 </head>
 
 <body>
-
+  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
-        <img src="./media/logo.png" alt="" height="40">
+        <img src="./media/logo.png" alt="" height="40" />
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
-                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
-              </svg>Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="catalogo.html">Catalago</a>
-          </li>
-          <li>
-          <li class="nav.item">
-            <a class="nav-link" id="miPerfil"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-              </svg>Perfil </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
+            <a class="nav-link" href="index.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-house-door" viewBox="0 0 16 16">
+                <path
+                  d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+              </svg>Inicio
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
           </li>
 
-           <!-- Agrego zona de escritura-->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="write.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
-                    <path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
-                </svg> Write
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="write.html">old work
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-highlighter" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M11.096.644a2 2 0 0 1 2.791.036l1.433 1.433a2 2 0 0 1 .035 2.791l-.413.435-8.07 8.995a.5.5 0 0 1-.372.166h-3a.5.5 0 0 1-.234-.058l-.412.412A.5.5 0 0 1 2.5 15h-2a.5.5 0 0 1-.354-.854l1.412-1.412A.5.5 0 0 1 1.5 12.5v-3a.5.5 0 0 1 .166-.372l8.995-8.07zm-.115 1.47L2.727 9.52l3.753 3.753 7.406-8.254zm3.585 2.17.064-.068a1 1 0 0 0-.017-1.396L13.18 1.387a1 1 0 0 0-1.396-.018l-.068.065zM5.293 13.5 2.5 10.707v1.586L3.707 13.5z"/>
-                      </svg>
-                </a></li>
-                <li><a class="dropdown-item" href="write.html">old work <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-highlighter" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M11.096.644a2 2 0 0 1 2.791.036l1.433 1.433a2 2 0 0 1 .035 2.791l-.413.435-8.07 8.995a.5.5 0 0 1-.372.166h-3a.5.5 0 0 1-.234-.058l-.412.412A.5.5 0 0 1 2.5 15h-2a.5.5 0 0 1-.354-.854l1.412-1.412A.5.5 0 0 1 1.5 12.5v-3a.5.5 0 0 1 .166-.372l8.995-8.07zm-.115 1.47L2.727 9.52l3.753 3.753 7.406-8.254zm3.585 2.17.064-.068a1 1 0 0 0-.017-1.396L13.18 1.387a1 1 0 0 0-1.396-.018l-.068.065zM5.293 13.5 2.5 10.707v1.586L3.707 13.5z"/>
-                  </svg> </a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="newwrite.html">new work <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-highlighter" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M11.096.644a2 2 0 0 1 2.791.036l1.433 1.433a2 2 0 0 1 .035 2.791l-.413.435-8.07 8.995a.5.5 0 0 1-.372.166h-3a.5.5 0 0 1-.234-.058l-.412.412A.5.5 0 0 1 2.5 15h-2a.5.5 0 0 1-.354-.854l1.412-1.412A.5.5 0 0 1 1.5 12.5v-3a.5.5 0 0 1 .166-.372l8.995-8.07zm-.115 1.47L2.727 9.52l3.753 3.753 7.406-8.254zm3.585 2.17.064-.068a1 1 0 0 0-.017-1.396L13.18 1.387a1 1 0 0 0-1.396-.018l-.068.065zM5.293 13.5 2.5 10.707v1.586L3.707 13.5z"/>
-                  </svg> </a></li>
-              </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="catalogo.html">Catálogo</a>
           </li>
-          
+
+          <li class="nav-item me-2">
+            <a class="nav-link" href="perfil_autor.html" id="miPerfil">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-person" viewBox="0 0 16 16">
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+              </svg>Perfil
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="write.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-house-door" viewBox="0 0 16 16">
+                <path
+                  d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+              </svg>Escritura
+            </a>
+          </li>
+
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
+
+        <form class="d-flex align-items-center me-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Buscar" />
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
-        <div><a class="btn btn-outline-success" href="iniciar_sesion.html"><span id="sesion">Iniciar sesion</span> </a></div>
+
+        <div class="d-flex align-items-center">
+          <a class="btn btn-outline-success ms-3" href="iniciar_sesion.html">
+            <span id="sesion">Iniciar sesión</span>
+          </a>
+        </div>
       </div>
     </div>
   </nav>
@@ -86,26 +80,29 @@
         <div class="foto-perfil mb-3"> <img class="img-fluid rounded"
         id="photoUser" alt="Foto de perfil del usuario"></div>
         
-        <p><strong>Nombre:</strong> <span id="username"> Carolina Pizzul </span></p>
-        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday">24/02/2024</span></p>
-        <p><strong >País:</strong> <span id="country">Argentina</span></p>
-        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> 13/06/2025</span></p>
-        <p><strong>Cantidad de obras:</strong> 3</p>
-        <p><strong >Puntuación promedio:</strong> 4.5</p>
+        <p><strong>Nombre:</strong> <span id="username"> </span></p>
+        <p><strong >Fecha de nacimiento:</strong> <span id="dateBirthday"></span></p>
+        <p><strong >País:</strong> <span id="country"></span></p>
+        <p><strong >Fecha de ingreso:</strong><span id="dateLogin"> </span></p>
+        <p><strong>Cantidad de obras:</strong><span id="cantidadObras"> </span></p>
+        <p><strong >Puntuación promedio:</strong> <span id="promedioObras"></span></p>
         
       </div>
       <div class="col-md-8">
         <h5>Sobre el autor:</h5>
-        <p><span id="description">holaa chicos, como estan?? bueno, siento que falta mejorarla un poco, pero les quiero mostrar como viene asi me dicen si les gusta o no y si hay que cambiar algo!! </span></p>
+        <p><span id="description"> </span></p>
         
 
         <h5 class="mt-4">Historias:</h5>
         <div class="row text-center" id="obrasContainer">
-          <div class="col-4 mb-4"><a href="libro1.html"><img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" /></a><div class="libro-nombre">Libro 1</div></div>
-          <div class="col-4 mb-4"><a href="libro2.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 2" /></a><div class="libro-nombre">Libro 2</div></div>
-          <div class="col-4 mb-4"><a href="libro3.html"></a><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 3" /></a><div class="libro-nombre">Libro 3</div></div>
-          <div class="col-4 mb-4"><a href="libro4.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 4" /></a><div class="libro-nombre">Libro 4</div></div>
-          <div class="col-4 mb-4"><a href="libro15.html"><img src="media/pinguperfil.jpg" class="penguin-icon" alt="Libro 15" /></a><div class="libro-nombre">Libro 1</div></div>
+
+          <div class="col-4 mb-4">
+            <a href="libro.html">
+              <img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" />
+            </a>
+            <div class="libro-nombre">Libro 1</div></div>
+
+
           </div>
         </div>
       </div>
@@ -130,7 +127,6 @@
     placeMensaje.appendChild(announcement);
     placeMensaje.appendChild(howdelete);
     document.body.appendChild(placeMensaje);
-
     placeMensaje.onclick=()=>{
       placeMensaje.remove();
     }
@@ -142,37 +138,199 @@
     
     let idUsuario = localStorage.getItem("idUsuario");
     
-   
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
+    async function sesion() {
+    document.getElementById("sesion").textContent="Cerrar sesion";
+          document.getElementById("sesion").addEventListener("click", (e)=>{
+            e.preventDefault();
+            let idUsuario = localStorage.removeItem("idUsuario");
+            mensajePorPantalla("Se cerro sesion");
+            window.location.href =`iniciar_sesion.html`;
+            return;
+          })
+   }
+      document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        window.location.href =`perfil_autor.html?id=${idUsuario}`;
+      })
+    async function cantYPromObras() {
+      try{
+              const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
+              const informacion =  cantObras.json();
+              if(cantObras.ok){
+                document.getElementById("cantidadObras").textContent=informacion.cant_obras;
+                document.getElementById("promedioObras").textContent= informacion.prom_puntuacion;
+              }
+              else{
+                document.getElementById("cantidadObras").textContent="0";
+                document.getElementById("promedioObras").textContent="0";
+              }
+            }
+            catch(err){
+              mensajePorPantalla("Error en sesion");
+              console.error("Error en sesion", error);
+            }}
+
+
+
+function botonEliminarUsuario(deleteUser, id){
+  deleteUser.addEventListener("click", async (v)=>{
+    v.preventDefault();
+    try{
+      const userDelete= await fetch(`${UrlApi}/autores/${id}`,{
+        method: "DELETE"
+      });
+      if(userDelete.ok){
+        mensajePorPantalla("Se borro el usuario");
+        let idUsuario = localStorage.removeItem("idUsuario");
+        window.location.href =`iniciar_sesion.html`;
+      }
+      else{
+        mensajePorPantalla("Problema al eliminar usuario");
+      }
+    }
+    catch(error){
+      mensajePorPantalla("Error al borrar el perfil");
+      console.error("Error al borrar el perfil", error);
+    }})}
+async function botonCambiosUsuario(editor, data, idUsuario) {
+  editor.addEventListener("click", async(v)=>{
+    v.preventDefault()
+            
+    const place = document.createElement("div");
+    place.id= "registro-container";
+
+    const form = document.createElement("form");
+    form.id ="ChangeUser";
+
+    const inputName=document.createElement("input");
+    inputName.type="text";
+    inputName.name="nombre";
+    inputName.classList.add("form-control");
+    inputName.placeholder="Nuevo nombre de usuario";
+    inputName.value= data.nombre;
+
+    const inputPhoto=document.createElement("input");
+    inputPhoto.type="text";
+    inputPhoto.name="foto";
+    inputPhoto.classList.add("form-control");
+    inputPhoto.placeholder="Nueva foto";
+    inputPhoto.value= data.foto_perfil;
+
+    const inputMail=document.createElement("input");
+    inputMail.type="email";
+    inputMail.name="mail";
+    inputMail.classList.add("form-control");
+    inputMail.placeholder="Nuevo correo";
+    inputMail.value= data.mail;
+
+    const inputPassword=document.createElement("input");
+    inputPassword.type="password";
+    inputPassword.name="contraseña";
+    inputPassword.placeholder="Nueva contraseña";
+    inputPassword.classList.add("form-control");
+          
+
+    const inputDateBirthday = document.createElement("input");
+    inputDateBirthday.type= "date";
+    inputDateBirthday.name="dateBirthday";
+    inputDateBirthday.classList.add("form-control");
+    inputDateBirthday.placeholder="Fecha de nacimiento";
+    inputDateBirthday.value = data.fecha_de_nacimiento?.split("T")[0];
+
+    const inputCountry =document.createElement("input");
+    inputCountry.type="text";
+    inputCountry.classList.add("form-control");
+    inputCountry.name="country";
+    inputCountry.placeholder="Pais";
+    inputCountry.value= data.pais;
+
+    const textDescrip = document.createElement("textarea");
+    textDescrip.name="description";
+    textDescrip.placeholder ="Nueva biografia"
+    textDescrip.value=data.biografia
+    textDescrip.classList.add("form-control");
+
+    form.appendChild(inputName);
+    form.appendChild(inputMail);
+    form.appendChild(inputPassword);
+    form.appendChild(inputDateBirthday);
+    form.appendChild(inputCountry);
+    form.appendChild(textDescrip);
+    form.appendChild(inputPhoto);
+
+    const buttonSave = document.createElement("button")
+    buttonSave.textContent="Guardar cambios";
+    buttonSave.type="submit";
+    buttonSave.classList.add("form-control");
+
+    const buttonExit= document.createElement("button");
+    buttonExit.textContent="No cambiar nada";
+    buttonExit.type="button";
+    buttonExit.classList.add("form-control");
+    
+    buttonExit.addEventListener("click", (v)=>{
+      v.preventDefault();
+      place.remove();
     })
 
+    form.appendChild(buttonSave);
+    place.appendChild(buttonExit);
+    place.appendChild(form);
+    document.body.appendChild(place);
 
-      if(isNaN(id) || !idString){
-        if(!idUsuario){
-          window.location.href=`iniciar_sesion.html`;
-        }
-      else{
-        mensajePorPantalla("Error con la ruta para acceder al perfil");
-      }}
+    form.addEventListener("submit", async (v)=>{
+      v.preventDefault();
+      const changeForm = new FormData(form);
+              
+      const newData ={
+        name: changeForm.get("nombre"),
+        biography: changeForm.get("description"),
+        mail: changeForm.get("mail"),
+        dateBirthday:changeForm.get("dateBirthday"),
+        password:changeForm.get("contraseña"),
+        country:changeForm.get("country"),
+        photo:changeForm.get("foto")
+      };
+      try{
+        if(!changeForm.get("contraseña")){
+        newData.password= data.contraseña;}
+        if(!name ||!dateBirthday || !mail  ){
+          mensajePorPantalla("No se puede mandar campos vacios"); }
+        const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
+            method: "PUT",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(newData)
+          });
+          const result = await response.text();
+          mensajePorPantalla(result);
+          if(response.ok){
+            window.location.href = `perfil_autor.html?id=${idUsuario}`}}
+                  
+        catch(error){
+                mensajePorPantalla("Error al actualizar perfil");
+                console.error("Error al actualizar perfil", error); } });});
+}
 
+        async function mostrarPerfil() {
+      if(isNaN(id) || idString === null || idString.trim() === ""){
+        mensajePorPantalla("Error con la ruta para acceder al perfil");}
+      if(!idUsuario){
+              window.location.href=`iniciar_sesion.html`;
+              return; }
    
       fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
-    .then(res => {
+      .then(res => {
         if(!res.ok){
           document.getElementById("username").textContent = "(SIn nombre)";
-        document.getElementById("dateBirthday").textContent ="18/12/2022";
-        document.getElementById("country").textContent = "(Sin país)";
-        document.getElementById("dateLogin").textContent = "18/12/2022";
-        document.getElementById("photoUser").src ="./media/pinguperfil.jpg";
-        document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
+          document.getElementById("dateBirthday").textContent ="18/12/2022";
+          document.getElementById("country").textContent = "(Sin país)";
+          document.getElementById("dateLogin").textContent = "18/12/2022";
+          document.getElementById("photoUser").src ="";
+          document.getElementById("description").textContent ="(Sin descripcion. Pero creadores de PinguBooks aprovechan para mandar un saludo <3)";
           mensajePorPantalla("Error con el id del perfil que se quiere ver");
-
-          throw new Error("Error con el servidor");
-        }
-        return res.json()})
+          throw new Error("Error con el servidor");}
+          return res.json()})
     .then(data=>{
         document.getElementById("username").textContent = data.nombre;
         document.getElementById("dateBirthday").textContent = data.fecha_de_nacimiento?.split("T")[0];
@@ -180,20 +338,14 @@
         document.getElementById("dateLogin").textContent = data.fecha_ingreso?.split("T")[0];
         document.getElementById("photoUser").src =data.foto_perfil;
         document.getElementById("description").textContent = data.biografia;
+        
+       cantYPromObras();
 
         idUsuarioNumber= parseInt(idUsuario);
-        
-       
-
+ 
         if(idUsuarioNumber === id){
-
-          document.getElementById("sesion").textContent="Cerrar sesion";
-          document.getElementById("sesion").addEventListener("click", (e)=>{
-            e.preventDefault();
-            let idUsuario = localStorage.removeItem("idUsuario");
-            mensajePorPantalla("Se cerro sesion");
-            window.location.href =`iniciar_sesion.html`;
-          })
+          sesion();
+          
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
           spaceEditor.id ="buttonEditUser" 
@@ -201,140 +353,8 @@
 
           const deleteUser= document.createElement("button");
           deleteUser.textContent="Eliminar Usuario";
-          deleteUser.addEventListener("click", (v)=>{
-            v.preventDefault();
-            try{
-              const userDelete= fetch(`${UrlApi}/autores/${id}`,{
-                method: "DELETE"
-              });
-              mensajePorPantalla(userDelete);
-              if(userDelete.ok){
-                window.location.href =`iniciar_sesion.html`;
-              }
-            }
-            catch(error){
-                      mensajePorPantalla("Error al borrar el perfil");
-                      console.error("Error al borrar el perfil", error);
-                    }
-          })
-
-          editor.addEventListener("click", async(v)=>{
-            v.preventDefault()
-            
-            const place = document.createElement("div");
-            place.id= "registro-container";
-
-            const form = document.createElement("form");
-            form.id ="ChangeUser";
-
-            const inputName=document.createElement("input");
-            inputName.type="text";
-            inputName.name="nombre";
-            inputName.classList.add("form-control");
-            inputName.placeholder="Nuevo nombre de usuario";
-            inputName.value= data.nombre;
-
-            const inputPhoto=document.createElement("input");
-            inputPhoto.type="text";
-            inputPhoto.name="foto";
-            inputPhoto.classList.add("form-control");
-            inputPhoto.placeholder="Nueva foto";
-            inputPhoto.value= data.foto_perfil;
-
-            const inputMail=document.createElement("input");
-            inputMail.type="email";
-            inputMail.name="mail";
-            inputMail.classList.add("form-control");
-            inputMail.placeholder="Nuevo correo";
-            inputMail.value= data.mail;
-
-            const inputPassword=document.createElement("input");
-            inputPassword.type="password";
-            inputPassword.name="contraseña";
-            inputPassword.placeholder="Nueva contraseña";
-            inputPassword.classList.add("form-control");
-          
-
-            const inputDateBirthday = document.createElement("input");
-            inputDateBirthday.type= "date";
-            inputDateBirthday.name="dateBirthday";
-            inputDateBirthday.classList.add("form-control");
-            inputDateBirthday.placeholder="Fecha de nacimiento";
-            inputDateBirthday.value = data.fecha_de_nacimiento;
-
-            const inputCountry =document.createElement("input");
-            inputCountry.type="text";
-            inputCountry.classList.add("form-control");
-            inputCountry.name="country";
-            inputCountry.placeholder="Pais";
-            inputCountry.value= data.pais;
-            const textDescrip = document.createElement("textarea");
-            textDescrip.name="description";
-            textDescrip.placeholder ="Nueva biografia"
-            textDescrip.value=data.biografia
-            textDescrip.classList.add("form-control");
-
-            form.appendChild(inputName);
-            form.appendChild(inputMail);
-            form.appendChild(inputPassword);
-            form.appendChild(inputDateBirthday);
-            form.appendChild(inputCountry);
-            form.appendChild(textDescrip);
-            form.appendChild(inputPhoto);
-
-            const buttonSave = document.createElement("button")
-            buttonSave.textContent="Guardar cambios";
-            buttonSave.type="submit";
-            buttonSave.classList.add("form-control");
-
-            const buttonExit= document.createElement("button");
-            buttonExit.textContent="No cambiar nada";
-            buttonExit.type="button";
-            buttonExit.classList.add("form-control");
-
-            buttonExit.addEventListener("click", (v)=>{
-              v.preventDefault();
-              place.remove();
-            })
-
-
-            form.appendChild(buttonSave);
-            place.appendChild(buttonExit);
-            place.appendChild(form);
-            document.body.appendChild(place);
-
-            form.addEventListener("submit", async (v)=>{
-              v.preventDefault();
-              const changeForm = new FormData(form);
-
-              const newData ={
-                name: changeForm.get("nombre"),
-                biography: changeForm.get("description"),
-                mail: changeForm.get("mail"),
-                dateBirthday:changeForm.get("dateBirthday"),
-                password:changeForm.get("contraseña"),
-                country:changeForm.get("country"),
-                photo:changeForm.get("foto")
-              };
-              try{
-                if(!name ||!dateBirthday || !mail || !password ){
-                  mensajePorPantalla("No se puede mandar campos vacios");
-                }
-              const response = await fetch(`${UrlApi}/autores/${idUsuario}`,{
-                          method: "PUT",
-                          headers:{"Content-Type":"application/json"},
-                          body: JSON.stringify(newData)
-                        });
-                        const result = await response.text();
-                        mensajePorPantalla(result);
-                        window.location.href = `perfil_autor.html?id=${idUsuario}`
-                      }
-              catch(error){
-                      mensajePorPantalla("Error al actualizar perfil");
-                      console.error("Error al actualizar perfil", error);
-                    }
-                  });
-                });
+          botonEliminarUsuario(deleteUser, id);
+          botonCambiosUsuario(editor, data, idUsuario);
           const placeEditor = document.getElementById("autorContent");
           spaceEditor.appendChild(editor);
           spaceEditor.appendChild(deleteUser);
@@ -345,43 +365,44 @@
       
     .catch(error => {console.error ('Error:', error)})
    
-    fetch()
+    fetch(`${UrlApi}/autores/${id}/obras`)
     .then(res => {
         if(!res.ok){
-          throw new Error("Error con el servidor");
+          throw new Error("Error ");
         }
         return res.json()})
     .then(data=>{
       
-      const placeObra = document.createElement("div");
-         placeAuthor.id ="obrasContainer"
-      data.obras.forEach ( obra=>{
+        const placeObra = document.createElement("div");
+        placeObra.id ="obrasContainer";
+        data.obras.forEach ( obra=>{
          const spaceObras = document.createElement("div");
-         spaceObras.classList.add("libro");
+         spaceObras.classList.add("col-4 mb-4");
 
-         const name = document.createElement("h6");
-         name.textContent = obra.nombre;  
+          const link = document.createElement("a");
+         link.href = `perfil_author.html?id=${obra.id_obras}`; // ver si de verdad funciona
+         link.textContent =`${obra.titulo}`;
 
          const photoObra =document.createElement("img");
-         photoObra.src= obra.foto_perfil; //porque es imagen
-         photoObra.classList.add("autorFoto");
-         photoObra.alt= `Foto de la obra${obra.nombre}`;
+         photoObra.src= obra.portada; //porque es imagen
+         photoObra.classList.add("penguin-icon");
+         photoObra.alt= `Foto de la obra${obra.titulo}`;
+        link.appendChild(photoObra);
 
-         const link = document.createElement("a");
-         link.href = `perfil_author.html?id=${obra.id}`; // ver si de verdad funciona
-         link.textContent ="Ver perfil";
+         const spaceTitulo = document.createElement("div");
+         spaceTitulo.classList.add("libro-nombre");
+         spaceTitulo.textContent=obra.titulo;
 
-         spaceObras.appendChild(photoObra); 
-         spaceObras.appendChild(name); // ver si de verdad funciona
-         spaceObras.appendChild(link); 
+        spaceObras.appendChild(link);
+        spaceObras.appendChild(spaceTitulo);
          placeObra.appendChild(spaceObras);
   
         })
         document.body.appendChild(placeObra); 
     }    )
     .catch(error => {console.error ('Error:', error)})
-
-
+  }
+  mostrarPerfil();
   </script>
 </body>
 </html>
