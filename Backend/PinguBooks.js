@@ -106,26 +106,39 @@ async function modifyAutor(id_autor, nombre, biografia, fechaNacimiento, mail, c
 
 // Crea una obra con sus tags y la devuelve
 async function createObra(titulo, portada, descripcion, tags, id_autor, contenido) {
+  const client = await dbPinguBooks.connect();     // uso connect porque hago mas de una consulta en una misma transaccion
+
   try {
-    const res = await dbPinguBooks.query(`
+    await client.query("BEGIN");      // arranco la transaccion
+    const res = await client.query(`
       INSERT INTO obras (titulo, portada, descripcion, id_autor, contenido)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *`,
       [titulo, portada, descripcion, id_autor, contenido]
     );
-
     const obra = res.rows[0];
-
+    //nuevo manejo de tags (se almacenan si todavia no existen) (creo el tag y despues se lo incerto a la obra)
     if (tags && tags.length > 0) {
       for (let tag of tags) {
-        await dbPinguBooks.query("INSERT INTO obra_tag (id_obra, nombre_tag) VALUES ($1, $2)", [obra.id_obras, tag]);
+        await client.query(`           
+          INSERT INTO tags (nombre)
+          VALUES ($1)
+          ON CONFLICT (nombre) DO NOTHING
+        `, [tag]);                           // creo
+        await client.query(`
+          INSERT INTO obra_tag (id_obra, nombre_tag)
+          VALUES ($1, $2)
+        `, [obra.id_obras, tag]);            // incerto
       }
     }
-
+    await client.query("COMMIT");     // transaccion exitosa
     return obra;
   } catch (err) {
+    await client.query("ROLLBACK");   // revierto cambios porque la transaccion fallo
     console.error("Error al crear obra:", err);
     return undefined;
+  } finally {
+    client.release();
   }
 }
 
