@@ -112,7 +112,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"> </script>
   
   <script type="text/javascript">
-    const UrlApi ="http://localhost:3000"
+    const UrlApi ="http://localhost:3000";
     function mensajePorPantalla(mensaje){
     const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
     if (oldPlaceMensaje) {
@@ -345,7 +345,6 @@ async function botonCambiosUsuario(editor, data, idUsuario) {
  
         if(idUsuarioNumber === id){
           sesion();
-          
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
           spaceEditor.id ="buttonEditUser" 

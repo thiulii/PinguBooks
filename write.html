@@ -150,8 +150,15 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-
+    const UrlApi ="http://localhost:3000";
     const idAutor = localStorage.getItem("idUsuario");
+
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        window.location.href =`perfil_autor.html?id=${idAutor}`;
+      })
+
 
     // si el usuario no esta logueado, lo mando a que inicie sesion
     if (!idAutor) {
@@ -239,7 +246,7 @@
       };
 
       try {
-        const response = await fetch("/api/obras", {
+        const response = await fetch(`${UrlApi}/obras`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(datos),
