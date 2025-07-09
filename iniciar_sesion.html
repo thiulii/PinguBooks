@@ -121,13 +121,20 @@
       mail: form.mail.value,
       password: form.password.value
     };
+    await new Promise(resolve => setTimeout(resolve, 10));// borrar luego 
+    if(!data.mail  || !data.password){
+      mensajePorPantalla("Error en los campos de mail y/o contraseña");
+      return;
+    }
   try{
+   
     const answer = await fetch(`${UrlApi}/iniciar_sesion`, {
       method: "POST",
       headers :{"Content-Type":"application/json"},
       body: JSON.stringify(data)
     });
     const response = await answer.json();
+    console.log(response);//borrar
     if(answer.ok){
       localStorage.setItem("idUsuario", response.usuario);
       window.location.href = `perfil_autor.html?id=${response.usuario}`;

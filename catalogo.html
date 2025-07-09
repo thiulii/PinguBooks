@@ -73,20 +73,11 @@
       </div>
     </div>
   </nav>
-
       <div class="container catalogoCaja">
         <h2>Nuestros autores</h2>
-        <div class="autores" id ="authorCatalog";>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
-            <div class="libro"><img class="autorFoto" src="./media/test.png"><h6>Autor</h6></div>
+        <div class="autores" id ="authorCatalog">
+            
+           
         </div>
     </div>
 
@@ -128,7 +119,6 @@
     let idUsuario = localStorage.getItem("idUsuario");
     // Buscar como verificar que no sea vacio idUsuario
     if( (idUsuario.length === 0)|| idUsuario!==null){
-
         document.getElementById("sesion").textContent="Cerrar sesion";
         document.getElementById("sesion").addEventListener("click", (e)=>{
         e.preventDefault();
@@ -136,36 +126,38 @@
         mensajePorPantalla("Se cerro sesion");
         window.location.href =`iniciar_sesion.html`;
       })}
+
+
       fetch(`${UrlApi}/autores`)
       .then(res => {
         if(!res.ok){
-          throw new error("Error con el servidor");
+          throw new Error("Error con el servidor");
         }
-        res.json()})
+        return res.json()})
       .then(data=>{
-        const placeAuthor = document.createElement("div");
-         placeAuthor.id ="authorCatalog";
-
          data.autores.forEach ( autor=>{
          const spaceAuthor = document.createElement("div");
-         spaceAuthor.classList.add("libro") 
+         spaceAuthor.classList.add("libro"); 
+
          const name = document.createElement("h6")
-         name.textContent = autor.nombre  
+         name.textContent= autor.nombre;
+         
          const photoUser =document.createElement("img");
          photoUser.src= autor.foto_perfil; //porque es imagen
          photoUser.classList.add("autorFoto");
          photoUser.alt= `Foto del usuario ${autor.nombre}` 
          const link = document.createElement("a");
-         link.href = `perfil_author.html?id=${autor.id}` // ver si de verdad funciona
-         link.textContent ="Ver perfil";
+         link.href = `perfil_autor.html?id=${autor.id_autor}` // ver si de verdad funciona
+         link.textContent = "Ver perfil";
+        
          spaceAuthor.appendChild(photoUser); 
          spaceAuthor.appendChild(name); // ver si de verdad funciona
-         spaceAuthor.appendChild(link); 
-         placeAuthor.appendChild(spaceAuthor);
-           
+          spaceAuthor.appendChild(link);
+         
+        document.getElementById("authorCatalog").appendChild(spaceAuthor);
          })
-        document.body.appendChild(placeAuthor); })
-
+        
+        })
       .catch(error => {console.error ('Error:', error)})
      
     </script>
