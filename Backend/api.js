@@ -236,7 +236,7 @@ app.get("/obras", async(req, res) => {
 app.post("/obras", async(req, res) => {
     // usa body de json
     const titulo = req.body.titulo;
-    const portada = req.body.portada;
+    let portada = req.body.portada;
     const descripcion = req.body.descripcion;
     let tags = req.body.tags;
     if (tags){
@@ -253,6 +253,9 @@ app.post("/obras", async(req, res) => {
     const puntuacion = parseFloat(req.body.puntuacion);
     const contenido = req.body.contenido;
 
+    if(!portada){
+        portada="./media/imagen_default.png";
+      }
     if (!titulo || isNaN(id_autor) || !descripcion || !contenido){
         return res.status(400).json({error: "Error al crear nueva obra, no se llenaron los datos obligatorios"});
     }
