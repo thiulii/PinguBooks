@@ -49,14 +49,8 @@ a {
     display:flex;
     align-items: center;
     flex-direction: column;
-
     text-align: center;    
-  padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    transition: transform 0.2s ease;
-    color: black;
-    margin: 50px ;
+
 }
 
 
