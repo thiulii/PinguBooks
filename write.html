@@ -74,16 +74,18 @@
     </div>
   </nav>
 
-    <!-- FORMULARIO -->
   <div class="container my-5">
-    <!-- Bloque formulario -->
+    <!-- error -->
+    <div id="mensajeError" class="alert alert-danger d-none" role="alert"></div>
+
+    <!-- formulario datos del libro -->
     <div class="p-4 bg-white rounded-4 shadow-sm mb-4 w-100">
-      <form>
+      <form id="formLibro">
         <label for="titulo" class="form-label fw-bold">Nombre del libro:</label>
         <input type="text" id="titulo" name="titulo" class="form-control" required />
 
         <label for="portada" class="form-label fw-bold mt-3">Portada (URL):</label>
-        <input type="url" id="portada" name="portada" class="form-control" required />
+        <input type="url" id="portada" name="portada" class="form-control" />
 
         <label class="form-label fw-bold mt-3">Seleccione sus tags:</label><br />
         <button type="button" class="btn btn-warning me-2 mb-2">TAG</button>
@@ -91,20 +93,55 @@
         <button type="button" class="btn btn-warning me-2 mb-2">TAG</button>
 
         <label for="descripcion" class="form-label fw-bold mt-3">Resumen:</label>
-        <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
+        <textarea id="descripcion" name="descripcion" class="form-control" rows="3"></textarea>
       </form>
     </div>
 
-    <!-- Bloque contenido -->
+    <!-- contenido del libro -->
     <div class="p-4 bg-white rounded-4 shadow-sm w-100">
       <textarea id="contenido" name="contenido" class="form-control border-0" rows="10" placeholder="Contenido de la obra..." required></textarea>
       <div class="d-flex justify-content-end mt-3">
-        <button type="submit" class="btn btn-primary">Publicar historia</button>
+        <button type="submit" class="btn btn-primary" form="formLibro" id="publicarBtn">Publicar historia</button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- validacion -->
+  <script>
+    document.getElementById("publicarBtn").addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const titulo = document.getElementById("titulo").value.trim();
+      const portada = document.getElementById("portada").value.trim();
+      const contenido = document.getElementById("contenido").value.trim();
+      const mensajeError = document.getElementById("mensajeError");
+
+      const esURLValida = (url) => {
+        try {
+          new URL(url);
+          return true;
+        } catch {
+          return false;
+        }
+      };
+
+      let errores = [];
+
+      if (!titulo) errores.push("El título es obligatorio.");
+      if (portada && !esURLValida(portada)) errores.push("La URL para la portada no es válida.");
+      if (!contenido) errores.push("El contenido del libro es obligatorio.");
+
+      if (errores.length > 0) {
+        mensajeError.classList.remove("d-none");
+        mensajeError.innerHTML = errores.join("<br>");
+      } else {
+        mensajeError.classList.add("d-none");
+        console.log("Formulario válido. Publicando...");
+      }
+    });
+  </script>
 
 </body>
 </html>
