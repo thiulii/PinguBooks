@@ -52,8 +52,8 @@ async function cargarLatest(){
         nombre.innerHTML = `${libro.titulo}`;
         link.appendChild(nombre);
 
-        const top = document.getElementById("latest");
-        top.appendChild(elemento);
+        const biblioteca = document.getElementById("latest");
+        biblioteca.appendChild(elemento);
     
 });
 }

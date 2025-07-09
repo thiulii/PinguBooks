@@ -89,7 +89,7 @@ a {
   color: var(--color-texto) !important;
 }
 .portada{
-    width: 200px;
+    width: 170px;
     aspect-ratio: 3/4;
     background-color: #d8d8cd;
     border: 3px solid var(--color-principal);
