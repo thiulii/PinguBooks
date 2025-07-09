@@ -91,10 +91,10 @@
           <!-- Contenido colapsable -->
           <div class="collapse d-lg-block" id="mejoresRateados">
             <h5>Los mejores rateados!!</h5>
-            <div class="d-flex flex-column gap-3">
-              <a href="libro.html/2"><div class="libro">Top 1</div></a>
-              <a href="libro.html/2"><div class="libro">Top 2</div></a>
-              <a href="libro.html/2"><div class="libro">Top 3</div></a>
+            <div class="d-flex flex-column gap-3" id="top">
+              <a href="libro.html?id=1" class="libro">Top 1</a>
+              <a href="libro.html?id=1" class="libro">Top 2</a>
+              <a href="libro.html?id=1" class="libro">Top 3</a>
             </div>
           </div>
         </div>
@@ -106,15 +106,15 @@
                 pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
                 que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
                 pegadas-->
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 1</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 2</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 3</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 4</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/test.png"><h6>Libro 5</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 6</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 7</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 8</h6></div>
-                <div class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 9</h6></div>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 1</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 2</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 3</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 4</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 5</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 6</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 7</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 8</h6></a>
+                <a href="libro.html?id=1" class="col-6 col-md-4 col-lg-3 mb-3 libro"><img class="portada" src="./media/imagen_default.png"><h6>Libro 9</h6></a>
 
             </div>
         </div>
@@ -139,6 +139,8 @@
         window.location.href =`iniciar_sesion.html`;
       })}
     </script>
+  
+    <script src="./scripts/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>
