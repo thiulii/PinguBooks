@@ -94,57 +94,79 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript">
-    const UrlApi ="http://localhost:3000";
+ <script type="text/javascript">
+  const UrlApi = "http://localhost:3000";
 
-    document.getElementById("miPerfil").addEventListener("click", (e)=>{
-        let idUsuario = localStorage.getItem("idAutor");
-        window.location.href =`perfil_autor.html?id=${idUsuario}`; })
-
-    function mensajePorPantalla(mensaje){
-    const oldPlaceMensaje = document.getElementById("anuncioDeWeb");
-    if (oldPlaceMensaje) { oldPlaceMensaje.remove();}
-    const placeMensaje = document.createElement("div");
-    placeMensaje.id = "anuncioDeWeb"
-    const announcement =document.createElement("h3");
-    const howdelete =document.createElement("p")
-    announcement.textContent = mensaje 
-    howdelete.textContent="(haz click para eliminar este mensaje)";
-    placeMensaje.appendChild(announcement);
-    placeMensaje.appendChild(howdelete);
-    document.body.appendChild(placeMensaje);
-
-    placeMensaje.onclick=()=>{
-      placeMensaje.remove();
+  // redireccion cuando ya esta logueado
+  document.getElementById("miPerfil").addEventListener("click", (e) => {
+    e.preventDefault();
+    const idUsuario = localStorage.getItem("idAutor");
+    if (idUsuario) {
+      window.location.href = `perfil_autor.html?id=${idUsuario}`;
+    } else {
+      window.location.href = "iniciar_sesion.html";
     }
+  });
+
+  // mensajes
+  function mensajePorPantalla(mensaje, esError = false) {
+    const oldPlace = document.getElementById("anuncioDeWeb");
+    if (oldPlace) oldPlace.remove();
+
+    const place = document.createElement("div");
+    place.id = "anuncioDeWeb";
+    place.style.backgroundColor = esError ? "var(--color-secundario)" : "var(--color-principal)";
+    place.style.color = "white";
+    place.style.position = "fixed";
+    place.style.bottom = "50px";
+    place.style.right = "30px";
+    place.style.padding = "10px 20px";
+    place.style.borderRadius = "5px";
+    place.style.cursor = "pointer";
+    place.textContent = mensaje;
+
+    place.addEventListener("click", () => place.remove());
+    document.body.appendChild(place);
   }
-    //submit es para enviar un formulario en html
-  document.getElementById("registrationForm").addEventListener("submit", async(v)=>{
-    v.preventDefault();
-    const form = v.target;
-    const data= {
-      name: form.name.value,
-      mail: form.mail.value,
-      password: form.password.value,
+
+  document.getElementById("registrationForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+      name: form.name.value.trim(),
+      mail: form.mail.value.trim(),
+      password: form.password.value.trim(),
       dateBirthday: form.dateBirthday.value,
-      country: form.country.value,
-      biography: form.biography.value,
-      foto_perfil:form.foto_perfil.value
-  }
+      country: form.country.value.trim(),
+      biography: form.biography.value.trim(),
+      foto_perfil: form.foto_perfil.value.trim(),
+    };
+
     try {
-      const answer = await fetch(`${UrlApi}/autores`, {
-      method: "POST",
-      headers :{"Content-Type":"application/json"},
-      body: JSON.stringify(data) })
+      const respuesta = await fetch(`${UrlApi}/autores`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    const mensaje =  await answer.text();
-    if(answer.ok){
-      mensajePorPantalla("Se creo")
-      window.location.href =`iniciar_sesion.html`;
+      const textoRespuesta = await respuesta.text();
+
+      if (respuesta.status === 201) {
+        mensajePorPantalla("Se creó el usuario. Redirigiendo a iniciar sesión...");
+        setTimeout(() => {
+          window.location.href = "iniciar_sesion.html";
+        }, 1500);
+      } else if (respuesta.status === 409) {
+        mensajePorPantalla("El correo ya está en uso.", true); 
+      } else {
+        mensajePorPantalla(textoRespuesta || "Error al crear usuario.", true);
+      }
+    } catch (err) {
+      console.error("Error al conectar con la API:", err);
+      mensajePorPantalla("No se pudo conectar con el servidor.", true);
     }
-    else{      mensajePorPantalla("No se creo"); } }
-
-    catch(error)  {console.error ('Error:', error)} })  
-    </script>
+  });
+  </script>
+  
 </body>
 </html>
