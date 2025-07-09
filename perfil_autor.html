@@ -199,16 +199,28 @@
 
           const deleteUser= document.createElement("button");
           deleteUser.textContent="Eliminar Usuario";
-          deleteUser.addEventListener("click", (v)=>{
+          deleteUser.addEventListener("click", async (v)=>{
             v.preventDefault();
             try{
-              const userDelete= fetch(`${UrlApi}/autores/${id}`,{
+              const userDelete= await fetch(`${UrlApi}/autores/${id}`,{
                 method: "DELETE"
               });
-              mensajePorPantalla(userDelete);
+              try{
+                const respuesta= await userDelete.json;
+              }
+              catch(error){
+                      mensajePorPantalla("Error al leer json");
+                      console.error("Error al borrar el perfil", error);
+                      return;
+                    }
+              
               if(userDelete.ok){
+                mensajePorPantalla("Se borro el usuario");
                 let idUsuario = localStorage.removeItem("idUsuario");
                 window.location.href =`iniciar_sesion.html`;
+              }
+              else{
+                mensajePorPantalla("Problema al eliminar usuario");
               }
             }
             catch(error){
@@ -353,7 +365,8 @@
     .then(data=>{
       
       const placeObra = document.createElement("div");
-         placeAuthor.id ="obrasContainer"
+         placeAuthor.id ="obrasContainer";
+         
       data.obras.forEach ( obra=>{
          const spaceObras = document.createElement("div");
          spaceObras.classList.add("libro");

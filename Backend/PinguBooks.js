@@ -79,11 +79,11 @@ catch(err){
 // Elimina un autor por ID (sus obras se borran en cascada)
 async function deleteAutor(id_autor) {
   try {
-    await dbPinguBooks.query("DELETE FROM autores WHERE id_autor = $1", [id_autor]);
-    return true;
+    const resultado =await dbPinguBooks.query("DELETE FROM autores WHERE id_autor = $1", [id_autor]);
+    return resultado.rowCount>0;
   } catch (err) {
     console.error("Error al borrar autor:", err);
-    return undefined;
+    return false;
   }
 }
 

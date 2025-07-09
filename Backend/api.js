@@ -58,11 +58,12 @@ app.get("/autores/:id", async (req, res)=>{
 })
 app.delete("/autores/:id", async (req, res)=>{
   const idAutor = req.params.id
-  const user = await deleteAutor(idAutor);
-  try{if(user===true){
-      return res.status(200).json("Se borro el usuario")
+  
+  try{const user = await deleteAutor(idAutor);
+    if(user===true){
+      return res.status(200).json({mensaje:"Se borro el usuario"})
   }
-  return  res.status(404).json("Problema al eliminar usuario")}
+  return  res.status(404).json({mensaje:"Problema al eliminar usuario"})}
   catch (error){
     return res.status(500).json({error: "error de servidor /autores/:id delete"});
 }
@@ -94,7 +95,6 @@ app.put("/autores/:id", async (req, res)=>{
 
 // CREAR PERFIL POST
 app.post("/autores",async (req, res)=>{
-    console.log(req.body);
     const puntuacion=0;
     const fechaIngreso=new Date();
   const nombre =req.body.name;
@@ -125,8 +125,6 @@ app.post("/autores",async (req, res)=>{
 
 })
 app.post("/iniciar_sesion", async (req, res)=>{
-
-
   try{
   const mail= req.body.mail;
   const password= req.body.password; 
