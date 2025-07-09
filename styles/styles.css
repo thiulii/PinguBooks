@@ -58,7 +58,7 @@ a {
     color: black;
     margin: 50px ;
 }
-<<<<<<< HEAD
+
 .librito{
   display:flex;
   align-items: center;
@@ -68,12 +68,12 @@ a {
   text-align: center;
   transition: transform 0.2s ease;
   color: black;
-  margin: 50px ;
+
+  
 }
 .librito:hover {
-=======
-
-
+  transform: scale(1.03);
+}
 .portadita{
     width:55%;
     aspect-ratio: 2/3;
@@ -84,22 +84,16 @@ a {
     transition: ease 500ms;
     object-fit: cover;
 }
-
 .portadita:hover{
   border: 3px solid var(--color-acento);
   filter: blur(3px);
 }
-
-
 .libro:hover {
->>>>>>> 3d936de5363c1a9393c3acfdb38be587d03e81dc
   transform: scale(1.03);
 }
 .libro h6 {
   color: var(--color-texto) !important;
 }
-
-
 .portada{
     width: 200px;
     aspect-ratio: 3/4;
@@ -129,6 +123,7 @@ a {
     border-radius: 50%;
     margin-bottom: 10px;
     width: 120px;
+    gap: 50px;
 
   
 }
