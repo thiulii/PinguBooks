@@ -234,7 +234,21 @@
         mensajeError.classList.remove("d-none");
         mensajeError.innerHTML = "¡La historia fue publicada con éxito!";
 
-        
+        // formulario back to new..
+        document.getElementById("formLibro").reset();
+        document.getElementById("contenido").value = "";
+        tagsSeleccionados.clear();
+        botonesTags.forEach((btn) => {
+          btn.classList.remove("btn-success");
+          btn.classList.add("btn-warning");
+        });
+
+      } catch (err) {
+        mensajeError.classList.remove("d-none");
+        mensajeError.classList.remove("alert-success");
+        mensajeError.classList.add("alert-danger");
+        mensajeError.innerHTML = "Hubo un error al publicar la historia. Intente nuevamente.";
+      }
     });
   </script>
 
