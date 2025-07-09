@@ -121,11 +121,8 @@ a {
 .autorFoto{
     height: 50%;
     border-radius: 50%;
-    margin-bottom: 10px;
     width: 120px;
     gap: 50px;
-
-  
 }
 
 .autores{
