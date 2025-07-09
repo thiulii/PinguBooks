@@ -271,7 +271,7 @@ app.post("/obras", async(req, res) => {
         return res.status(500).json({error: "error al crear la obra"});
     }
 
-    return res.status(200).json({status: "OK"});
+    return res.status(201).json({status: "OK"});
 })
 
 app.delete("/obras/:id", async(req, res) => {
@@ -366,7 +366,7 @@ app.post("/tags", async(req,res) => {
     if (response === undefined){
         return res.status(500).json({error: "no se pudo crear el tag"});
     }
-    return res.status(200).json({status: "ok"})
+    return res.status(201).json({status: "ok"})
 })
 
 app.delete("/tags/:tag", async(req, res) => {
@@ -430,7 +430,7 @@ app.post("/comentarios", async (req, res) => {
   const comentario = await createComentario(id_usuario, id_obra, estrellas, contenido);
   if (!comentario) return res.status(500).json({ error: "Error al crear comentario" });
 
-  return res.status(200).json({ status: "OK", comentario });
+  return res.status(201).json({ status: "OK", comentario });
 });
 
 // Editar un comentario
