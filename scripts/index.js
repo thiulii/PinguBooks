@@ -20,6 +20,10 @@ async function cargarTop(){
         foto.classList.add("portadita")
         fila.appendChild(foto);
 
+        const puntaje = document.createElement("p");
+        puntaje.innerHTML = `⭐ ${libro.puntuacion}`;
+        fila.appendChild(puntaje);
+
         const top = document.getElementById("top-tabla");
         top.appendChild(fila);
     });
