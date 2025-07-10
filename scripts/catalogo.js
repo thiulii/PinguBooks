@@ -135,7 +135,17 @@ function cargarOrden(){
 }
 
 async function cargarCatalogo(){
-    const res = await fetch(BDD_LINK + "/obras?");
+    let params = []
+    if (search){
+        params.push("search="+search); 
+    }
+    params.push("by=" + criterioSeleccionado);
+    params.push("order=" + ordenSeleccionado);
+    if (tagsParam){
+        params.push("tags=" + tagsParam)
+    }
+
+    const res = await fetch(BDD_LINK + "/obras?" + params.join("&"));
     const obras = await res.json();
 
     obras.forEach((libro) => {
