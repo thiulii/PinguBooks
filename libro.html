@@ -95,7 +95,7 @@
         <div class="mt-3 mb-3 text-start">
           <button id="expandir" class="btn btn-sm btn-outline-primary">Expandir lectura</button>
         </div>
-        <button id="cerrarLectura" class="btn btn-sm btn-outline-danger cerrar-lectura" style="display: none;">❌ Cerrar</button>
+        <button id="cerrarLectura" class="btn btn-sm btn-outline-danger cerrar-lectura" style="display: none;">Cerrar</button>
       </div>
 
         <!-- si la persona esta logueada y es el autor, puede editar la obra -->
@@ -115,6 +115,7 @@
               <textarea id="editarContenido" class="form-control" rows="6" required></textarea>
             </div>
             <button id="guardarCambiosBtn" type="button" class="btn btn-warning">Guardar Cambios</button>
+            <button id="btn-eliminar-obra" class="btn btn-danger ms-2" style="display: none;">Eliminar obra</button>
           </form>
         </section>
       </div>
@@ -210,9 +211,7 @@
         const resRelacion = await fetch(`${UrlApi}/obras/${idObra}`);
         const obraCompleta = await resRelacion.json();
         const tagsObra = obraCompleta.tags || [];
-        const tagsHTML = tagsObra.map(tag =>
-          `<span class="badge bg-secondary me-1">${tag}</span>`
-        ).join("");
+        const tagsHTML = tagsObra.map(tag =>`<button type="button" class="btn btn-warning btn-sm me-1" disabled>${tag}</button>`).join("");
         tagsOb.innerHTML = tagsHTML;
       }
 
@@ -238,6 +237,10 @@
         editPortada.value = obraData.portada;
         editDesc.value = obraData.descripcion;
         editCont.value = obraData.contenido;
+         document.getElementById("btn-eliminar-obra").style.display = "inline-block";
+      } else {
+        editarSeccion.style.display = "none";
+        document.getElementById("btn-eliminar-obra").style.display = "none";
       }
     }
 
@@ -256,10 +259,8 @@
         } catch (err) {
           console.error("Error al traer autor:", err);
         }
-
         const div = document.createElement("div");
-        div.className = "perfil-container mb-3"; // usa fondo blanco, borde redondo, padding
-
+        div.className = "perfil-container mb-3";
         div.innerHTML = `
           <div class="d-flex align-items-start gap-3">
             <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="50" height="50" class="rounded-circle mt-1" />
@@ -274,22 +275,22 @@
           </div>
         `;
 
-        // si el usuario es el propietario del comentario muestro el botón de editar
-        if (idUsuario === obraData.id_autor) {
-          editarSeccion.style.display = "block";
-          document.getElementById("botonMostrarEdicion").style.display = "inline-block";
-          editarForm.style.display = "none";
-          editTitulo.value = obraData.titulo;
-          editPortada.value = obraData.portada;
-          editDesc.value = obraData.descripcion;
-          editCont.value = obraData.contenido;
-        }
-        document.getElementById("botonMostrarEdicion").onclick = () => {
-          document.getElementById("botonMostrarEdicion").style.display = "none";
-          editarForm.style.display = "block";
-        };
+        comentariosContainer.appendChild(div);
       }
+      // solo le muestra al autor el boton de editar obra
+      if (idUsuario === obraData.id_autor) {
+        editarSeccion.style.display = "block";
+        document.getElementById("botonMostrarEdicion").style.display = "inline-block";
+        editarForm.style.display = "none";
+      } else {
+        editarSeccion.style.display = "none";
+      }
+      document.getElementById("botonMostrarEdicion").onclick = () => {
+        document.getElementById("botonMostrarEdicion").style.display = "none";
+        editarForm.style.display = "block";
+      };
     }
+
 
     async function editarComentario(comm) {
       const newText = prompt("Modificar comentario:", comm.contenido_comentario);
@@ -314,7 +315,11 @@
             titulo: editTitulo.value.trim(),
             portada: editPortada.value.trim(),
             descripcion: editDesc.value.trim(),
-            contenido: editCont.value.trim()
+            contenido: editCont.value.trim(),
+            tags: "",         
+            fecha: null,      
+            id_autor: null,   
+            puntuacion: null  
           })
         });
         if (!res.ok) {
@@ -332,8 +337,14 @@
 
     // modifico el contenido del comentario
     document.getElementById("enviarComentarioBtn").addEventListener("click", async () => {
+      if (idUsuario === obraData.id_autor) {
+        alert("No puedes comentar tu propia obra.");        // por si llega a haber algun error
+        return;
+      }
+
       const estrellasVal = Number(inputEstrellas.value);
       const comentarioVal = inputComentario.value.trim();
+
       if (!comentarioVal) {
         alert("El comentario no puede estar vacío");
         return;
@@ -364,6 +375,30 @@
         alert("Error: " + error.message);
       }
     });
+
+    // eliminar una obra
+    document.getElementById("btn-eliminar-obra").addEventListener("click", async () => {
+      if (!confirm("¿Estás seguro que querés eliminar esta obra? Esta acción no se puede deshacer.")) {
+        return;
+      }
+      try {
+        const res = await fetch(`${UrlApi}/obras/${idObra}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id_usuario: idUsuario }),  // tambien lo paso como un json
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Error al eliminar la obra");
+        }
+        alert("Obra eliminada correctamente");
+        window.location.href = "index.html"; 
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });    
 
     cargarLibro();
     cargarComentarios();
