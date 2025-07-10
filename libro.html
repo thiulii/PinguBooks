@@ -318,7 +318,13 @@
             </div>
           </div>
         `;
-
+        if (idUsuario === c.id_usuario) {
+          const botonEditar = document.createElement("button");
+          botonEditar.textContent = "Editar";
+          botonEditar.className = "btn btn-sm btn-outline-primary mt-1";
+          botonEditar.onclick = () => editarComentario(c);
+          div.querySelector("div").appendChild(botonEditar);
+        }
         comentariosContainer.appendChild(div);
       }
       // solo le muestra al autor el boton de editar obra
@@ -363,7 +369,7 @@
             id_autor:idUsuario
           })
         });
-        console.log("se ejecuto!");
+
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Error al guardar la obra");
