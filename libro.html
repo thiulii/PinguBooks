@@ -219,7 +219,7 @@
     const contenidoOb = document.getElementById("contenido");
     const fechaPubOb = document.getElementById("fechaPublicacion");
     const puntuacionOb = document.getElementById("puntuacion");
-    const tagsOb = document.getElementById("tagsContainer");
+
 
 
     const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
@@ -249,14 +249,19 @@
       puntuacionOb.textContent = obraData.puntuacion?.toFixed(1) ?? "0.0";
 
       // cragar tags
-      const resTags = await fetch(`${UrlApi}/tags`);
+      const resTags = await fetch(`${UrlApi}/obras/${idObra}/tags`);
       if (resTags.ok) {
         const allTags = await resTags.json();
-        const resRelacion = await fetch(`${UrlApi}/obras/${idObra}`);
-        const obraCompleta = await resRelacion.json();
-        const tagsObra = obraCompleta.tags || [];
-        const tagsHTML = tagsObra.map(tag =>`<button type="button" class="btn btn-warning btn-sm me-1" disabled>${tag}</button>`).join("");
-        tagsOb.innerHTML = tagsHTML;
+        allTags.forEach((tagPoner) => {
+          const elemento = document.createElement("button");
+          elemento.classList.add("btn", "btn-warning", "btn-sm", "me-1");
+          elemento.type = "button";
+          elemento.innerText = tagPoner.nombre_tag;
+
+          const tagsOb = document.getElementById("tagsContainer");
+          tagsOb.appendChild(elemento);
+        });
+        
       }
 
       // un autor ya no se puede comentar su propia obra 
@@ -334,7 +339,6 @@
         editarForm.style.display = "block";
       };
     }
-
 
     async function editarComentario(comm) {
       const newText = prompt("Modificar comentario:", comm.contenido_comentario);
@@ -444,7 +448,7 @@
 
     cargarLibro();
     cargarComentarios();
-
+    cargarTags();
   </script>
 </body>
 </html>

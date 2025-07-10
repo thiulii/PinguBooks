@@ -33,7 +33,8 @@ const { sumAndAverage,
   modifyComentario,
   getComentarioOwner,
 
-  getAllObrasByAutor
+  getAllObrasByAutor,
+  getAllTagsFromObra
 } =require("./PinguBooks.js");
 
 // SECCION AUTORES ------------------------------------------------------------
@@ -189,6 +190,19 @@ app.get("/autores", async (req, res)=>{
 
 
 // SECCION OBRAS ---------------------------------------------------------------
+app.get("/obras/:id/tags", async(req, res) => {
+  const id_obra = parseInt(req.params.id);
+  if (isNaN(id_obra)){
+    return res.status(400).json({error: "id ingresado incorrectamente"});
+  }
+
+  const response = await getAllTagsFromObra(id_obra);
+  if (response === undefined){
+    return res.status(404).send({error: "id no encontrado"});
+  }
+  return res.json(response)
+})
+
 app.get("/obras/:id", async(req, res) => {
   const id_obra = parseInt(req.params.id);
   if (isNaN(id_obra)){
