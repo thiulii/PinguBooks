@@ -288,12 +288,15 @@ app.post("/obras", async(req, res) => {
 
 app.delete("/obras/:id", async (req, res) => {
   const idObra = parseInt(req.params.id);
-  const idUsuario = parseInt(req.query.id_usuario); // ejemplo: /obras/10?id_usuario=5
+  const idUsuario = parseInt(req.body.id_usuario);
+  console.log("DELETE /obras/:id", { idObra, idUsuario })
 
   if (isNaN(idObra) || isNaN(idUsuario)) {
     return res.status(400).json({ error: "id invalido o id_usuario invalido" });
   }
   const obra = await getAnObra(idObra);
+  console.log("Obra encontrada:", obra);
+
   if (!obra) {
     return res.status(404).json({ error: "Obra no encontrada" });
   }
@@ -302,8 +305,10 @@ app.delete("/obras/:id", async (req, res) => {
   }
   const resultado = await deleteObra(idObra);
   if (!resultado) {
+    console.log("Error en deleteObra")
     return res.status(500).json({ error: "Error al eliminar la obra" });
   }
+  console.log("Obra eliminada correctamente");
   return res.status(200).json({ status: "ok", mensaje: "Obra eliminada" });
 });
 

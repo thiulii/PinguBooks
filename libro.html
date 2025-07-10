@@ -469,7 +469,8 @@
     });
 
     // eliminar una obra
-    document.getElementById("btn-eliminar-obra").addEventListener("click", async () => {
+    document.getElementById("btn-eliminar-obra").addEventListener("click", async (e) => {
+      e.preventDefault();
       if (!confirm("¿Estás seguro que querés eliminar esta obra? Esta acción no se puede deshacer.")) {
         return;
       }
@@ -485,11 +486,11 @@
           const errorData = await res.json();
           throw new Error(errorData.message || "Error al eliminar la obra");
         }
-        alert("Obra eliminada correctamente");
-        window.location.href = "index.html"; 
+        alert("Obra eliminada correctamente"); 
       } catch (error) {
         alert("Error: " + error.message);
       }
+      window.location.href = "./index.html";
     });    
 
     cargarLibro();
