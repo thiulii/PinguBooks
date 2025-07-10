@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+async function cargarBuscadorTags(){
+    const res = fetch(BDD_LINK + "/tags")
+    const tagColocar = 
+}
+
 const botonesTags = document.querySelectorAll(".btn-warning");
 const tagsSeleccionados = new Set();
 const dropdownTags = document.getElementById("tagsDropdown");
@@ -57,18 +62,18 @@ function cargarTags(){
 let criterioSeleccionado;
 const botonesCriterio = document.querySelectorAll(".criterioBoton");
 const dropdownCriterio = document.getElementById("dropdownCriterio")
-let mostrarOrden;
+let mostrarCriterio;
 
-function cargarFiltros(){
+function cargarCriterio(){
     if (!by || !["fecha_de_publicacion", "puntuacion"].includes(by)){
         criterioSeleccionado="fecha_de_publicacion";
     } else {
         criterioSeleccionado = by;
     }
     if (criterioSeleccionado==="fecha_de_publicacion"){
-        mostrarOrden = "fecha de publicacion";
+        mostrarCriterio = "fecha de publicacion";
     } else {
-        mostrarOrden = "estrellas"
+        mostrarCriterio = "estrellas"
     }
 
     botonesCriterio.forEach((boton) => {
@@ -76,22 +81,54 @@ function cargarFiltros(){
         boton.addEventListener("click", () => {
             if (criterio === "fecha de publicacion"){
                 criterioSeleccionado = "fecha_de_publicacion";
-                mostrarOrden = criterio;
+                mostrarCriterio = criterio;
             } else{
-                criterioSeleccionado = "estrellas";
-                mostrarOrden = "puntuacion";
+                criterioSeleccionado = "puntuacion";
+                mostrarCriterio = "estrellas";
             }
-            dropdownCriterio.innerText= `Criterio: ${mostrarOrden}`;
+            dropdownCriterio.innerText= `Criterio: ${mostrarCriterio}`;
           });
     })
 
-    dropdownCriterio.innerText= `Criterio: ${mostrarOrden}`;
+    dropdownCriterio.innerText= `Criterio: ${mostrarCriterio}`;
 }
 
+let ordenSeleccionado;
+const botonesOrden = document.querySelectorAll(".ordenBoton");
+const dropdownOrden = document.getElementById("dropdownOrden")
+let mostrarOrden;
+
+function cargarOrden(){
+    if (!order || !["desc", "asc"].includes(order)){
+        ordenSeleccionado="desc";
+    } else {
+        ordenSeleccionado = order;
+    }
+    if (ordenSeleccionado==="desc"){
+        mostrarOrden = "descendiente";
+    } else {
+        mostrarOrden = "ascendiente"
+    }
+
+    botonesOrden.forEach((boton) => {
+        const orden = boton.textContent.trim();
+        boton.addEventListener("click", () => {
+            if (orden === "descendiente"){
+                ordenSeleccionado = "desc";
+                mostrarOrden = orden;
+            } else{
+                ordenSeleccionado = "asc";
+                mostrarOrden = orden;
+            }
+            dropdownOrden.innerText= `Orden: ${mostrarOrden}`;
+          });
+    })
+
+    dropdownOrden.innerText= `Orden: ${mostrarOrden}`;
+}
 
 async function cargarCatalogo(){
-    console.log("entro al menos!")
-    const res = await fetch(BDD_LINK + "/obras?order=desc");
+    const res = await fetch(BDD_LINK + "/obras?");
     const obras = await res.json();
 
     obras.forEach((libro) => {
@@ -119,8 +156,9 @@ async function cargarCatalogo(){
 }
 
 document.addEventListener("DOMContentLoaded", async function(){
-
+    await cargarBuscadorTags();
     await cargarTags();
-    await cargarFiltros(); 
+    await cargarCriterio();
+    await cargarOrden(); 
     await cargarCatalogo();
 })
