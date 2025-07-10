@@ -251,20 +251,24 @@
         } catch (err) {
           console.error("Error al traer autor:", err);
         }
+
         const div = document.createElement("div");
-        div.className = "mb-3 d-flex gap-3 align-items-start";
+        div.className = "perfil-container mb-3"; // usa fondo blanco, borde redondo, padding
 
         div.innerHTML = `
-          <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="40" height="40" class="rounded-circle mt-1" />
-          <div>
-            <p class="mb-1">
-              <a href="perfil_autor.html?id=${c.id_usuario}" class="fw-bold text-decoration-none">@${autor.nombre}</a>
-              <small class="text-muted"> – ${c.fecha_de_publicacion.split("T")[0]}</small>
-            </p>
-            <p class="mb-1">${c.contenido_comentario || "(sin contenido)"}</p>
-            <p class="mb-2">${c.estrellas}/5 ⭐</p>
+          <div class="d-flex align-items-start gap-3">
+            <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="50" height="50" class="rounded-circle mt-1" />
+            <div>
+              <p class="mb-1">
+                <a href="perfil_autor.html?id=${c.id_usuario}" class="fw-bold text-decoration-none">@${autor.nombre}</a>
+                <small class="text-muted"> – ${c.fecha_de_publicacion.split("T")[0]}</small>
+              </p>
+              <p class="mb-1">${c.contenido_comentario || "(sin contenido)"}</p>
+              <p class="mb-2">${c.estrellas}/5 ⭐</p>
+            </div>
           </div>
         `;
+
         // si el usuario es el propietario del comentario muestro el botón de editar
         if (idUsuario == c.id_usuario) {
           const btn = document.createElement("button");
