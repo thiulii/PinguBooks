@@ -210,9 +210,7 @@
         const resRelacion = await fetch(`${UrlApi}/obras/${idObra}`);
         const obraCompleta = await resRelacion.json();
         const tagsObra = obraCompleta.tags || [];
-        const tagsHTML = tagsObra.map(tag =>
-          `<span class="badge bg-secondary me-1">${tag}</span>`
-        ).join("");
+        const tagsHTML = tagsObra.map(tag =>`<button type="button" class="btn btn-warning btn-sm me-1" disabled>${tag}</button>`).join("");
         tagsOb.innerHTML = tagsHTML;
       }
 
@@ -368,6 +366,7 @@
         alert("Error: " + error.message);
       }
     });
+
 
     cargarLibro();
     cargarComentarios();
