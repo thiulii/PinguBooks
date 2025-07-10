@@ -114,7 +114,7 @@
             <div class="mb-2">
               <textarea id="editarContenido" class="form-control" rows="6" required></textarea>
             </div>
-            <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+            <button id="guardarCambiosBtn" type="button" class="btn btn-warning">Guardar Cambios</button>
           </form>
         </section>
 
@@ -141,7 +141,7 @@
         <div class="mb-2">
           <textarea id="nuevoComentario" class="form-control" rows="3" placeholder="Tu comentario..." required></textarea>
         </div>
-        <button type="submit" class="btn btn-success">Enviar</button>
+        <button id="enviarComentarioBtn" type="button" class="btn btn-success">Enviar</button>
       </form>
     </section>
   </div>
@@ -173,14 +173,14 @@
     const idObra = params.get("id");
     const idUsuario = Number(localStorage.getItem("idUsuario")); 
 
-    const portadaEl = document.getElementById("portada");                               // contenido general
-    const tituloEl = document.getElementById("titulo");
-    const linkAutorEl = document.getElementById("linkAutor");
-    const descripcionEl = document.getElementById("descripcion");
-    const contenidoEl = document.getElementById("contenido");
-    const fechaPublicacionEl = document.getElementById("fechaPublicacion");
-    const puntuacionEl = document.getElementById("puntuacion");
-    const tagsContainerEl = document.getElementById("tagsContainer");
+    const portadaOb = document.getElementById("portada");                               // contenido general
+    const tituloOb = document.getElementById("titulo");
+    const linkAutorOb = document.getElementById("linkAutor");
+    const descripcionOb = document.getElementById("descripcion");
+    const contenidoOb = document.getElementById("contenido");
+    const fechaPubOb = document.getElementById("fechaPublicacion");
+    const puntuacionOb = document.getElementById("puntuacion");
+    const tagsOb = document.getElementById("tagsContainer");
 
 
     const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
@@ -202,12 +202,12 @@
       const res = await fetch(`${UrlApi}/obras/${idObra}`);
       if (!res.ok) return alert("Error cargando obra");
       obraData = await res.json();
-      portadaEl.src = obraData.portada;
-      tituloEl.textContent = obraData.titulo;
-      descripcionEl.textContent = obraData.descripcion;
-      contenidoEl.innerHTML = obraData.contenido.replace(/\n/g, "<br>");
-      fechaPublicacionEl.textContent = obraData.fecha_de_publicacion.split("T")[0];
-      puntuacionEl.textContent = obraData.puntuacion?.toFixed(1) ?? "0.0";
+      portadaOb.src = obraData.portada;
+      tituloOb.textContent = obraData.titulo;
+      descripcionOb.textContent = obraData.descripcion;
+      contenidoOb.innerHTML = obraData.contenido.replace(/\n/g, "<br>");
+      fechaPubOb.textContent = obraData.fecha_de_publicacion.split("T")[0];
+      puntuacionOb.textContent = obraData.puntuacion?.toFixed(1) ?? "0.0";
 
       // cragar tags
       const resTags = await fetch(`${UrlApi}/tags`);
@@ -219,14 +219,14 @@
         const tagsHTML = tagsObra.map(tag =>
           `<span class="badge bg-secondary me-1">${tag}</span>`
         ).join("");
-        tagsContainerEl.innerHTML = tagsHTML;
+        tagsOb.innerHTML = tagsHTML;
       }
 
       // cargar autor
       const autorRes = await fetch(`${UrlApi}/autores/${obraData.id_autor}`);
       const autor = (await autorRes.json());
-      linkAutorEl.textContent = autor.nombre;
-      linkAutorEl.href = `perfil_autor.html?id=${autor.id_autor}`;
+      linkAutorOb.textContent = autor.nombre;
+      linkAutorOb.href = `perfil_autor.html?id=${autor.id_autor}`;
 
       // si es el autor, permito editar
       if (idUsuario === obraData.id_autor) {
