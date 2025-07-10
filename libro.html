@@ -92,14 +92,16 @@
 
       <div class="contenedor-lectura mt-3">
         <div id="contenido" class="contenido-libro"></div>
-        <button id="expandir" class="btn btn-sm btn-outline-primary mt-2">📖 Expandir lectura</button>
+        <div class="mt-3 mb-3 text-start">
+          <button id="expandir" class="btn btn-sm btn-outline-primary">Expandir lectura</button>
+        </div>
         <button id="cerrarLectura" class="btn btn-sm btn-outline-danger cerrar-lectura" style="display: none;">❌ Cerrar</button>
       </div>
 
         <!-- si la persona esta logueada y es el autor, puede editar la obra -->
         <section id="editarObraSection" style="display:none;">
-          <h5>Editar Obra</h5>
-          <form id="editarObraForm">
+          <button id="botonMostrarEdicion" class="btn btn-warning mb-3">Editar Obra</button>
+          <form id="editarObraForm" style="display:none;">
             <div class="mb-2">
               <input type="text" id="editarTitulo" class="form-control" required />
             </div>
@@ -112,7 +114,7 @@
             <div class="mb-2">
               <textarea id="editarContenido" class="form-control" rows="6" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn btn-warning">Guardar Cambios</button>
           </form>
         </section>
 
@@ -251,29 +253,38 @@
         } catch (err) {
           console.error("Error al traer autor:", err);
         }
+
         const div = document.createElement("div");
-        div.className = "mb-3 d-flex gap-3 align-items-start";
+        div.className = "perfil-container mb-3"; // usa fondo blanco, borde redondo, padding
 
         div.innerHTML = `
-          <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="40" height="40" class="rounded-circle mt-1" />
-          <div>
-            <p class="mb-1">
-              <a href="perfil_autor.html?id=${c.id_usuario}" class="fw-bold text-decoration-none">@${autor.nombre}</a>
-              <small class="text-muted"> – ${c.fecha_de_publicacion}</small>
-            </p>
-            <p class="mb-1">${c.contenido_comentario || "(sin contenido)"}</p>
-            <p class="mb-2">${c.estrellas}/5 ⭐</p>
+          <div class="d-flex align-items-start gap-3">
+            <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="50" height="50" class="rounded-circle mt-1" />
+            <div>
+              <p class="mb-1">
+                <a href="perfil_autor.html?id=${c.id_usuario}" class="fw-bold text-decoration-none">@${autor.nombre}</a>
+                <small class="text-muted"> – ${c.fecha_de_publicacion.split("T")[0]}</small>
+              </p>
+              <p class="mb-1">${c.contenido_comentario || "(sin contenido)"}</p>
+              <p class="mb-2">${c.estrellas}/5 ⭐</p>
+            </div>
           </div>
         `;
+
         // si el usuario es el propietario del comentario muestro el botón de editar
-        if (idUsuario == c.id_usuario) {
-          const btn = document.createElement("button");
-          btn.textContent = "Editar";
-          btn.className = "btn btn-sm btn-outline-primary ms-2";
-          btn.onclick = () => editarComentario(c);
-          div.querySelector("div").appendChild(btn);
+        if (idUsuario === obraData.id_autor) {
+          editarSeccion.style.display = "block";
+          document.getElementById("botonMostrarEdicion").style.display = "inline-block";
+          editarForm.style.display = "none";
+          editTitulo.value = obraData.titulo;
+          editPortada.value = obraData.portada;
+          editDesc.value = obraData.descripcion;
+          editCont.value = obraData.contenido;
         }
-        comentariosContainer.appendChild(div);
+        document.getElementById("botonMostrarEdicion").onclick = () => {
+          document.getElementById("botonMostrarEdicion").style.display = "none";
+          editarForm.style.display = "block";
+        };
       }
       // si el usuario está logueado muestro sección de agregar comentario
       if (idUsuario) agregarSeccion.style.display = "block";
