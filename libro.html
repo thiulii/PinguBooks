@@ -89,7 +89,13 @@
         <p><strong>Puntuación: </strong> <span id="puntuacion"></span>/5 ⭐</p>
         <p><strong>Tags: </strong> <span id="tagsContainer"></span></p>
       </div>
-   
+
+      <div class="contenedor-lectura mt-3">
+        <div id="contenido" class="contenido-libro"></div>
+        <button id="expandir" class="btn btn-sm btn-outline-primary mt-2">📖 Expandir lectura</button>
+        <button id="cerrarLectura" class="btn btn-sm btn-outline-danger cerrar-lectura" style="display: none;">❌ Cerrar</button>
+      </div>
+
         <!-- si la persona esta logueada y es el autor, puede editar la obra -->
         <section id="editarObraSection" style="display:none;">
           <h5>Editar Obra</h5>
@@ -141,12 +147,29 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+
+    // mejoro la lectura para que la casilla se expanda
+    const botonExpandir = document.getElementById('expandir');
+    const contenedor = document.getElementById('contenido');
+    const botonCerrar = document.getElementById('cerrarLectura');
+
+    botonExpandir.addEventListener('click', () => {
+      contenedor.classList.add('expandido');
+      botonCerrar.style.display = 'block';
+      botonExpandir.style.display = 'none';
+    });
+
+    botonCerrar.addEventListener('click', () => {
+      contenedor.classList.remove('expandido');
+      botonCerrar.style.display = 'none';
+      botonExpandir.style.display = 'inline-block';
+    });
+
     const UrlApi = "http://localhost:3000";
     
     const params = new URLSearchParams(window.location.search);
     const idObra = params.get("id");
-//    const idUsuario = Number(localStorage.getItem("idUsuario")); 
-    const idUsuario = 1;
+    const idUsuario = Number(localStorage.getItem("idUsuario")); 
 
     const portadaEl = document.getElementById("portada");                               // contenido general
     const tituloEl = document.getElementById("titulo");
