@@ -58,10 +58,9 @@
           </li>
 
         </ul>
-
-        <form class="d-flex align-items-center me-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Buscar" />
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <form id="navbarBuscarForm" class="d-flex align-items-center me-3" role="search">
+          <input id="navbarBuscarInput" class="form-control me-2" type="search" placeholder="Buscar una obra" aria-label="Buscar" />
+          <button id="navbarBuscarBoton" class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
 
         <div class="d-flex align-items-center">
@@ -76,8 +75,8 @@
   <div  id="autorContent" class="container perfil-container">
     <div class="row text-center">
 
-      <div class="col-md-4">
-        <div class="foto-perfil mb-3"> <img class="img-fluid rounded"
+      <div class="col-md-4 ">
+        <div class=" mb-3 librito"> <img class="img-fluid rounded autorFoto"
         id="photoUser" alt="Foto de perfil del usuario"></div>
       
         <p><strong>Nombre:</strong> <span id="username"> </span></p>
@@ -168,7 +167,7 @@
         }
       }
       catch(err){
-        mensajePorPantalla("Error en sesion");
+      
         console.error("Error en sesion", error);
       }}
 
@@ -412,5 +411,6 @@ async function mostrarPerfil(id) {
   mostrarObras(id);
   
   </script>
+  <script src="./scripts/reutilizable.js"></script>
 </body>
 </html>
