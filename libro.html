@@ -324,6 +324,33 @@
           </div>
         `;
 
+        if (idUsuario === c.id_usuario) {
+          const botonEditar = document.createElement("button");
+          botonEditar.textContent = "Editar";
+          botonEditar.className = "btn btn-sm btn-outline-primary me-2";
+          botonEditar.onclick = () => editarComentario(c);
+
+          const botonEliminar = document.createElement("button");
+          botonEliminar.textContent = "Eliminar";
+          botonEliminar.className = "btn btn-sm btn-outline-danger";
+          botonEliminar.onclick = () => eliminarComentario(c);
+
+          const botonesContainer = document.createElement("div");
+          botonesContainer.className = "mt-2";
+          botonesContainer.appendChild(botonEditar);
+          botonesContainer.appendChild(botonEliminar);
+
+          const cuerpoComentario = div.querySelector(".d-flex > div");
+          cuerpoComentario.appendChild(botonesContainer);
+        }
+
+    //    if (idUsuario === c.id_usuario) {
+    //      const botonEditar = document.createElement("button");
+    //      botonEditar.textContent = "Editar";
+    //      botonEditar.className = "btn btn-sm btn-outline-primary mt-1";
+    //      botonEditar.onclick = () => editarComentario(c);
+    //      div.querySelector("div").appendChild(botonEditar);
+    //    }
         comentariosContainer.appendChild(div);
       }
       // solo le muestra al autor el boton de editar obra
@@ -345,12 +372,35 @@
       if (!newText) return;
       const newStars = prompt("Modificar puntuación:", comm.estrellas);
       if (newStars === null || isNaN(newStars) || newStars < 0 || newStars > 5) return alert("Puntuación inválida");
-      await fetch(`${UrlApi}/comentarios/${comm.id_comentarios}`, {
+      await fetch(`${UrlApi}/comentarios/${comm.id_comentario}`, {
         method: "PUT",
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({id_usuario: idUsuario, contenido: newText, estrellas: Number(newStars)})
       });
       cargarComentarios();
+    }
+
+    async function eliminarComentario(comentario) {
+      if (!confirm("¿Estás seguro de que querés eliminar este comentario?")) return;
+
+      try {
+        const res = await fetch(`${UrlApi}/comentarios/${comentario.id_comentario}`, {
+          method: "DELETE",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id_usuario: idUsuario })
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "Error al eliminar comentario");
+        }
+
+        alert("Comentario eliminado");
+        cargarComentarios();
+      } catch (error) {
+        alert("Error: " + error.message);
+        console.error("Error al eliminar comentario:", error);
+      }
     }
 
     // modifico los contenidos de la obra
@@ -367,7 +417,7 @@
             id_autor:idUsuario
           })
         });
-        console.log("se ejecuto!");
+
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Error al guardar la obra");
@@ -423,7 +473,8 @@
     });
 
     // eliminar una obra
-    document.getElementById("btn-eliminar-obra").addEventListener("click", async () => {
+    document.getElementById("btn-eliminar-obra").addEventListener("click", async (e) => {
+      e.preventDefault();
       if (!confirm("¿Estás seguro que querés eliminar esta obra? Esta acción no se puede deshacer.")) {
         return;
       }
@@ -439,11 +490,11 @@
           const errorData = await res.json();
           throw new Error(errorData.message || "Error al eliminar la obra");
         }
-        alert("Obra eliminada correctamente");
-        window.location.href = "index.html"; 
+        alert("Obra eliminada correctamente"); 
       } catch (error) {
         alert("Error: " + error.message);
       }
+      window.location.href = "./index.html";
     });    
 
     cargarLibro();
