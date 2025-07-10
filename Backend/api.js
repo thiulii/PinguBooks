@@ -467,7 +467,8 @@ app.put("/comentarios/:id_comentario", async (req, res) => {
   }
 
   const autorComentario = await getComentarioOwner(id_comentario);
-  if (!autorComentario || autorComentario.id_usuario !== id_usuario) {
+  console.log(id_usuario, "actual y el que compara: ", autorComentario)
+  if (!autorComentario || autorComentario !== id_usuario) {
     return res.status(403).json({ error: "No tenés permiso para modificar este comentario" });
   }
 
@@ -485,6 +486,7 @@ app.delete("/comentarios/:id_comentario", async (req, res) => {
   if (!id_usuario) return res.redirect("/iniciar_sesion.html");
 
   const autorComentario = await getComentarioOwner(id_comentario);
+  console.log(autorComentario);
   if (!autorComentario || autorComentario.id_usuario !== id_usuario) {
     return res.status(403).json({ error: "No tenés permiso para borrar este comentario" });
   }
