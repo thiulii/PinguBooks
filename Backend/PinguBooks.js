@@ -29,7 +29,7 @@ async function getAllAutores() {
 async function sumAndAverage(id_autor) {
   try{
     const resultado = await dbPinguBooks.query("SELECT COUNT(*) AS cant_obras, ROUND(AVG(puntuacion)) AS prom_puntuacion FROM obras WHERE id_autor= $1; ", [id_autor]);
-    return resultado.row;}
+    return resultado.row[0];}
   catch(err){
     console.error("error:", err);
     return undefined;

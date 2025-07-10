@@ -256,7 +256,7 @@
           body: JSON.stringify(datos),
         });
           const data = await response.json();
-          console.log(data)
+          
         if (!response.ok) throw new Error(data.error ||"No se pudo publicar la historia.");
 
         // mensajes al usuario

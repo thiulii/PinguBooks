@@ -96,9 +96,7 @@
         <h5 class="mt-4">Historias:</h5>
         <div class="row text-center" id="obrasContainer">
 
-          <div class="col-4 mb-4">
-            
-           </div>
+         
         </div>
       </div>
     </div>
@@ -158,7 +156,8 @@
     async function cantYPromObras() {
       try{
               const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
-              const informacion =  cantObras.json();
+              const informacion =  await cantObras.json();
+              console.log(informacion)//borrar
               if(cantObras.ok){
                 document.getElementById("cantidadObras").textContent=informacion.cant_obras;
                 document.getElementById("promedioObras").textContent= informacion.prom_puntuacion;
@@ -411,7 +410,7 @@ async function mostrarPerfil(id) {
   mostrarPerfil(id);
   sesion(idUsuario);
   mostrarObras(id);
-  cantYPromObras();
+  
   </script>
 </body>
 </html>
