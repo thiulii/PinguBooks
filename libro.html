@@ -328,24 +328,41 @@
         alert("Error: " + error.message);
       }
     });
-        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // modifico el contenido del comentario
+    document.getElementById("enviarComentarioBtn").addEventListener("click", async () => {
+      const estrellasVal = Number(inputEstrellas.value);
+      const comentarioVal = inputComentario.value.trim();
+      if (!comentarioVal) {
+        alert("El comentario no puede estar vacío");
+        return;
+      }
+      if (isNaN(estrellasVal) || estrellasVal < 0 || estrellasVal > 5) {
+        alert("Las estrellas deben ser un número entre 0 y 5");
+        return;
+      }
+      try {
+        const res = await fetch(`${UrlApi}/comentarios`, {
+          method: "POST",
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            id_usuario: idUsuario,
+            id_obra: Number(idObra),
+            estrellas: estrellasVal,
+            contenido: comentarioVal
+          })
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Error al enviar comentario");
+        }
+        inputComentario.value = "";
+        inputEstrellas.value = 5;
+        cargarComentarios();
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
 
     cargarLibro();
     cargarComentarios();
