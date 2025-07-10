@@ -153,6 +153,10 @@
     const linkAutorEl = document.getElementById("linkAutor");
     const descripcionEl = document.getElementById("descripcion");
     const contenidoEl = document.getElementById("contenido");
+    const fechaPublicacionEl = document.getElementById("fechaPublicacion");
+  const puntuacionEl = document.getElementById("puntuacion");
+  const tagsContainerEl = document.getElementById("tagsContainer");
+
 
     const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
     const editarForm = document.getElementById("editarObraForm");
@@ -177,7 +181,22 @@
       tituloEl.textContent = obraData.titulo;
       descripcionEl.textContent = obraData.descripcion;
       contenidoEl.innerHTML = obraData.contenido.replace(/\n/g, "<br>");
+      fechaPublicacionEl.textContent = obraData.fecha_de_publicacion;
+      puntuacionEl.textContent = obraData.puntuacion?.toFixed(1) ?? "0.0";
 
+      // cragar tags
+      const resTags = await fetch(`${UrlApi}/tags`);
+      if (resTags.ok) {
+        const allTags = await resTags.json();
+        const resRelacion = await fetch(`${UrlApi}/obras/${idObra}`);
+        const obraCompleta = await resRelacion.json();
+        const tagsObra = obraCompleta.tags || [];
+        const tagsHTML = tagsObra.map(tag =>
+          `<span class="badge bg-secondary me-1">${tag}</span>`
+        ).join("");
+        tagsContainerEl.innerHTML = tagsHTML;
+      }
+      
       // cargar autor
       const autorRes = await fetch(`${UrlApi}/autores/${obraData.id_autor}`);
       const autor = (await autorRes.json());
