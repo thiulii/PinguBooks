@@ -303,39 +303,66 @@
       cargarComentarios();
     }
 
-    // modificar los datos de la obra (se ejecuta cuando se submitea el formulario que cambia los datos de la obra)
-    editarForm.onsubmit = async e => {
-      e.preventDefault();
-      await fetch(`${UrlApi}/obras/${idObra}`, {
-        method: "PUT",
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({                       // arma JSON con los valores actualizados de la obra y se modifican
-          titulo: editTitulo.value,
-          portada: editPortada.value,
-          descripcion: editDesc.value,
-          contenido: editCont.value
-        })
-      });
-      alert("Obra actualizada");
-      cargarLibro();
-    }
-    
-    // modificar los datos del comentario (se ejecuta cuando se submitea el formulario de los comentarios)
-    agregarForm.onsubmit = async e => {
-      e.preventDefault();
-      await fetch(`${UrlApi}/comentarios`, {
-        method: "POST",
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({                       // arma JSON con los valores actualizados del comentario y se modifican
-          id_usuario: idUsuario,
-          id_obra: Number(idObra),
-          estrellas: Number(inputEstrellas.value),
-          contenido: inputComentario.value
-        })
-      });
-      inputComentario.value = "";
-      cargarComentarios();
-    }
+    // modifico los contenidos de la obra
+    document.getElementById("guardarCambiosBtn").addEventListener("click", async () => {
+      try {
+        const res = await fetch(`${UrlApi}/obras/${idObra}`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            titulo: editTitulo.value.trim(),
+            portada: editPortada.value.trim(),
+            descripcion: editDesc.value.trim(),
+            contenido: editCont.value.trim()
+          })
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Error al guardar la obra");
+        }
+        alert("Obra actualizada con éxito");
+        cargarLibro();
+        editarForm.style.display = "none";
+        document.getElementById("botonMostrarEdicion").style.display = "inline-block";
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+
+    // modifico el contenido del comentario
+    document.getElementById("enviarComentarioBtn").addEventListener("click", async () => {
+      const estrellasVal = Number(inputEstrellas.value);
+      const comentarioVal = inputComentario.value.trim();
+      if (!comentarioVal) {
+        alert("El comentario no puede estar vacío");
+        return;
+      }
+      if (isNaN(estrellasVal) || estrellasVal < 0 || estrellasVal > 5) {
+        alert("Las estrellas deben ser un número entre 0 y 5");
+        return;
+      }
+      try {
+        const res = await fetch(`${UrlApi}/comentarios`, {
+          method: "POST",
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            id_usuario: idUsuario,
+            id_obra: Number(idObra),
+            estrellas: estrellasVal,
+            contenido: comentarioVal
+          })
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Error al enviar comentario");
+        }
+        inputComentario.value = "";
+        inputEstrellas.value = 5;
+        cargarComentarios();
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
 
     cargarLibro();
     cargarComentarios();
