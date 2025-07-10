@@ -86,6 +86,26 @@
         <p><strong>Autor:</strong> <a href="#" id="linkAutor"></a></p>
         <p><strong>Resumen:</strong> <span id="descripcion"></span></p>
 
+        <!-- si la persona esta logueada y es el autor, puede editar la obra -->
+        <section id="editarObraSection" style="display:none;">
+          <h5>Editar Obra</h5>
+          <form id="editarObraForm">
+            <div class="mb-2">
+              <input type="text" id="editarTitulo" class="form-control" required />
+            </div>
+            <div class="mb-2">
+              <input type="url" id="editarPortada" class="form-control" placeholder="URL portada" />
+            </div>
+            <div class="mb-2">
+              <textarea id="editarDescripcion" class="form-control" rows="2" required></textarea>
+            </div>
+            <div class="mb-2">
+              <textarea id="editarContenido" class="form-control" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </section>
+
         <!-- obra -->
         <hr>
         <h5>Contenido</h5>
@@ -99,6 +119,19 @@
     <h5>Comentarios</h5>
     <div id="comentariosContainer"></div>
 
+    <!-- usuario logueado puede agregar comentarios a la obra -->
+    <section id="agregarComentarioSection" style="display:none;">
+      <h5>Agregar comentario</h5>
+      <form id="agregarComentarioForm">
+        <div class="mb-2">
+          <input type="number" id="estrellas" class="form-control" min="0" max="5" value="5" required placeholder="0-5 estrellas" />
+        </div>
+        <div class="mb-2">
+          <textarea id="nuevoComentario" class="form-control" rows="3" placeholder="Tu comentario..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Enviar</button>
+      </form>
+    </section>
   </div>
 
 </body>
