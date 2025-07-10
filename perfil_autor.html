@@ -160,7 +160,7 @@
         
         if(cantObras.ok){
           document.getElementById("cantidadObras").textContent=informacion.cant_obras;
-          document.getElementById("promedioObras").textContent= "⭐" +informacion.prom_puntuacion;
+          document.getElementById("promedioObras").textContent= "⭐" + parseFloat(informacion.prom_puntuacion.toFixed(2));
         }
         else{
           document.getElementById("cantidadObras").textContent="0";
