@@ -31,3 +31,30 @@ async function cargarCatalogo(){
 document.addEventListener("DOMContentLoaded", async function(){
     await cargarCatalogo();
 })
+
+// tags seleccionados (agregar y sacar)
+const botonesTags = document.querySelectorAll(".btn-warning");
+const tagsSeleccionados = new Set();
+
+botonesTags.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    const tag = boton.textContent.trim();
+    if (tagsSeleccionados.has(tag)) {
+      tagsSeleccionados.delete(tag);
+      boton.classList.remove("btn-success");
+      boton.classList.add("btn-warning");
+    } else {
+      tagsSeleccionados.add(tag);
+      boton.classList.remove("btn-warning");
+      boton.classList.add("btn-success");
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".dropdown-menu button").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    });
+  });

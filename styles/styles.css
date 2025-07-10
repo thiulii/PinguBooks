@@ -137,6 +137,11 @@ a {
   margin:2%;
 }
 
+.tagsSeleccionar{
+  display: flex;
+  flex-direction: row;
+  
+}
 
 .perfil-container {
   background-color: rgba(255, 255, 255, 0.85);
