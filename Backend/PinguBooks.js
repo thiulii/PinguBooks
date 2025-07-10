@@ -266,6 +266,16 @@ async function getAllObras(busqueda, orden, criterio, tags, limite) {
 // TABLA TAGS
 
 // Devuelve un tag si existe
+async function getAllTagsFromObra(idObra){
+  try {
+    const res = await dbPinguBooks.query("SELECT * FROM obra_tag WHERE id_obra = $1", [idObra]);
+    return res.rows;
+  } catch(err){
+    console.error("Error al conseguir los tags de la obra: ", err);
+    return undefined
+  } 
+}
+
 async function getTag(nombre) {
   const res = await dbPinguBooks.query("SELECT * FROM tags WHERE nombre = $1", [nombre]);
   return res.rowCount === 0 ? undefined : res.rows[0];
@@ -479,5 +489,6 @@ module.exports = {
   deleteComentario,
   getComentarioOwner,
 
-  getAllObrasByAutor
+  getAllObrasByAutor,
+  getAllTagsFromObra
 };

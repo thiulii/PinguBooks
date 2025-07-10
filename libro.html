@@ -219,7 +219,7 @@
     const contenidoOb = document.getElementById("contenido");
     const fechaPubOb = document.getElementById("fechaPublicacion");
     const puntuacionOb = document.getElementById("puntuacion");
-    const tagsOb = document.getElementById("tagsContainer");
+
 
 
     const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
@@ -257,6 +257,8 @@
           elemento.classList.add("btn", "btn-warning", "btn-sm", "me-1");
           elemento.type = "button";
           elemento.innerText = tagPoner.nombre_tag;
+
+          const tagsOb = document.getElementById("tagsContainer");
           tagsOb.appendChild(elemento);
         });
         
