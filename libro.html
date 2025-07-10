@@ -162,6 +162,34 @@
     const inputEstrellas = document.getElementById("estrellas");
     const inputComentario = document.getElementById("nuevoComentario");
 
+
+    let obraData, comentarios = [];
+
+    async function cargarLibro() {
+      const res = await fetch(`${UrlApi}/obras/${idObra}`);
+      if (!res.ok) return alert("Error cargando obra");
+      obraData = await res.json();
+      portadaEl.src = obraData.portada;
+      tituloEl.textContent = obraData.titulo;
+      descripcionEl.textContent = obraData.descripcion;
+      contenidoEl.innerHTML = obraData.contenido.replace(/\n/g, "<br>");
+
+      // cargar autor
+      const autorRes = await fetch(`${UrlApi}/autores/${obraData.id_autor}`);
+      const autor = (await autorRes.json());
+      linkAutorEl.textContent = autor.nombre;
+      linkAutorEl.href = `perfil_autor.html?id=${autor.id_autor}`;
+
+      // si es el autor, permito editar
+      if (idUsuario === obraData.id_autor) {
+        editarSeccion.style.display = "block";
+        editTitulo.value = obraData.titulo;
+        editPortada.value = obraData.portada;
+        editDesc.value = obraData.descripcion;
+        editCont.value = obraData.contenido;
+      }
+    }
+
   </script>
 </body>
 </html>
