@@ -262,7 +262,6 @@ app.post("/obras", async(req, res) => {
         tags = [];
     }
     const id_autor = parseInt(req.body.id_autor);
-    const puntuacion = parseFloat(req.body.puntuacion);
     const contenido = req.body.contenido;
 
     if(!portada){
@@ -274,10 +273,6 @@ app.post("/obras", async(req, res) => {
 
     if ((await getAutor(id_autor)) === undefined){
         return res.status(400).json({error: "autor invalido"});
-    }
-
-    if (!isNaN(puntuacion) && (puntuacion< 0 || puntuacion>5)){
-        return res.status(400).json({error: "puntuacion invalida"});
     }
 
     const obra = await createObra(titulo, portada, descripcion, tags, id_autor, contenido)
@@ -340,15 +335,21 @@ app.put("/obras/:id", async(req, res) => {
     }
     const fecha = req.body.fecha;
     const id_autor = parseInt(req.body.id_autor);
-    const puntuacion = parseFloat(req.body.puntuacion);
+
     const contenido = req.body.contenido;
 
-    if (id_autor && (await getAutor(id_autor)) === undefined){
+    if (id_autor !== null && (await getAutor(id_autor)) === undefined){
         return res.status(400).json({error: "autor invalido"});
     }
 
-    if (!isNaN(puntuacion) && (puntuacion < 0 || puntuacion > 5)){
-        return res.status(400).json({error: "puntuacion invalida"});
+    let puntuacion = req.body.puntuacion;
+    if (puntuacion !== undefined && puntuacion !== null) {
+      puntuacion = parseFloat(puntuacion);
+      if (isNaN(puntuacion) || puntuacion < 0 || puntuacion > 5) {
+        return res.status(400).json({ error: "puntuacion invalida" });
+      }
+    } else {
+      puntuacion = null;
     }
 
     const obra = await modifyObra(id, titulo, portada, descripcion, tags, fecha, id_autor, puntuacion, contenido);
