@@ -1,4 +1,14 @@
 BDD_LINK = "http://localhost:3000";
+const queryString = window.location.search; //para leer el url
+const urlParams = new URLSearchParams(queryString);
+const search = urlParams.get('search');
+const order = urlParams.get('order');
+const by = urlParams.get('by');
+const tagsParam = urlParams.get("tags");
+let tagsIniciales = []
+if (tagsParam){
+    tagsIniciales = tagsParam.split(",")
+}
 
 async function cargarCatalogo(){
     console.log("entro al menos!")
@@ -30,23 +40,6 @@ async function cargarCatalogo(){
 }
 
 // tags seleccionados (agregar y sacar)
-const botonesTags = document.querySelectorAll(".btn-warning");
-const tagsSeleccionados = new Set();
-
-botonesTags.forEach((boton) => {
-  boton.addEventListener("click", () => {
-    const tag = boton.textContent.trim();
-    if (tagsSeleccionados.has(tag)) {
-      tagsSeleccionados.delete(tag);
-      boton.classList.remove("btn-success");
-      boton.classList.add("btn-warning");
-    } else {
-      tagsSeleccionados.add(tag);
-      boton.classList.remove("btn-warning");
-      boton.classList.add("btn-success");
-    }
-  });
-});
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".dropdown-menu button").forEach((btn) => {
@@ -56,15 +49,63 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+const botonesTags = document.querySelectorAll(".btn-warning");
+const tagsSeleccionados = new Set();
+const dropdownTags = document.getElementById("tagsDropdown");
+
+function cargarTags(){
+    botonesTags.forEach((boton) => {
+        const tag = boton.textContent.trim();
+    
+        // Si es uno de los tags que vino desde el URL
+        if (tagsIniciales.includes(tag)) {
+          tagsSeleccionados.add(tag);
+          boton.classList.remove("btn-warning");
+          boton.classList.add("btn-success");
+        }
+    
+        // Escuchar clicks para seleccionar/desseleccionar
+        boton.addEventListener("click", () => {
+          if (tagsSeleccionados.has(tag)) {
+            tagsSeleccionados.delete(tag);
+            boton.classList.remove("btn-success");
+            boton.classList.add("btn-warning");
+          } else {
+            tagsSeleccionados.add(tag);
+            boton.classList.remove("btn-warning");
+            boton.classList.add("btn-success");
+          }
+          dropdownTags.innerText= `Tags: ${tagsSeleccionados.size} seleccionados`;
+        });
+      });
+    dropdownTags.innerText= `Tags:  ${tagsSeleccionados.size} seleccionados`;
+}
+  
+let criterioSeleccionado;
+const botonesCriterio = document.querySelectorAll(".criterioBoton");
+const dropdownCriterio = document.getElementById("dropdownCriterio")
+let mostrarOrden;
+
+function cargarFiltros(){
+    if (!by || !["fecha_de_publicacion", "puntuacion"].includes(by)){
+        criterioSeleccionado="fecha_de_publicacion";
+    }
+    if (criterioSeleccionado="fecha_de_publicacion"){
+        mostrarOrden = "fecha de publicacion";
+    }
+
+    criterioBoton.forEach((boton) => {
+        
+    })
+
+    dropdownCriterio.innerText= `Criterio: ${mostrarOrden}`;
+}
+
 
 
 document.addEventListener("DOMContentLoaded", async function(){
-    const queryString = window.location.search; //para leer el url
-    const urlParams = new URLSearchParams(queryString);
-    const search = urlParams.get('search');
-    const order = urlParams.get('order');
-    const by = urlParams.get('by');
-    const tags = urlParams.get("tags");
+
+    await cargarTags();
     await cargarFiltros(order, by, tags); 
-    await cargarCatalogo();
+    await cargarCatalogo(search, order, by, tags);
 })
