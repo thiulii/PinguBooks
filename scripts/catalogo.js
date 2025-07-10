@@ -172,6 +172,19 @@ async function cargarCatalogo(){
 });
 }
 
+filtrarFinalmente = document.getElementById("botonFiltrarFinalmente");
+filtrarFinalmente.addEventListener("click", (e)=> {
+    e.preventDefault();
+    let params = []
+    params.push("by=" + criterioSeleccionado);
+    params.push("order=" + ordenSeleccionado);
+    if (tagsSeleccionados.size > 0){
+        params.push("tags=" + Array.from(tagsSeleccionados).join(","));
+    }
+    console.log("redirigiendo a: " + "catalogo.html?" + params.join("&"))
+    window.location.href = "catalogo.html?" + params.join("&");
+});
+
 document.addEventListener("DOMContentLoaded", async function(){
     await cargarBuscadorTags();
     await cargarTags();
