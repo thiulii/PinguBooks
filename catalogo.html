@@ -59,12 +59,11 @@
           </li>
 
         </ul>
-        
+
         <form id="navbarBuscarForm" class="d-flex align-items-center me-3" role="search">
           <input id="navbarBuscarInput" class="form-control me-2" type="search" placeholder="Buscar una obra" aria-label="Buscar" />
           <button id="navbarBuscarBoton" class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
-
 
         <div class="d-flex align-items-center">
           <a class="btn btn-outline-success ms-3" href="iniciar_sesion.html">
@@ -74,47 +73,76 @@
       </div>
     </div>
   </nav>
-
-  <div class = "bodyContenido">           
-
-    <div class="row contenido">
-        <!-- Panel que será dropdown en mobile y fijo en desktop -->
-        <div class="col-12 col-lg-2 mb-3">
-          <!-- Botón visible solo en mobile -->
-          <button class="btn btn-secondary w-100 d-lg-none mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#mejoresRateados" aria-expanded="false">
-            Mejores rateados
-          </button>
-
-          <!-- Contenido colapsable -->
-          <div class="collapse d-lg-block" id="mejoresRateados">
-            <h5>Los mejores rateados!!</h5>
-            <div class="d-flex flex-column gap-3 container" id="top-tabla">
-              <!--Aca irian los mejores-->
-            </div>
-          </div>
-        </div>
-        <div class="col-10 justify-content-center">
-            <h5 class="cajaInteresante container text-center">Últimas entregas:</h5>
-            <div class="row biblioteca" id="latest">
-                <!--Bootstrap trabaja con una grid de 12 columas por fila.
-                col-6 seria el default de que las columans ocupan 6 c/u (entran hasta 2)
-                pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
-                que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
-                pegadas-->
-                
-                <!--aca iria las ultimas obras-->
-            </div>
-            <div class="text-center">
-              <a href="./catalogo.html">
-                <button>Ver más obras!</button>
-              </a>
-            </div>            
+      <div class="container catalogoCaja">
+        <h2>Nuestros autores</h2>
+        <div class="autores" id ="authorCatalog">
+            
+           
         </div>
     </div>
-  
-  </div>
-    <script>
+
+
+      <div class="container">
+        <h2>Obras:</h2>
+        
+        <div class="filtro container">
+          <div class="dropdown" data-bs-auto-close="outside">
+            <a id="tagsDropdown" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Tags: 0 seleccionados
+            </a>
+          
+            <ul class="dropdown-menu p-3" style="min-width: 50vw; max-width: 100vw;">
+              <div class="container-fluid">
+                <div class="row" id="botonesTagColocar">
+                <!-- tags (cargado en memoria bdd) -->
+              </div>
+              </div>
+            </ul>
+          </div>
+        
+
+          <div class="dropdown">
+            <a id="dropdownCriterio" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Criterio: fecha de publicacion
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item criterioBoton">fecha de publicacion</a></li>
+              <li><a class="dropdown-item criterioBoton">estrellas</a></li>
+            </ul>
+          </div>
+
+          <div class="dropdown">
+            <a id="dropdownOrden" class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Orden: descendiente
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item ordenBoton">descendiente</a></li>
+              <li><a class="dropdown-item ordenBoton">ascendiente</a></li>
+            </ul>
+          </div>
+
+          <button id="botonFiltrarFinalmente" type="button" class="btn botonFiltrar">Filtrar!</button>
+      </div>
+
+
+        <div class="row biblioteca" id="catalogoObras">
+            <!--Bootstrap trabaja con una grid de 12 columas por fila.
+            col-6 seria el default de que las columans ocupan 6 c/u (entran hasta 2)
+            pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
+            que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
+            pegadas-->
+        </div>
+    </div>
+
+
+    <script src="./scripts/reutilizable.js"></script>
+    <script src="./scripts/catalogo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script type="text/javascript">
       const UrlApi ="http://localhost:3000"
+
       document.getElementById("miPerfil").addEventListener("click", (e)=>{
         e.preventDefault();
         let idUsuario = localStorage.getItem("idUsuario");
@@ -125,10 +153,10 @@
         
       })
 
-    let idUsuario = localStorage.getItem("idUsuario");
+async function sesion() {
+  let idUsuario = localStorage.getItem("idUsuario");
     // Buscar como verificar que no sea vacio idUsuario
     if( (idUsuario.length === 0)|| idUsuario!==null){
-
         document.getElementById("sesion").textContent="Cerrar sesion";
         document.getElementById("sesion").addEventListener("click", (e)=>{
         e.preventDefault();
@@ -136,10 +164,50 @@
         mensajePorPantalla("Se cerro sesion");
         window.location.href =`iniciar_sesion.html`;
       })}
+}
+    
+
+async function verAutores() {
+   fetch(`${UrlApi}/autores`)
+      .then(res => {
+        if(!res.ok){
+          throw new Error("Error con el servidor");
+        }
+        return res.json()})
+      .then(data=>{
+         data.autores.forEach ( autor=>{
+         const spaceAuthor = document.createElement("div");
+         spaceAuthor.classList.add("librito"); 
+
+         const name = document.createElement("h6")
+         name.textContent= autor.nombre;
+         
+         const photoUser =document.createElement("img");
+         photoUser.src= autor.foto_perfil; //porque es imagen
+         photoUser.classList.add("autorFoto");
+         photoUser.alt= `Foto del usuario ${autor.nombre}` 
+         
+
+         const  Linkname= document.createElement("a");
+         const  LinkphotoUser= document.createElement("a");
+        LinkphotoUser.href = `perfil_autor.html?id=${autor.id_autor}` ;
+        Linkname.href = `perfil_autor.html?id=${autor.id_autor}` ;
+
+        
+        LinkphotoUser.appendChild(photoUser);
+         spaceAuthor.appendChild(LinkphotoUser); 
+
+         Linkname.appendChild(name);
+         spaceAuthor.appendChild(Linkname); // ver si de verdad funciona
+          
+         
+        document.getElementById("authorCatalog").appendChild(spaceAuthor);
+         })
+        
+        })
+      .catch(error => {console.error ('Error:', error)})}
+      verAutores();
+     sesion();
     </script>
-  
-    <script src="./scripts/index.js"></script>
-    <script src="./scripts/reutilizable.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

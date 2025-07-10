@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escribir Historia | PinguBooks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/styles.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="./media/logo.png" alt="" height="40" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-house-door" viewBox="0 0 16 16">
+                <path
+                  d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+              </svg>Inicio
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="catalogo.html">Catálogo</a>
+          </li>
+
+          <li class="nav-item me-2">
+            <a class="nav-link" href="perfil_autor.html" id="miPerfil">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-person" viewBox="0 0 16 16">
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+              </svg>Perfil
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="write.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-house-door" viewBox="0 0 16 16">
+                <path
+                  d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+              </svg>Escritura
+            </a>
+          </li>
+
+        </ul>
+        <form id="navbarBuscarForm" class="d-flex align-items-center me-3" role="search">
+          <input id="navbarBuscarInput" class="form-control me-2" type="search" placeholder="Buscar una obra" aria-label="Buscar" />
+          <button id="navbarBuscarBoton" class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+
+
+        <div class="d-flex align-items-center">
+          <a class="btn btn-outline-success ms-3" href="iniciar_sesion.html">
+            <span id="sesion">Iniciar sesión</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <!-- error -->
+    <div id="mensajeError" class="alert alert-danger d-none" role="alert"></div>
+
+    <!-- formulario datos del libro -->
+    <div class="p-4 bg-white rounded-4 shadow-sm mb-4 w-100">
+      <form id="formLibro">
+        <label for="titulo" class="form-label fw-bold">Nombre del libro:</label>
+        <input type="text" id="titulo" name="titulo" class="form-control" required />
+
+        <label for="portada" class="form-label fw-bold mt-3">Portada (URL):</label>
+        <input type="url" id="portada" name="portada" class="form-control" />
+
+        <label class="form-label fw-bold mt-3">Seleccione sus tags:</label>
+        <div class="mb-2">
+          <!-- tags -->
+          <button type="button" class="btn btn-warning me-2 mb-2">Romance</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Ficción</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Fantasía</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Ciencia Ficción</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Drama</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Misterio</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Suspenso</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Terror</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Aventura</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Juvenil</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Histórico</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Poesía</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Realismo Mágico</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Thriller</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Distopía</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Biografía</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Autoayuda</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Ensayo</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Cuento</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">LGBTQ+</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Humor</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Mitología</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Crónica</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Viajes</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Literatura Clásica</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">New Adult</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Young Adult</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Paranormal</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Zombies</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Vampiros</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Brujas</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Superhéroes</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Escolar</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Feminismo</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Crítica Social</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Política</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Guerra</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Espías</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Religión</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">Mascotas</button>
+          <button type="button" class="btn btn-warning me-2 mb-2">IA / Robots</button>
+        </div>
+
+        <label for="descripcion" class="form-label fw-bold mt-3">Resumen:</label>
+        <textarea id="descripcion" name="descripcion" class="form-control" rows="3"></textarea>
+      </form>
+    </div>
+
+    <!-- contenido del libro -->
+    <div class="p-4 bg-white rounded-4 shadow-sm w-100">
+      <textarea id="contenido" name="contenido" class="form-control border-0" rows="10" placeholder="Contenido de la obra..." required></textarea>
+      <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary" form="formLibro" id="publicarBtn">Publicar historia</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const UrlApi ="http://localhost:3000";
+    const idAutor = localStorage.getItem("idUsuario");
+
+    document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
+
+
+    // si el usuario no esta logueado, lo mando a que inicie sesion
+    if (!idAutor) {
+      window.location.href = "iniciar_sesion.html";
+    }
+
+    // cambio el boton de iniciar/cerrar sesion
+    const botonSesion = document.getElementById("sesion");
+
+    if (idAutor) {
+      botonSesion.textContent = "Cerrar sesión";
+      botonSesion.parentElement.href = "#";
+      botonSesion.parentElement.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("idUsuario");
+        alert("Sesión cerrada correctamente.");
+        window.location.href = "iniciar_sesion.html";
+      });
+    }
+
+    // si el usuario no esta logueado, lo mando a que inicie sesion
+    if (!idAutor) {
+      window.location.href = "iniciar_sesion.html";
+    }
+
+    // tags seleccionados (agregar y sacar)
+    const botonesTags = document.querySelectorAll(".btn-warning");
+    const tagsSeleccionados = new Set();
+
+    botonesTags.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const tag = boton.textContent.trim();
+        if (tagsSeleccionados.has(tag)) {
+          tagsSeleccionados.delete(tag);
+          boton.classList.remove("btn-success");
+          boton.classList.add("btn-warning");
+        } else {
+          tagsSeleccionados.add(tag);
+          boton.classList.remove("btn-warning");
+          boton.classList.add("btn-success");
+        }
+      });
+    });
+
+    // validacion
+    document.getElementById("publicarBtn").addEventListener("click", async function (event) {
+      event.preventDefault();
+
+      const titulo = document.getElementById("titulo").value.trim();
+      const portada = document.getElementById("portada").value.trim();
+      const descripcion = document.getElementById("descripcion").value.trim();
+      const contenido = document.getElementById("contenido").value.trim();
+      const mensajeError = document.getElementById("mensajeError");
+
+      const esURLValida = (url) => {
+        try {
+          new URL(url);
+          return true;
+        } catch {
+          return false;
+        }
+      };
+
+      let errores = [];
+      if (!titulo) errores.push("El título es obligatorio.");
+      if (portada && !esURLValida(portada)) errores.push("La URL para la portada no es válida.");
+      if (!contenido) errores.push("El contenido del libro es obligatorio.");
+
+      if (errores.length > 0) {
+        mensajeError.classList.remove("d-none");
+        mensajeError.innerHTML = errores.join("<br>");
+        return;
+      } else {
+        mensajeError.classList.add("d-none");
+      }
+
+      // datos ingresados
+      const datos = {
+        titulo,
+        portada: portada || null,
+        descripcion: descripcion || null,
+        contenido,
+        tags: Array.from(tagsSeleccionados),
+        id_autor: Number(idAutor),
+      };
+
+      try {
+        const response = await fetch(`${UrlApi}/obras`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos),
+        });
+          const data = await response.json();
+          
+        if (!response.ok) throw new Error(data.error ||"No se pudo publicar la historia.");
+
+        // mensajes al usuario
+        mensajeError.classList.remove("alert-danger");
+        mensajeError.classList.add("alert-success");
+        mensajeError.classList.remove("d-none");
+        mensajeError.innerHTML = "¡La historia fue publicada con éxito!";
+
+        // formulario back to new..
+        document.getElementById("formLibro").reset();
+        document.getElementById("contenido").value = "";
+        tagsSeleccionados.clear();
+        botonesTags.forEach((btn) => {
+          btn.classList.remove("btn-success");
+          btn.classList.add("btn-warning");
+        });
+
+      } catch (err) {
+        mensajeError.classList.remove("d-none");
+        mensajeError.classList.remove("alert-success");
+        mensajeError.classList.add("alert-danger");
+        mensajeError.innerHTML = "Hubo un error al publicar la historia. Intente nuevamente.";
+      }
+    });
+  </script>
+<script src="./scripts/reutilizable.js"></script>
+</body>
+</html>
