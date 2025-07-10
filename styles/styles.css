@@ -137,10 +137,20 @@ a {
   margin:2%;
 }
 
+.botonFiltrar{
+  background-color:var(--color-acento);
+  font-weight: bold;
+
+}
+
+.botonFiltrar:hover{
+  background-color: var(--color-principal);
+}
+
 .tagsSeleccionar{
   display: flex;
   flex-direction: row;
-  
+
 }
 
 .perfil-container {

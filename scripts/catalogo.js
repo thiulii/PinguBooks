@@ -173,8 +173,7 @@ async function cargarCatalogo(){
 }
 
 filtrarFinalmente = document.getElementById("botonFiltrarFinalmente");
-filtrarFinalmente.addEventListener("click", (e)=> {
-    e.preventDefault();
+filtrarFinalmente.addEventListener("click", ()=> {
     let params = []
     params.push("by=" + criterioSeleccionado);
     params.push("order=" + ordenSeleccionado);
