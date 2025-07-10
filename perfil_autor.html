@@ -97,10 +97,7 @@
         <div class="row text-center" id="obrasContainer">
 
           <div class="col-4 mb-4">
-            <a href="libro.html">
-              <img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" />
-            </a>
-            <div class="libro-nombre">Libro 1</div></div>
+            
            </div>
         </div>
       </div>
@@ -136,8 +133,9 @@
     
     let idUsuario = localStorage.getItem("idUsuario");
     
-    async function sesion() {
-    document.getElementById("sesion").textContent="Cerrar sesion";
+    async function sesion(idUsuario) {
+      if(idUsuario || idUsuario.trim()!=="" || idUsuario!==null || idUsuario!=="null"){
+        document.getElementById("sesion").textContent="Cerrar sesion";
           document.getElementById("sesion").addEventListener("click", (e)=>{
             e.preventDefault();
             let idUsuario = localStorage.removeItem("idUsuario");
@@ -145,11 +143,16 @@
             window.location.href =`iniciar_sesion.html`;
             return;
           })
+      }
+   
    }
-      document.getElementById("miPerfil").addEventListener("click", (e)=>{
+   document.getElementById("miPerfil").addEventListener("click", (e)=>{
         e.preventDefault();
         let idUsuario = localStorage.getItem("idUsuario");
-        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
         
       })
     async function cantYPromObras() {
@@ -311,9 +314,9 @@ async function botonCambiosUsuario(editor, data, idUsuario) {
                 console.error("Error al actualizar perfil", error); } });});
 }
 
-async function mostrarPerfil() {
+async function mostrarPerfil(id) {
       
-      fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
+      await fetch(`${UrlApi}/autores/${id}`) //me falta poner como aparece el perfil del usuario
       .then(res => {
         if(!res.ok){
           document.getElementById("username").textContent = "(SIn nombre)";
@@ -338,7 +341,6 @@ async function mostrarPerfil() {
         idUsuarioNumber= parseInt(idUsuario);
  
         if(idUsuarioNumber === id){
-          sesion();
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
           spaceEditor.id ="buttonEditUser" 
@@ -356,9 +358,11 @@ async function mostrarPerfil() {
         })
          
       
-    .catch(error => {console.error ('Error:', error)})
+    .catch(error => {console.error ('Error:', error)})}
    
-    fetch(`${UrlApi}/autores/${id}/obras`)
+  async function mostrarObras(id) {
+    console.log(id);
+     await fetch(`${UrlApi}/autores/${id}/obras`)
     .then(res => {
         if(!res.ok){
           throw new Error("Error ");
@@ -366,37 +370,48 @@ async function mostrarPerfil() {
         return res.json()})
     .then(data=>{
       
-        const placeObra = document.createElement("div");
-        placeObra.id ="obrasContainer";
+        
         data.obras.forEach ( obra=>{
          const spaceObras = document.createElement("div");
-         spaceObras.classList.add("col-4 mb-4");
+         spaceObras.classList.add("col-4");
+         spaceObras.classList.add("mb-4");
 
-          const link = document.createElement("a");
-         link.href = `perfil_author.html?id=${obra.id_obras}`; // ver si de verdad funciona
-         link.textContent =`${obra.titulo}`;
+         
 
          const photoObra =document.createElement("img");
          photoObra.src= obra.portada; //porque es imagen
          photoObra.classList.add("penguin-icon");
-         photoObra.alt= `Foto de la obra${obra.titulo}`;
-        link.appendChild(photoObra);
+         
+         const linkPhoto = document.createElement("a");
+         linkPhoto.href = `libro.html?id=${obra.id_obras}`; 
+         linkPhoto.alt= `Foto de la obra ${obra.titulo}`;
+         linkPhoto.appendChild(photoObra);
+         spaceObras.appendChild(linkPhoto);
 
          const spaceTitulo = document.createElement("div");
          spaceTitulo.classList.add("libro-nombre");
-         spaceTitulo.textContent=obra.titulo;
+         
+         const link = document.createElement("a");
+         link.href = `libro.html?id=${obra.id_obras}`;
+         link.textContent=obra.titulo;  // ver si de verdad funciona
+         spaceTitulo.appendChild(link);
 
-        spaceObras.appendChild(link);
+        
         spaceObras.appendChild(spaceTitulo);
-         placeObra.appendChild(spaceObras);
+        document.getElementById("obrasContainer").appendChild(spaceObras);
   
         })
-        document.body.appendChild(placeObra); 
+        
     }    )
     
-    .catch(error => {console.error ('Error:', error)})
+    .catch(error => {console.error ('Error: mostrar obras del autor', error)})
+  
   }
-  mostrarPerfil();
+  
+  mostrarPerfil(id);
+  sesion(idUsuario);
+  mostrarObras(id);
+  cantYPromObras();
   </script>
 </body>
 </html>
