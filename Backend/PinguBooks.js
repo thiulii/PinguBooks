@@ -188,9 +188,9 @@ async function modifyObra(id_obra, titulo, portada, descripcion, tags, fecha_pub
           fecha_de_publicacion = COALESCE($4, fecha_de_publicacion),
           id_autor = COALESCE($5, id_autor),
           contenido = COALESCE($6, contenido),
-          puntuacion =  COALESCE($8, puntuacion)
-      WHERE id_obras = $7
-    `, [titulo, portada, descripcion, fecha_publicacion, id_autor, contenido, id_obra, puntuacion]);
+          puntuacion =  COALESCE($7, puntuacion)
+      WHERE id_obras = $8
+    `, [titulo, portada, descripcion, fecha_publicacion, id_autor, contenido, puntuacion, id_obra]);
 
     if (tags) {
       await dbPinguBooks.query("DELETE FROM obra_tag WHERE id_obra = $1", [id_obra]);

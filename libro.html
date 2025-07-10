@@ -165,7 +165,7 @@
     const UrlApi = "http://localhost:3000";
     
     const params = new URLSearchParams(window.location.search);
-    const idObra = params.get("id");
+    const idObra = parseInt(params.get("id"));
     const idUsuario = Number(localStorage.getItem("idUsuario")); 
 
     const portadaOb = document.getElementById("portada");                               // contenido general
@@ -316,12 +316,10 @@
             portada: editPortada.value.trim(),
             descripcion: editDesc.value.trim(),
             contenido: editCont.value.trim(),
-            tags: "",         
-            fecha: null,      
-            id_autor: null,   
-            puntuacion: null  
+            id_autor:idUsuario
           })
         });
+        console.log("se ejecuto!");
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message || "Error al guardar la obra");
