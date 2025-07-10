@@ -28,9 +28,6 @@ async function cargarCatalogo(){
     
 });
 }
-document.addEventListener("DOMContentLoaded", async function(){
-    await cargarCatalogo();
-})
 
 // tags seleccionados (agregar y sacar)
 const botonesTags = document.querySelectorAll(".btn-warning");
@@ -58,3 +55,16 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   });
+
+
+
+document.addEventListener("DOMContentLoaded", async function(){
+    const queryString = window.location.search; //para leer el url
+    const urlParams = new URLSearchParams(queryString);
+    const search = urlParams.get('search');
+    const order = urlParams.get('order');
+    const by = urlParams.get('by');
+    const tags = urlParams.get("tags");
+    await cargarFiltros(order, by, tags); 
+    await cargarCatalogo();
+})
