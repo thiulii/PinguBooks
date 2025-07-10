@@ -168,6 +168,50 @@
     const idObra = parseInt(params.get("id"));
     const idUsuario = Number(localStorage.getItem("idUsuario")); 
 
+    async function sesion(idUsuario) {
+      if(idUsuario || idUsuario.trim()!=="" || idUsuario!==null || idUsuario!=="null"){
+        document.getElementById("sesion").textContent="Cerrar sesion";
+          document.getElementById("sesion").addEventListener("click", (e)=>{
+            e.preventDefault();
+            let idUsuario = localStorage.removeItem("idUsuario");
+            mensajePorPantalla("Se cerro sesion");
+            window.location.href =`iniciar_sesion.html`;
+            return;
+          })
+      }
+   
+   }
+
+   sesion(idUsuario);
+   document.getElementById("miPerfil").addEventListener("click", (e)=>{
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
+    async function cantYPromObras(id) {
+      try{
+        const cantObras= await fetch(`${UrlApi}/autor/obras/${id}`);
+        const informacion =  await cantObras.json();
+        
+        if(cantObras.ok){
+          document.getElementById("cantidadObras").textContent=informacion.cant_obras;
+          document.getElementById("promedioObras").textContent= "⭐" + parseFloat(informacion.prom_puntuacion.toFixed(2));
+        }
+        else{
+          document.getElementById("cantidadObras").textContent="0";
+          document.getElementById("promedioObras").textContent="0";
+        }
+      }
+      catch(err){
+        mensajePorPantalla("Error en sesion");
+        console.error("Error en sesion", error);
+      }}
+
+
     const portadaOb = document.getElementById("portada");                               // contenido general
     const tituloOb = document.getElementById("titulo");
     const linkAutorOb = document.getElementById("linkAutor");
