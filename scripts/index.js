@@ -2,7 +2,7 @@ BDD_LINK = "http://localhost:3000";
 
 async function cargarTop(){
 
-    const res = await fetch(BDD_LINK + "/obras?by=puntuacion&limit=30&order=desc");
+    const res = await fetch(BDD_LINK + "/obras?by=puntuacion&limit=10&order=desc");
     const obras = await res.json();
 
     obras.forEach((libro, i) => {
@@ -31,7 +31,7 @@ async function cargarTop(){
 
 async function cargarLatest(){
 
-    const res = await fetch(BDD_LINK + "/obras?by=fecha_de_publicacion&order=desc");
+    const res = await fetch(BDD_LINK + "/obras?by=fecha_de_publicacion&order=desc&limit=24");
     const obras = await res.json();
 
     obras.forEach((libro) => {
