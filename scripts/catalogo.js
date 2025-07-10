@@ -12,26 +12,33 @@ if (tagsParam){
 
 
 
-// tags seleccionados (agregar y sacar)
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".dropdown-menu button").forEach((btn) => {
-      btn.addEventListener("click", function (e) {
-        e.stopPropagation();
-      });
-    });
-  });
 
 async function cargarBuscadorTags(){
-    const res = fetch(BDD_LINK + "/tags")
-    const tagColocar = 
+    const res = await fetch(BDD_LINK + "/tags");
+    const tagsColocar = await res.json();
+
+    tagsColocar.forEach((tagColocar) => {
+        const nuevo = document.createElement("button");
+        nuevo.type = "button";
+        nuevo.classList.add("btn", "btn-warning", "me-2", "mb-2", "col-6", "col-md-3", "col-lg-2");
+        nuevo.innerHTML = tagColocar.nombre;
+
+        const lugarDondeColocarLosTags = document.getElementById("botonesTagColocar")
+        
+        // evitar que cierre el dropdown al hacer click
+        nuevo.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+        lugarDondeColocarLosTags.appendChild(nuevo);
+    })
 }
 
-const botonesTags = document.querySelectorAll(".btn-warning");
 const tagsSeleccionados = new Set();
-const dropdownTags = document.getElementById("tagsDropdown");
 
 function cargarTags(){
+    const botonesTags = document.querySelectorAll(".btn-warning");
+    const dropdownTags = document.getElementById("tagsDropdown");
+
     botonesTags.forEach((boton) => {
         const tag = boton.textContent.trim();
     
