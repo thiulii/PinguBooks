@@ -141,7 +141,8 @@
     
     const params = new URLSearchParams(window.location.search);
     const idObra = params.get("id");
-    const idUsuario = Number(localStorage.getItem("idUsuario")); 
+//    const idUsuario = Number(localStorage.getItem("idUsuario")); 
+    const idUsuario = 1;
 
     const portadaEl = document.getElementById("portada");                               // contenido general
     const tituloEl = document.getElementById("titulo");
@@ -191,31 +192,51 @@
 
     async function cargarComentarios() {
       const res = await fetch(`${UrlApi}/comentarios/${idObra}`);
-      if (!res.ok) return console.error("Error comentarios");
+      if (!res.ok) return console.error("Error al cargar comentarios");
       comentarios = await res.json();
 
       comentariosContainer.innerHTML = "";
-      comentarios.forEach(c => {
+      for (const c of comentarios) {
+        // traigo los datos de la tabla de autor
+        let autor = { nombre: "Desconocido", foto_perfil: "" };
+        try {
+          const autorRes = await fetch(`${UrlApi}/autores/${c.id_usuario}`);
+          if (autorRes.ok) autor = await autorRes.json();
+        } catch (err) {
+          console.error("Error al traer autor:", err);
+        }
         const div = document.createElement("div");
-        div.className = "mb-3";
+        div.className = "mb-3 d-flex gap-3 align-items-start";
+
         div.innerHTML = `
-          <p><strong>@${c.id_usuario}</strong> <small>${c.fecha_de_publicacion}</small></p>
-          <p>${c.contenido_comentario}</p>
-          <p>${c.estrellas}/5 ⭐</p>
+          <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="40" height="40" class="rounded-circle mt-1" />
+          <div>
+            <p class="mb-1">
+              <a href="perfil_autor.html?id=${c.id_usuario}" class="fw-bold text-decoration-none">@${autor.nombre}</a>
+              <small class="text-muted"> – ${c.fecha_de_publicacion}</small>
+            </p>
+            <p class="mb-1">${c.contenido_comentario}</p>
+            <p class="mb-2">${c.estrellas}/5 ⭐</p>
+          </div>
         `;
-        // si el usuario es el propietario del comentario muestro el boton de editar
-        if (idUsuario === c.id_usuario) {
+        // si el usuario es el propietario del comentario muestro el botón de editar
+        if (idUsuario == c.id_usuario) {
           const btn = document.createElement("button");
           btn.textContent = "Editar";
-          btn.className = "btn btn-sm btn-outline-primary";
+          btn.className = "btn btn-sm btn-outline-primary ms-2";
           btn.onclick = () => editarComentario(c);
-          div.appendChild(btn);
+          div.querySelector("div").appendChild(btn);
         }
         comentariosContainer.appendChild(div);
-      });
-      // si el usuario ya esta logueado muestro seccion de agregar
+      }
+      // si el usuario está logueado muestro sección de agregar comentario
       if (idUsuario) agregarSeccion.style.display = "block";
     }
+
+
+    cargarLibro();
+    cargarComentarios();
+
 
   </script>
 </body>
