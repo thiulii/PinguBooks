@@ -162,7 +162,6 @@
     const inputEstrellas = document.getElementById("estrellas");
     const inputComentario = document.getElementById("nuevoComentario");
 
-
     let obraData, comentarios = [];
 
     async function cargarLibro() {
@@ -188,6 +187,34 @@
         editDesc.value = obraData.descripcion;
         editCont.value = obraData.contenido;
       }
+    }
+
+    async function cargarComentarios() {
+      const res = await fetch(`${UrlApi}/comentarios/${idObra}`);
+      if (!res.ok) return console.error("Error comentarios");
+      comentarios = await res.json();
+
+      comentariosContainer.innerHTML = "";
+      comentarios.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "mb-3";
+        div.innerHTML = `
+          <p><strong>@${c.id_usuario}</strong> <small>${c.fecha_de_publicacion}</small></p>
+          <p>${c.contenido_comentario}</p>
+          <p>${c.estrellas}/5 ⭐</p>
+        `;
+        // si el usuario es el propietario del comentario muestro el boton de editar
+        if (idUsuario === c.id_usuario) {
+          const btn = document.createElement("button");
+          btn.textContent = "Editar";
+          btn.className = "btn btn-sm btn-outline-primary";
+          btn.onclick = () => editarComentario(c);
+          div.appendChild(btn);
+        }
+        comentariosContainer.appendChild(div);
+      });
+      // si el usuario ya esta logueado muestro seccion de agregar
+      if (idUsuario) agregarSeccion.style.display = "block";
     }
 
   </script>
