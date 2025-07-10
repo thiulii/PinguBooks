@@ -279,6 +279,19 @@
       if (idUsuario) agregarSeccion.style.display = "block";
     }
 
+    async function editarComentario(comm) {
+      const newText = prompt("Modificar comentario:", comm.contenido_comentario);
+      if (!newText) return;
+      const newStars = prompt("Modificar puntuación:", comm.estrellas);
+      if (newStars === null || isNaN(newStars) || newStars < 0 || newStars > 5) return alert("Puntuación inválida");
+      await fetch(`${UrlApi}/comentarios/${comm.id_comentarios}`, {
+        method: "PUT",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({id_usuario: idUsuario, contenido: newText, estrellas: Number(newStars)})
+      });
+      cargarComentarios();
+    }
+
     // modificar los datos de la obra (se ejecuta cuando se submitea el formulario que cambia los datos de la obra)
     editarForm.onsubmit = async e => {
       e.preventDefault();
