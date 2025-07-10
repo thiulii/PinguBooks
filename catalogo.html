@@ -60,9 +60,9 @@
 
         </ul>
 
-        <form class="d-flex align-items-center me-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Buscar" />
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <form id="navbarBuscarForm" class="d-flex align-items-center me-3" role="search">
+          <input id="navbarBuscarInput" class="form-control me-2" type="search" placeholder="Buscar una obra" aria-label="Buscar" />
+          <button id="navbarBuscarBoton" class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
 
         <div class="d-flex align-items-center">
@@ -82,29 +82,63 @@
     </div>
 
 
-      <div class="container catalogoCaja">
-        <h2>Nuestros autores</h2>
-        <div class="row biblioteca">
+      <div class="container">
+        <h2>Obras:</h2>
+        
+        <div class="filtro container">
+          <div class="dropdown" data-bs-auto-close="outside">
+            <a id="tagsDropdown" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Tags: 0 seleccionados
+            </a>
+          
+            <ul class="dropdown-menu p-3" style="min-width: 50vw; max-width: 100vw;">
+              <div class="container-fluid">
+                <div class="row" id="botonesTagColocar">
+                <!-- tags (cargado en memoria bdd) -->
+              </div>
+              </div>
+            </ul>
+          </div>
+        
+
+          <div class="dropdown">
+            <a id="dropdownCriterio" class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Criterio: fecha de publicacion
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item criterioBoton">fecha de publicacion</a></li>
+              <li><a class="dropdown-item criterioBoton">estrellas</a></li>
+            </ul>
+          </div>
+
+          <div class="dropdown">
+            <a id="dropdownOrden" class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Orden: descendiente
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item ordenBoton">descendiente</a></li>
+              <li><a class="dropdown-item ordenBoton">ascendiente</a></li>
+            </ul>
+          </div>
+
+          <button id="botonFiltrarFinalmente" type="button" class="btn botonFiltrar">Filtrar!</button>
+      </div>
+
+
+        <div class="row biblioteca" id="catalogoObras">
             <!--Bootstrap trabaja con una grid de 12 columas por fila.
             col-6 seria el default de que las columans ocupan 6 c/u (entran hasta 2)
             pero al ser una pantalla lg (large) va ocupar 3 cada una haciendo
             que entren hasta 4. mb-3 simplemente es margin bottom, para que no esten
             pegadas-->
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 1</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 2</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 3</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 4</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/test.png"><h6>Libro 5</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 6</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 7</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 8</h6></div>
-            <div class="col-6 col-md-3 col-lg-2 mb-3 libro"><img class="portada" src="/media/imagen_default.png"><h6>Libro 9</h6></div>
-
         </div>
     </div>
 
 
-
+    <script src="./scripts/reutilizable.js"></script>
+    <script src="./scripts/catalogo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script type="text/javascript">
       const UrlApi ="http://localhost:3000"
