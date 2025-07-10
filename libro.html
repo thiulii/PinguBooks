@@ -153,9 +153,9 @@
     const linkAutorEl = document.getElementById("linkAutor");
     const descripcionEl = document.getElementById("descripcion");
     const contenidoEl = document.getElementById("contenido");
-    const fechaPublicacionEl = document.getElementById("fechaPublicacion");
-  const puntuacionEl = document.getElementById("puntuacion");
-  const tagsContainerEl = document.getElementById("tagsContainer");
+    const fechaPublicacionEl = document.getElementById("fechaPublicacion").split("T")[0];
+    const puntuacionEl = document.getElementById("puntuacion");
+    const tagsContainerEl = document.getElementById("tagsContainer");
 
 
     const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
@@ -196,7 +196,7 @@
         ).join("");
         tagsContainerEl.innerHTML = tagsHTML;
       }
-      
+
       // cargar autor
       const autorRes = await fetch(`${UrlApi}/autores/${obraData.id_autor}`);
       const autor = (await autorRes.json());
@@ -256,10 +256,42 @@
       if (idUsuario) agregarSeccion.style.display = "block";
     }
 
+    // modificar los datos de la obra (se ejecuta cuando se submitea el formulario que cambia los datos de la obra)
+    editarForm.onsubmit = async e => {
+      e.preventDefault();
+      await fetch(`${UrlApi}/obras/${idObra}`, {
+        method: "PUT",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({                       // arma JSON con los valores actualizados de la obra y se modifican
+          titulo: editTitulo.value,
+          portada: editPortada.value,
+          descripcion: editDesc.value,
+          contenido: editCont.value
+        })
+      });
+      alert("Obra actualizada");
+      cargarLibro();
+    }
+    
+    // modificar los datos del comentario (se ejecuta cuando se submitea el formulario de los comentarios)
+    agregarForm.onsubmit = async e => {
+      e.preventDefault();
+      await fetch(`${UrlApi}/comentarios`, {
+        method: "POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({                       // arma JSON con los valores actualizados del comentario y se modifican
+          id_usuario: idUsuario,
+          id_obra: Number(idObra),
+          estrellas: Number(inputEstrellas.value),
+          contenido: inputComentario.value
+        })
+      });
+      inputComentario.value = "";
+      cargarComentarios();
+    }
 
     cargarLibro();
     cargarComentarios();
-
 
   </script>
 </body>
