@@ -100,8 +100,8 @@
 
         <!-- si la persona esta logueada y es el autor, puede editar la obra -->
         <section id="editarObraSection" style="display:none;">
-          <h5>Editar Obra</h5>
-          <form id="editarObraForm">
+          <button id="botonMostrarEdicion" class="btn btn-warning mb-3">Editar Obra</button>
+          <form id="editarObraForm" style="display:none;">
             <div class="mb-2">
               <input type="text" id="editarTitulo" class="form-control" required />
             </div>
@@ -114,7 +114,7 @@
             <div class="mb-2">
               <textarea id="editarContenido" class="form-control" rows="6" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn btn-warning">Guardar Cambios</button>
           </form>
         </section>
 
@@ -272,14 +272,19 @@
         `;
 
         // si el usuario es el propietario del comentario muestro el botón de editar
-        if (idUsuario == c.id_usuario) {
-          const btn = document.createElement("button");
-          btn.textContent = "Editar";
-          btn.className = "btn btn-sm btn-outline-primary ms-2";
-          btn.onclick = () => editarComentario(c);
-          div.querySelector("div").appendChild(btn);
+        if (idUsuario === obraData.id_autor) {
+          editarSeccion.style.display = "block";
+          document.getElementById("botonMostrarEdicion").style.display = "inline-block";
+          editarForm.style.display = "none";
+          editTitulo.value = obraData.titulo;
+          editPortada.value = obraData.portada;
+          editDesc.value = obraData.descripcion;
+          editCont.value = obraData.contenido;
         }
-        comentariosContainer.appendChild(div);
+        document.getElementById("botonMostrarEdicion").onclick = () => {
+          document.getElementById("botonMostrarEdicion").style.display = "none";
+          editarForm.style.display = "block";
+        };
       }
       // si el usuario está logueado muestro sección de agregar comentario
       if (idUsuario) agregarSeccion.style.display = "block";
