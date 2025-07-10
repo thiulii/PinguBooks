@@ -49,14 +49,8 @@ a {
     display:flex;
     align-items: center;
     flex-direction: column;
-
     text-align: center;    
-  padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    transition: transform 0.2s ease;
-    color: black;
-    margin: 50px ;
+
 }
 
 .librito{
@@ -95,7 +89,7 @@ a {
   color: var(--color-texto) !important;
 }
 .portada{
-    width: 200px;
+    width: 170px;
     aspect-ratio: 3/4;
     background-color: #d8d8cd;
     border: 3px solid var(--color-principal);
@@ -133,6 +127,28 @@ a {
 
 }
 
+.filtro{
+  display:flex;
+  flex-direction: row;
+  gap:10px;
+  margin:2%;
+}
+
+.botonFiltrar{
+  background-color:var(--color-acento);
+  font-weight: bold;
+
+}
+
+.botonFiltrar:hover{
+  background-color: var(--color-principal);
+}
+
+.tagsSeleccionar{
+  display: flex;
+  flex-direction: row;
+
+}
 
 .perfil-container {
   background-color: rgba(255, 255, 255, 0.85);
