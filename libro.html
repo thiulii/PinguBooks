@@ -133,8 +133,35 @@
       </form>
     </section>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script>
+    const UrlApi = "http://localhost:3000";
+    
+    const params = new URLSearchParams(window.location.search);
+    const idObra = params.get("id");
+    const idUsuario = Number(localStorage.getItem("idUsuario")); 
+
+    const portadaEl = document.getElementById("portada");                               // contenido general
+    const tituloEl = document.getElementById("titulo");
+    const linkAutorEl = document.getElementById("linkAutor");
+    const descripcionEl = document.getElementById("descripcion");
+    const contenidoEl = document.getElementById("contenido");
+
+    const editarSeccion = document.getElementById("editarObraSection");                 // exclusivo autor
+    const editarForm = document.getElementById("editarObraForm");
+    const editTitulo = document.getElementById("editarTitulo");
+    const editPortada = document.getElementById("editarPortada");
+    const editDesc = document.getElementById("editarDescripcion");
+    const editCont = document.getElementById("editarContenido");
+
+    const comentariosContainer = document.getElementById("comentariosContainer");       // exclusivo logueado
+    const agregarSeccion = document.getElementById("agregarComentarioSection");
+    const agregarForm = document.getElementById("agregarComentarioForm");
+    const inputEstrellas = document.getElementById("estrellas");
+    const inputComentario = document.getElementById("nuevoComentario");
+
+  </script>
 </body>
 </html>
