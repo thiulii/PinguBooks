@@ -251,13 +251,9 @@ app.post("/obras", async(req, res) => {
     let portada = req.body.portada;
     const descripcion = req.body.descripcion;
     let tags = req.body.tags;
-    if (tags){
-        tags = tags.split(",");
-        for (const tag of tags){
-            if (!(await getTag(tag))){
-                return res.status(400).json({error: "tags incorrectos"});
-            }
-        }
+    if (Array.isArray(tags)){
+    
+        
     } else {
         tags = [];
     }

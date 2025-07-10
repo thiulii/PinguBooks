@@ -11,5 +11,5 @@ run-backend:
 run-frontend:
 	-cd Backend && npm start
 run-postgres:
-	-docker exec -it backend_postgres_1  psql -U postgres
+	-docker exec -it backend-postgres-1  psql -U postgres
 

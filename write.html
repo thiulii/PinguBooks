@@ -255,8 +255,9 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(datos),
         });
-
-        if (!response.ok) throw new Error("No se pudo publicar la historia.");
+          const data = await response.json();
+          console.log(data)
+        if (!response.ok) throw new Error(data.error ||"No se pudo publicar la historia.");
 
         // mensajes al usuario
         mensajeError.classList.remove("alert-danger");

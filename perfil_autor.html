@@ -97,10 +97,7 @@
         <div class="row text-center" id="obrasContainer">
 
           <div class="col-4 mb-4">
-            <a href="libro.html">
-              <img class="penguin-icon" src="media/pinguperfil.jpg" alt="Libro 1" />
-            </a>
-            <div class="libro-nombre">Libro 1</div></div>
+            
            </div>
         </div>
       </div>
@@ -136,8 +133,9 @@
     
     let idUsuario = localStorage.getItem("idUsuario");
     
-    async function sesion() {
-    document.getElementById("sesion").textContent="Cerrar sesion";
+    async function sesion(idUsuario) {
+      if(idUsuario || idUsuario.trim()!=="" || idUsuario!==null || idUsuario!=="null"){
+        document.getElementById("sesion").textContent="Cerrar sesion";
           document.getElementById("sesion").addEventListener("click", (e)=>{
             e.preventDefault();
             let idUsuario = localStorage.removeItem("idUsuario");
@@ -145,11 +143,16 @@
             window.location.href =`iniciar_sesion.html`;
             return;
           })
+      }
+   
    }
-      document.getElementById("miPerfil").addEventListener("click", (e)=>{
+   document.getElementById("miPerfil").addEventListener("click", (e)=>{
         e.preventDefault();
         let idUsuario = localStorage.getItem("idUsuario");
-        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
         
       })
     async function cantYPromObras() {
@@ -338,7 +341,6 @@ async function mostrarPerfil() {
         idUsuarioNumber= parseInt(idUsuario);
  
         if(idUsuarioNumber === id){
-          sesion();
           const spaceEditor = document.createElement("div");
           const editor = document.createElement("button");
           spaceEditor.id ="buttonEditUser" 
@@ -373,7 +375,7 @@ async function mostrarPerfil() {
          spaceObras.classList.add("col-4 mb-4");
 
           const link = document.createElement("a");
-         link.href = `perfil_author.html?id=${obra.id_obras}`; // ver si de verdad funciona
+         link.href = `libro.html?id=${obra.id_obras}`; // ver si de verdad funciona
          link.textContent =`${obra.titulo}`;
 
          const photoObra =document.createElement("img");
@@ -394,9 +396,10 @@ async function mostrarPerfil() {
         document.body.appendChild(placeObra); 
     }    )
     
-    .catch(error => {console.error ('Error:', error)})
+    .catch(error => {console.error ('Error: mostrar obras del autor', error)})
   }
   mostrarPerfil();
+  sesion();
   </script>
 </body>
 </html>
