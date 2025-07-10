@@ -21,7 +21,7 @@ async function cargarTop(){
         fila.appendChild(foto);
 
         const puntaje = document.createElement("p");
-        puntaje.innerHTML = `⭐ ${libro.puntuacion}`;
+        puntaje.innerHTML = `⭐ ${libro.puntuacion.toFixed(2)}`;
         fila.appendChild(puntaje);
 
         const top = document.getElementById("top-tabla");
