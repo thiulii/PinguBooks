@@ -117,12 +117,6 @@
             <button id="guardarCambiosBtn" type="button" class="btn btn-warning">Guardar Cambios</button>
           </form>
         </section>
-
-        <!-- obra -->
-        <hr>
-        <h5>Leer Obra</h5>
-        <div id="contenido" class="contenido-libro">
-        </div>
       </div>
     </div>
 
@@ -222,6 +216,15 @@
         tagsOb.innerHTML = tagsHTML;
       }
 
+      // un autor ya no se puede comentar su propia obra 
+      if (idUsuario === obraData.id_autor) {
+        agregarSeccion.style.display = "none";  
+      } else if (idUsuario) {
+        agregarSeccion.style.display = "block"; 
+      } else {
+        agregarSeccion.style.display = "none"; 
+      }
+
       // cargar autor
       const autorRes = await fetch(`${UrlApi}/autores/${obraData.id_autor}`);
       const autor = (await autorRes.json());
@@ -286,8 +289,6 @@
           editarForm.style.display = "block";
         };
       }
-      // si el usuario está logueado muestro sección de agregar comentario
-      if (idUsuario) agregarSeccion.style.display = "block";
     }
 
     async function editarComentario(comm) {
