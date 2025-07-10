@@ -156,7 +156,11 @@
     document.getElementById("miPerfil").addEventListener("click", (e)=>{
         e.preventDefault();
         let idUsuario = localStorage.getItem("idUsuario");
-        window.location.href =`perfil_autor.html?id=${idAutor}`;
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
       })
 
 

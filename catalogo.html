@@ -110,13 +110,17 @@
       const UrlApi ="http://localhost:3000"
 
       document.getElementById("miPerfil").addEventListener("click", (e)=>{
-      e.preventDefault();
-      let idUsuario = localStorage.getItem("idUsuario");
-      window.location.href =`perfil_autor.html?id=${idUsuario}`;
-    
-    })
+        e.preventDefault();
+        let idUsuario = localStorage.getItem("idUsuario");
+        if(!idUsuario || idUsuario.trim()==="" || idUsuario===null || idUsuario==="null"){
+          window.location.href =`iniciar_sesion.html`;
+        }
+        else{window.location.href =`perfil_autor.html?id=${idUsuario}`;}
+        
+      })
 
-    let idUsuario = localStorage.getItem("idUsuario");
+async function sesion() {
+  let idUsuario = localStorage.getItem("idUsuario");
     // Buscar como verificar que no sea vacio idUsuario
     if( (idUsuario.length === 0)|| idUsuario!==null){
         document.getElementById("sesion").textContent="Cerrar sesion";
@@ -126,9 +130,11 @@
         mensajePorPantalla("Se cerro sesion");
         window.location.href =`iniciar_sesion.html`;
       })}
+}
+    
 
-
-      fetch(`${UrlApi}/autores`)
+async function verAutores() {
+   fetch(`${UrlApi}/autores`)
       .then(res => {
         if(!res.ok){
           throw new Error("Error con el servidor");
@@ -154,9 +160,9 @@
         Linkname.href = `perfil_autor.html?id=${autor.id_autor}` ;
 
         
-          LinkphotoUser.appendChild(photoUser);
+        LinkphotoUser.appendChild(photoUser);
          spaceAuthor.appendChild(LinkphotoUser); 
-         
+
          Linkname.appendChild(name);
          spaceAuthor.appendChild(Linkname); // ver si de verdad funciona
           
@@ -165,8 +171,9 @@
          })
         
         })
-      .catch(error => {console.error ('Error:', error)})
-     
+      .catch(error => {console.error ('Error:', error)})}
+      verAutores();
+     sesion();
     </script>
 </body>
 </html>

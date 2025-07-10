@@ -288,7 +288,7 @@ app.post("/obras", async(req, res) => {
     return res.status(200).json({status: "OK"});}
     catch (error){
         console.error("Error en crear obra:", error);
-        console.error(id)
+        
         return res.status(500).json({error: "error de servidor aqui"});
     }
 })
