@@ -256,10 +256,8 @@
         } catch (err) {
           console.error("Error al traer autor:", err);
         }
-
         const div = document.createElement("div");
-        div.className = "perfil-container mb-3"; // usa fondo blanco, borde redondo, padding
-
+        div.className = "perfil-container mb-3";
         div.innerHTML = `
           <div class="d-flex align-items-start gap-3">
             <img src="${autor.foto_perfil || './media/default-user.png'}" alt="Perfil" width="50" height="50" class="rounded-circle mt-1" />
@@ -274,22 +272,22 @@
           </div>
         `;
 
-        // si el usuario es el propietario del comentario muestro el botón de editar
-        if (idUsuario === obraData.id_autor) {
-          editarSeccion.style.display = "block";
-          document.getElementById("botonMostrarEdicion").style.display = "inline-block";
-          editarForm.style.display = "none";
-          editTitulo.value = obraData.titulo;
-          editPortada.value = obraData.portada;
-          editDesc.value = obraData.descripcion;
-          editCont.value = obraData.contenido;
-        }
-        document.getElementById("botonMostrarEdicion").onclick = () => {
-          document.getElementById("botonMostrarEdicion").style.display = "none";
-          editarForm.style.display = "block";
-        };
+        comentariosContainer.appendChild(div);
       }
+      // solo le muestra al autor el boton de editar obra
+      if (idUsuario === obraData.id_autor) {
+        editarSeccion.style.display = "block";
+        document.getElementById("botonMostrarEdicion").style.display = "inline-block";
+        editarForm.style.display = "none";
+      } else {
+        editarSeccion.style.display = "none";
+      }
+      document.getElementById("botonMostrarEdicion").onclick = () => {
+        document.getElementById("botonMostrarEdicion").style.display = "none";
+        editarForm.style.display = "block";
+      };
     }
+
 
     async function editarComentario(comm) {
       const newText = prompt("Modificar comentario:", comm.contenido_comentario);
@@ -332,8 +330,14 @@
 
     // modifico el contenido del comentario
     document.getElementById("enviarComentarioBtn").addEventListener("click", async () => {
+      if (idUsuario === obraData.id_autor) {
+        alert("No puedes comentar tu propia obra.");        // por si llega a haber algun error
+        return;
+      }
+
       const estrellasVal = Number(inputEstrellas.value);
       const comentarioVal = inputComentario.value.trim();
+
       if (!comentarioVal) {
         alert("El comentario no puede estar vacío");
         return;
