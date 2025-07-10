@@ -62,7 +62,7 @@ app.get("/autores/:autor/obras", async(req, res) => {
   if (response === undefined){
     return res.status(500).json({error: "No se pudo conseguir las obras"});
   }
-  return res.status(200).json(response);
+  return res.status(200).json({obras:response});
 })
 
 app.get("/autores/:id", async (req, res)=>{
