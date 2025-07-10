@@ -176,7 +176,7 @@
     const linkAutorEl = document.getElementById("linkAutor");
     const descripcionEl = document.getElementById("descripcion");
     const contenidoEl = document.getElementById("contenido");
-    const fechaPublicacionEl = document.getElementById("fechaPublicacion").split("T")[0];
+    const fechaPublicacionEl = document.getElementById("fechaPublicacion");
     const puntuacionEl = document.getElementById("puntuacion");
     const tagsContainerEl = document.getElementById("tagsContainer");
 
@@ -204,7 +204,7 @@
       tituloEl.textContent = obraData.titulo;
       descripcionEl.textContent = obraData.descripcion;
       contenidoEl.innerHTML = obraData.contenido.replace(/\n/g, "<br>");
-      fechaPublicacionEl.textContent = obraData.fecha_de_publicacion;
+      fechaPublicacionEl.textContent = obraData.fecha_de_publicacion.split("T")[0];
       puntuacionEl.textContent = obraData.puntuacion?.toFixed(1) ?? "0.0";
 
       // cragar tags
